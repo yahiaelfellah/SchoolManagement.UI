@@ -1,31 +1,32 @@
 {
-  "name": "schoolmanagementsystem.client",
-  "version": "0.0.0",
+  "name": "vite-soft-ui-dashboard",
   "private": true,
-  "type": "module",
+  "version": "1.0.0",
+  "author": "Creative Tim (https://www.creative-tim.com/)",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "build": "cross-env CI=false vite build",
+    "preview": "vite preview --port 8080",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "format": "prettier .  --write"
   },
   "dependencies": {
-    "vue": "^3.4.29"
+    "@popperjs/core": "2.10.2",
+    "bootstrap": "5.1.3",
+    "chart.js": "3.6.0",
+    "jkanban": "^1.3.1",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.14",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.8.0",
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.14.5",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/eslint-config-typescript": "^13.0.0",
-    "@vue/tsconfig": "^0.5.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.23.0",
-    "npm-run-all2": "^6.2.0",
-    "typescript": "~5.4.0",
-    "vite": "^5.3.1",
-    "vue-tsc": "^2.0.21"
+    "@vitejs/plugin-vue": "^2.2.0",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "prettier": "2.6.0",
+    "sass": "^1.49.9",
+    "vite": "^2.8.0",
+    "cross-env": "^7.0.3"
   }
 }
