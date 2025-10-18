@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     component: () => DashboardLayout,
     children: [
-      { path: "", redirect: "/students" },
+      { path: "", component: () => import("@/views/Operations.vue") },
       { path: "/students", component: () => import("@/views/Students.vue") },
       { path: "/teachers", component: () => import("@/views/Teachers.vue") },
       { path: "/classes", component: () => import("@/views/Teachers.vue") },
