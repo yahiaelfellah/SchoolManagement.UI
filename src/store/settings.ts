@@ -1,13 +1,16 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { setI18nLocale, type LocaleType } from '../i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
-  const direction = ref<'ltr' | 'rtl'>('ltr')
+  const locale = ref<LocaleType>((localStorage.getItem('locale') as LocaleType) || 'en')
+  const direction = ref(locale.value === 'ar' ? 'rtl' : 'ltr')
 
-  const toggleDirection = () => {
-    direction.value = direction.value === 'ltr' ? 'rtl' : 'ltr'
-    document.dir = direction.value // Update HTML dir attribute
+  const setLocale = async (lang: LocaleType) => {
+    locale.value = lang
+    direction.value = lang === 'ar' ? 'rtl' : 'ltr'
+    await setI18nLocale(lang)
   }
 
-  return { direction, toggleDirection }
+  return { locale, direction, setLocale }
 })
