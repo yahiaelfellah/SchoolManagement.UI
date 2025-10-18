@@ -1,47 +1,30 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <a-config-provider
+    :direction="direction"
+    :theme="{
+      token: {
+        colorPrimary: '#1677ff',
+        borderRadius: 8,
+      },
+    }"
+  >
+    <RouterView />
+  </a-config-provider>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useSettingsStore } from './store/settings'
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const settings = useSettingsStore()
+const { direction } = storeToRefs(settings)
+</script>
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style>
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  background-color: #f0f2f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 </style>
