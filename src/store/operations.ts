@@ -30,6 +30,7 @@ import {
   GlobalOutlined,
 } from '@ant-design/icons-vue'
 import type FeatureState from '@/model/featureState'
+import router from '@/router'
 
 
 
@@ -66,12 +67,12 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.students',
           items: [
-            { key: 'addStudent', title: 'operations.addStudent', description: 'operations.addStudent_desc', icon: UserAddOutlined, disabled: false, newFeature: false },
-            { key: 'enrollStudent', title: 'operations.enrollStudent', description: 'operations.enrollStudent_desc', icon: SolutionOutlined, disabled: false, newFeature: false },
-            { key: 'viewStudent', title: 'operations.viewStudent', description: 'operations.viewStudent_desc', icon: ProfileOutlined, disabled: false, newFeature: false },
-            { key: 'uploadDocuments', title: 'operations.uploadDocuments', description: 'operations.uploadDocuments_desc', icon: UploadOutlined, disabled: false, newFeature: false },
-            { key: 'promoteStudent', title: 'operations.promoteStudent', description: 'operations.promoteStudent_desc', icon: ArrowUpOutlined, disabled: false, newFeature: false },
-            { key: 'removeStudent', title: 'operations.removeStudent', description: 'operations.removeStudent_desc', icon: UserDeleteOutlined, disabled: false, newFeature: false },
+            { key: 'addStudent', title: 'operations.students.addStudent.title', description: 'operations.students.addStudent.description', icon: UserAddOutlined, disabled: false, newFeature: false },
+            { key: 'enrollStudent', title: 'operations.students.enrollStudent', description: 'operations.students.enrollStudent_desc', icon: SolutionOutlined, disabled: false, newFeature: false },
+            { key: 'viewStudent', title: 'operations.students.viewStudent', description: 'operations.students.viewStudent_desc', icon: ProfileOutlined, disabled: false, newFeature: false },
+            { key: 'uploadDocuments', title: 'operations.students.uploadDocuments', description: 'operations.students.uploadDocuments_desc', icon: UploadOutlined, disabled: false, newFeature: false },
+            { key: 'promoteStudent', title: 'operations.students.promoteStudent', description: 'operations.students.promoteStudent_desc', icon: ArrowUpOutlined, disabled: false, newFeature: false },
+            { key: 'removeStudent', title: 'operations.students.removeStudent', description: 'operations.students.removeStudent_desc', icon: UserDeleteOutlined, disabled: false, newFeature: false },
           ],
         },
         {
@@ -131,5 +132,12 @@ export const useOperationsStore = defineStore('operations', {
         { key: 'backupData', enabled: true, newFeature: true },
       ]
     },
+
+    navigateToOperation(key: string) {
+      // Logic to navigate to the operation's route
+      // This is a placeholder; actual implementation may vary
+      console.log(`Navigating to operation: ${key}`)
+      router.push({ path: `/operations/${key}` })
+    }
   },
 })
