@@ -84,7 +84,11 @@
     </div>
 
     <!-- Add Guardian Button -->
-    <a-button type="dashed" block @click="addGuardian">
+    <a-button
+      type="dashed"
+      block
+      @click="addGuardian"
+    >
       {{ tf('guardianAddGuardian') }}
     </a-button>
   </div>

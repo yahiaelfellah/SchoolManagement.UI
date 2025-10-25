@@ -11,21 +11,30 @@
       :label="tf('medicalConditions')"
       name="medicalConditions"
     >
-      <a-textarea v-model:value="form.medicalConditions" rows="3" />
+      <a-textarea
+        v-model:value="form.medicalConditions"
+        rows="3"
+      />
     </a-form-item>
 
     <a-form-item
       :label="tf('allergies')"
       name="allergies"
     >
-      <a-textarea v-model:value="form.allergies" rows="2" />
+      <a-textarea
+        v-model:value="form.allergies"
+        rows="2"
+      />
     </a-form-item>
 
     <a-form-item
       :label="tf('specialNeeds')"
       name="specialNeeds"
     >
-      <a-textarea v-model:value="form.specialNeeds" rows="2" />
+      <a-textarea
+        v-model:value="form.specialNeeds"
+        rows="2"
+      />
     </a-form-item>
 
     <a-form-item
@@ -42,7 +51,10 @@
       :label="tf('additionalNotes')"
       name="notes"
     >
-      <a-textarea v-model:value="form.notes" rows="3" />
+      <a-textarea
+        v-model:value="form.notes"
+        rows="3"
+      />
     </a-form-item>
   </div>
 </template>

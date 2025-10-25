@@ -33,9 +33,16 @@
       name="gender"
       :rules="[{ required: true, message: 'Please select gender' }]"
     >
-      <a-select v-model:value="form.gender" :placeholder="t('common.select')">
-        <a-select-option value="Male">Male</a-select-option>
-        <a-select-option value="Female">Female</a-select-option>
+      <a-select
+        v-model:value="form.gender"
+        :placeholder="t('common.select')"
+      >
+        <a-select-option value="Male">
+          Male
+        </a-select-option>
+        <a-select-option value="Female">
+          Female
+        </a-select-option>
       </a-select>
     </a-form-item>
 
