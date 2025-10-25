@@ -8,7 +8,7 @@
       },
     }"
   >
-    <RouterView />
+    <RouterView :key="$route.fullPath" />
   </a-config-provider>
 </template>
 
