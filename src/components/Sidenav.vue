@@ -1,22 +1,47 @@
 <template>
-  <a-layout-sider collapsible v-model:collapsed="collapsed" theme="dark">
-    <div class="logo">🎓 {{ t('dashboard.title') }}</div>
+  <a-layout-sider
+    v-model:collapsed="collapsed"
+    collapsible
+    theme="dark"
+  >
+    <div class="logo">
+      🎓 {{ t('dashboard.title') }}
+    </div>
 
-    <a-menu theme="dark" mode="inline" :selectedKeys="[selectedKey]" @click="onMenuClick">
+    <a-menu
+      theme="dark"
+      mode="inline"
+      :selected-keys="[selectedKey]"
+      @click="onMenuClick"
+    >
+      <a-menu-item key="operations">
+        <template #icon>
+          <UserOutlined />
+        </template>
+        {{ t('menu.operations') }}
+      </a-menu-item>
       <a-menu-item key="students">
-        <template #icon><UserOutlined /></template>
+        <template #icon>
+          <UserOutlined />
+        </template>
         {{ t('menu.students') }}
       </a-menu-item>
       <a-menu-item key="teachers">
-        <template #icon><TeamOutlined /></template>
+        <template #icon>
+          <TeamOutlined />
+        </template>
         {{ t('menu.teachers') }}
       </a-menu-item>
       <a-menu-item key="classes">
-        <template #icon><BookOutlined /></template>
+        <template #icon>
+          <BookOutlined />
+        </template>
         {{ t('menu.classes') }}
       </a-menu-item>
       <a-menu-item key="logout">
-        <template #icon><LogoutOutlined /></template>
+        <template #icon>
+          <LogoutOutlined />
+        </template>
         {{ t('menu.logout') }}
       </a-menu-item>
     </a-menu>
@@ -48,7 +73,7 @@ const onMenuClick = (info: any) => {
     auth.logout()
     router.push('/login')
   } else {
-    router.push({ name: info.key })
+    router.push({path:`/${info.key}`})
   }
 }
 </script>

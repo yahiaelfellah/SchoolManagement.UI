@@ -1,27 +1,55 @@
 <template>
-    <a-badge-ribbon :text="t('operations.new')" color="red" v-if="op.newFeature">
-        <a-card class="operation-card" :class="{ disabled: op.disabled }" hoverable
-            @click="!op.disabled && emit('click', op.key)">
-            <div class="card-content">
-                <div class="icon-wrapper">
-                    <component :is="op.icon" class="card-icon" />
-                </div>
-                <span class="card-title">{{ t(op.title) }}</span>
-                <p v-if="op.description" class="card-description">{{ t(op.description) }}</p>
-            </div>
-        </a-card>
-    </a-badge-ribbon>
-    <a-card v-else class="operation-card" :class="{ disabled: op.disabled }" hoverable
-        @click="!op.disabled && emit('click', op.key)">
-        <div class="card-content">
-            <div class="icon-wrapper">
-                <component :is="op.icon" class="card-icon" />
-            </div>
-            <span class="card-title">{{ t(op.title) }}</span>
-            <p v-if="op.description" class="card-description">{{ t(op.description) }}</p>
+  <a-badge-ribbon
+    v-if="op.newFeature"
+    :text="t('operations.new')"
+    color="red"
+  >
+    <a-card
+      class="operation-card"
+      :class="{ disabled: op.disabled }"
+      hoverable
+      @click="!op.disabled && emit('click', op.key)"
+    >
+      <div class="card-content">
+        <div class="icon-wrapper">
+          <component
+            :is="op.icon"
+            class="card-icon"
+          />
         </div>
+        <span class="card-title">{{ t(op.title) }}</span>
+        <p
+          v-if="op.description"
+          class="card-description"
+        >
+          {{ t(op.description) }}
+        </p>
+      </div>
     </a-card>
-
+  </a-badge-ribbon>
+  <a-card
+    v-else
+    class="operation-card"
+    :class="{ disabled: op.disabled }"
+    hoverable
+    @click="!op.disabled && emit('click', op.key)"
+  >
+    <div class="card-content">
+      <div class="icon-wrapper">
+        <component
+          :is="op.icon"
+          class="card-icon"
+        />
+      </div>
+      <span class="card-title">{{ t(op.title) }}</span>
+      <p
+        v-if="op.description"
+        class="card-description"
+      >
+        {{ t(op.description) }}
+      </p>
+    </div>
+  </a-card>
 </template>
 
 <script setup lang="ts">

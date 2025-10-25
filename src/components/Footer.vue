@@ -1,7 +1,7 @@
 <template>
-    <a-layout-footer style="text-align: center;">
-        {{ t('footer.text', { year: new Date().getFullYear() }) }}
-    </a-layout-footer>
+  <a-layout-footer style="text-align: center;">
+    {{ t('footer.text', { year: new Date().getFullYear() }) }}
+  </a-layout-footer>
 </template>
 
 <script setup lang="ts">
