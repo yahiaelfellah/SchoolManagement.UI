@@ -1,26 +1,55 @@
 <template>
-  <div class="login-container" :dir="direction">
-    <a-card class="login-card" :title="t('login.title')">
-      <a-form @finish="onFinish" layout="vertical">
-        <a-form-item :label="t('login.username')" name="username" :rules="[{ required: true, message: t('login.username') }]">
+  <div
+    class="login-container"
+    :dir="direction"
+  >
+    <a-card
+      class="login-card"
+      :title="t('login.title')"
+    >
+      <a-form
+        layout="vertical"
+        @finish="onFinish"
+      >
+        <a-form-item
+          :label="t('login.username')"
+          name="username"
+          :rules="[{ required: true, message: t('login.username') }]"
+        >
           <a-input v-model:value="form.username" />
         </a-form-item>
 
-        <a-form-item :label="t('login.password')" name="password" :rules="[{ required: true, message: t('login.password') }]">
+        <a-form-item
+          :label="t('login.password')"
+          name="password"
+          :rules="[{ required: true, message: t('login.password') }]"
+        >
           <a-input-password v-model:value="form.password" />
         </a-form-item>
 
         <a-form-item>
-          <a-button type="primary" html-type="submit" block>
+          <a-button
+            type="primary"
+            html-type="submit"
+            block
+          >
             {{ t('login.button') }}
           </a-button>
         </a-form-item>
       </a-form>
 
       <div class="lang-switch">
-        <a-select v-model:value="locale" style="width: 100px" @change="setLocale">
-          <a-select-option value="en">English</a-select-option>
-          <a-select-option value="ar">العربية</a-select-option>
+        <a-select
+          v-model:value="locale"
+          style="width: 100px"
+          @change="setLocale"
+        >
+          <a-select-option value="en">
+            English
+          </a-select-option>
+          <a-select-option value="ar">
+            العربية
+          </a-select-option>
         </a-select>
       </div>
     </a-card>

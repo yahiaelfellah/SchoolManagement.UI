@@ -1,7 +1,11 @@
 <template>
   <div>
     <h2>Students</h2>
-    <a-table :data-source="students" :columns="columns" row-key="id" />
+    <a-table
+      :data-source="students"
+      :columns="columns"
+      row-key="id"
+    />
   </div>
 </template>
 
