@@ -12,9 +12,17 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 16px;">
-          <a-select v-model:value="locale" style="width: 100px" @change="setLocale">
-            <a-select-option value="en">English</a-select-option>
-            <a-select-option value="ar">العربية</a-select-option>
+          <a-select
+            v-model:value="locale"
+            style="width: 100px"
+            @change="setLocale"
+          >
+            <a-select-option value="en">
+              English
+            </a-select-option>
+            <a-select-option value="ar">
+              العربية
+            </a-select-option>
           </a-select>
           <strong>{{ auth.user?.name }}</strong>
         </div>
