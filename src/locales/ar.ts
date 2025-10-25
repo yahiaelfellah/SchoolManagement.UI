@@ -4,6 +4,16 @@ export default {
     previous: "السابق",
     submit: "إرسال",
     select: "اختر",
+    remove: "إزالة",
+    enterAmount: "أدخل المبلغ",
+    validations: {
+      required: "هذا الحقل مطلوب",
+    },
+  },
+  relations: {
+    parent: "والد / والدة",
+    sibling: "أخ / أخت",
+    other: "آخر",
   },
 
   menu: {
@@ -39,6 +49,7 @@ export default {
     },
     students: {
       // Student Ops
+
       addStudent: {
         title: "إضافة طالب",
         description: "إضافة طالب جديد إلى النظام",
@@ -48,27 +59,41 @@ export default {
           paymentInfo: "معلومات الدفع",
           additionalInfo: "معلومات إضافية",
         },
-        form: { 
+        form: {
           firstName: "الاسم الأول",
           lastName: "اسم العائلة",
           dateOfBirth: "تاريخ الميلاد",
           gender: "الجنس",
           address: "العنوان",
-          email: "عنوان البريد الإلكتروني", 
-          guardianFirstName: "اسم ولي الأمر الأول",
-          guardianLastName: "اسم عائلة ولي الأمر",
-          guardianPhoneNumber: "رقم هاتف ولي الأمر",
+          email: "عنوان البريد الإلكتروني",
+          guardianTitle: "ولي الأمر { number }",
+          guardianFirstName: "الاسم الأول لولي الأمر",
+          guardianLastName: "اسم العائلة لولي الأمر",
+          guardianPhoneNumber: "رقم الهاتف",
           guardianRelation: "العلاقة بالطالب",
+          guardianAddress: "العنوان",
+          guardianPrimary: "ولي الأمر الرئيسي",
+          guardianAddGuardian: "إضافة ولي أمر آخر",
           tuitionPlan: "خطة الرسوم الدراسية",
+          initialPayment: "الدفعة الأولى",
           paymentMethod: "طريقة الدفع",
-          initialPayment: "الدفعة الأولية",
+          plans: {
+            monthly: "شهريًا",
+            term: "لكل فصل",
+            yearly: "سنويًا",
+          },
+          methods: {
+            cash: "نقدًا",
+            card: "بطاقة",
+            transfer: "تحويل بنكي",
+          },
+          previousSchool: "المدرسة السابقة",
           additionalNotes: "ملاحظات إضافية",
           medicalConditions: "الحالات الطبية",
           emergencyContact: "جهة اتصال للطوارئ",
           allergies: "الحساسيات",
           specialNeeds: "الاحتياجات الخاصة",
-
-        }
+        },
       },
       enrollStudent: "تسجيل طالب",
       enrollStudent_desc: "تسجيل طالب في صف أو برنامج.",

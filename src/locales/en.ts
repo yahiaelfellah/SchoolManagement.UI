@@ -4,6 +4,16 @@ export default {
     previous: "Previous",
     submit: "Submit",
     select: "Select",
+    remove: "Remove",
+    enterAmount: "Enter Amount",
+    validations: {
+      required: "This field is required",
+    },
+  },
+  relations: {
+    parent: "Parent / Guardian",
+    sibling: "Sibling",
+    other: "Other",
   },
   menu: {
     operations: "Operations",
@@ -39,6 +49,7 @@ export default {
     },
     students: {
       // Student Ops
+
       addStudent: {
         title: "Add Student",
         description: "Add a new student to the system",
@@ -56,18 +67,38 @@ export default {
           address: "Address",
           email: "Email Address",
           phone: "Phone Number",
+          guardianTitle: "Guardian { number }",
           guardianFirstName: "Guardian First Name",
           guardianLastName: "Guardian Last Name",
-          guardianPhoneNumber: "Guardian Phone Number",
+          guardianPhoneNumber: "Phone Number",
           guardianRelation: "Relation to Student",
-          tuitionPlan: "Tuition Plan",
-          initialPayment: "Initial Payment",
-          paymentMethod: "Payment Method",
+          guardianAddress: "Address",
+          guardianPrimary: "Primary Guardian",
+          guardianAddGuardian: "Add Another Guardian",
+        tuitionPlan: "Tuition Plan",
+        initialPayment: "Initial Payment",
+        paymentMethod: "Payment Method",
+        plans: {
+          monthly: "Monthly",
+          term: "Per Term",
+          yearly: "Yearly",
+        },
+        methods: {
+          cash: "Cash",
+          card: "Card",
+          transfer: "Bank Transfer",
+        },
           additionalNotes: "Additional Notes",
           medicalConditions: "Medical Conditions",
+          previousSchool: "Previous School",
           emergencyContact: "Emergency Contact",
           allergies: "Allergies",
           specialNeeds: "Special Needs",
+        },
+        guardian: {
+          title: "Guardian #{number}",
+          addGuardian: "Add Another Guardian",
+          primaryGuardian: "Set as Primary Guardian",
         },
       },
       enrollStudent: "Enroll Student",
