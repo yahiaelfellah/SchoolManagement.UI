@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-item
-      :label="t('operations.students.addStudent.form.firstName')"
+      :label="tf('firstName')"
       name="firstName"
       :rules="[{ required: true, message: 'Please enter first name' }]"
     >
@@ -9,7 +9,7 @@
     </a-form-item>
 
     <a-form-item
-      :label="t('operations.students.addStudent.form.lastName')"
+      :label="tf('lastName')"
       name="lastName"
       :rules="[{ required: true, message: 'Please enter last name' }]"
     >
@@ -17,7 +17,7 @@
     </a-form-item>
 
     <a-form-item
-      :label="t('operations.students.addStudent.form.dateOfBirth')"
+      :label="tf('dateOfBirth')"
       name="dateOfBirthday"
       :rules="[{ required: true, message: 'Please select date' }]"
     >
@@ -29,25 +29,18 @@
     </a-form-item>
 
     <a-form-item
-      :label="t('operations.students.addStudent.form.gender')"
+      :label="tf('gender')"
       name="gender"
       :rules="[{ required: true, message: 'Please select gender' }]"
     >
-      <a-select
-        v-model:value="form.gender"
-        :placeholder="t('common.select')"
-      >
-        <a-select-option value="Male">
-          Male
-        </a-select-option>
-        <a-select-option value="Female">
-          Female
-        </a-select-option>
+      <a-select v-model:value="form.gender" :placeholder="t('common.select')">
+        <a-select-option value="Male">Male</a-select-option>
+        <a-select-option value="Female">Female</a-select-option>
       </a-select>
     </a-form-item>
 
     <a-form-item
-      :label="t('operations.students.addStudent.form.address')"
+      :label="tf('address')"
       name="address"
     >
       <a-input v-model:value="form.address" />
@@ -59,5 +52,7 @@
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const tf = (key: string) => t(`operations.students.addStudent.form.${key}`)
+
 defineProps<{ form: any }>()
 </script>

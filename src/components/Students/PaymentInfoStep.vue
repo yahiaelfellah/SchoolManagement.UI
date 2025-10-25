@@ -1,51 +1,58 @@
 <template>
   <div>
+    <!-- Tuition Plan -->
     <a-form-item
-      label="Tuition Plan"
+      :label="tf('tuitionPlan')"
       name="tuitionPlan"
-      :rules="[{ required: true, message: 'Select plan' }]"
+      :rules="[{ required: true, message: t('common.select') }]"
     >
       <a-select
         v-model:value="form.tuitionPlan"
         :placeholder="t('common.select')"
       >
         <a-select-option value="monthly">
-          Monthly
+          {{ tf('plans.monthly') }}
         </a-select-option>
         <a-select-option value="term">
-          Per Term
+          {{ tf('plans.term') }}
         </a-select-option>
         <a-select-option value="yearly">
-          Yearly
+          {{ tf('plans.yearly') }}
         </a-select-option>
       </a-select>
     </a-form-item>
 
+    <!-- Initial Payment -->
     <a-form-item
-      label="Initial Payment"
+      :label="tf('initialPayment')"
       name="initialPayment"
-      :rules="[{ required: true, message: t('common.select') }]"
+      :rules="[{ required: true, message: t('common.required') }]"
     >
       <a-input-number
         v-model:value="form.initialPayment"
         style="width: 100%"
+        :placeholder="t('common.enterAmount')"
       />
     </a-form-item>
 
+    <!-- Payment Method -->
     <a-form-item
-      label="Payment Method"
+      :label="tf('paymentMethod')"
       name="paymentMethod"
       :rules="[{ required: true, message: t('common.select') }]"
     >
-      <a-select v-model:value="form.paymentMethod">
+      <a-select
+        v-model:value="form.paymentMethod"
+        :placeholder="t('common.select')"
+      >
         <a-select-option value="cash">
-          Cash
+          {{ tf('methods.cash') }}
         </a-select-option>
         <a-select-option value="card">
-          Card
+          {{ tf('methods.card') }}
         </a-select-option>
         <a-select-option value="transfer">
-          Bank Transfer
+          {{ tf('methods.transfer') }}
         </a-select-option>
       </a-select>
     </a-form-item>
@@ -56,5 +63,8 @@
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+// Short translation helper for local form scope
+const tf = (key: string) => t(`operations.students.addStudent.form.${key}`)
+
 defineProps<{ form: any }>()
 </script>
