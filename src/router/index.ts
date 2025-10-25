@@ -3,8 +3,8 @@ import {
   createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
-import DashboardLayout from '../layouts/Dashboard.vue'
-import { useAuthStore } from '../store/auth'
+import DashboardLayout from "../layouts/Dashboard.vue";
+import { useAuthStore } from "../store/auth";
 
 const routes: RouteRecordRaw[] = [
   { path: "/login", component: () => import("@/views/Login.vue") },
@@ -12,10 +12,21 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     component: () => DashboardLayout,
     children: [
-      { path: "", component: () => import("@/views/Operations.vue") },
+      {
+        path: "",
+        redirect: "/operations",
+      },
+      {
+        path: "/operations",
+        component: () => import("@/views/Operations/Operations.vue"),
+      },
       { path: "/students", component: () => import("@/views/Students.vue") },
       { path: "/teachers", component: () => import("@/views/Teachers.vue") },
       { path: "/classes", component: () => import("@/views/Teachers.vue") },
+      {
+        path: "/operations/addStudent",
+        component: () => import("@/views/Operations/AddStudent.vue"),
+      },
     ],
   },
 ];
@@ -28,10 +39,10 @@ const router = createRouter({
 // Auth guard
 
 router.beforeEach((to) => {
-  const auth = useAuthStore()
+  const auth = useAuthStore();
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    return '/login'
+    return "/login";
   }
-})
+});
 
 export default router;
