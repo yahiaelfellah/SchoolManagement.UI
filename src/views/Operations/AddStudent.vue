@@ -1,7 +1,7 @@
 <template>
   <div class="add-student-container">
     <a-page-header
-      :title="t('students.addStudent.title') "
+      :title="t('operations.students.addStudent.title')"
       @back="() => $router.go(-1)"
     />
 
@@ -91,11 +91,16 @@ const form = ref({
   gender: '',
   address: '',
   // Guardian
-  guardianFirstName: '',
-  guardianLastName: '',
-  guardianPhoneNumber: '',
-  guardianAddress: '',
-  guardianRelation: '',
+  guardians: [
+    {
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      relation: '',
+      address: '',
+      isPrimary: false,
+    },
+  ],
   // Payment
   tuitionPlan: '',
   initialPayment: null as number | null,
