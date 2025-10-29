@@ -6,14 +6,59 @@ export default {
     select: "اختر",
     remove: "إزالة",
     enterAmount: "أدخل المبلغ",
+    noResults: "لم يتم العثور على نتائج",
+    loading: "جارٍ التحميل...",
+    documents: "المستندات",
+    uploadFiles: "رفع الملفات",
+    invalidFileType: "يُسمح فقط بملفات الصور أو PDF أو Word.",
+    uploadsuccess: "تم رفع الملفات بنجاح!",
     validations: {
       required: "هذا الحقل مطلوب",
+    },
+    enterPosition: "أدخل الوظيفة",
+    enterName: "أدخل الاسم",
+    enterAddress: "أدخل العنوان",
+    enterEmail: "أدخل البريد الإلكتروني",
+    enterPhone: "أدخل رقم الهاتف",
+    enterClassName: "أدخل اسم الفصل",
+    selectGrade: "اختر الصف الدراسي",
+    selectTeacher: "اختر المعلم",
+    selectDays: "اختر الأيام",
+    uploadFile: "رفع ملف",
+
+    success: "تمت العملية بنجاح",
+    departments: {
+      math: "الرياضيات",
+      science: "العلوم",
+      english: "اللغة الإنجليزية",
+      social: "الدراسات الاجتماعية",
+    },
+    contract: {
+      fullTime: "دوام كامل",
+      partTime: "دوام جزئي",
+    },
+    days: {
+      sunday: "الأحد",
+      monday: "الإثنين",
+      tuesday: "الثلاثاء",
+      wednesday: "الأربعاء",
+      thursday: "الخميس",
     },
   },
   relations: {
     parent: "والد / والدة",
     sibling: "أخ / أخت",
     other: "آخر",
+  },
+  footer: {
+    description: "منصة حديثة لإدارة المدارس تساعد المعلمين والطلاب على النجاح.",
+
+    contact: {
+      title: "تواصل معنا",
+      email: "البريد الإلكتروني",
+      phone: "الهاتف",
+    },
+    text: "© {year} إديوسمارت. جميع الحقوق محفوظة.",
   },
 
   menu: {
@@ -33,9 +78,7 @@ export default {
     button: "دخول",
     error: "اسم المستخدم أو كلمة المرور غير صحيحة",
   },
-  footer: {
-    text: "نظام إدارة المدرسة ©{year} تم الإنشاء بواسطة أنت",
-  },
+
   operations: {
     title: "مركز العمليات",
     new: "جديد",
@@ -47,10 +90,34 @@ export default {
       attendance: "الحضور",
       system: "إدارة النظام",
     },
+    deleteOrArchive: {
+      title: "حذف أو أرشفة",
+      description: "إدارة سجلات الطلاب أو المعلمين بأمان.",
+      cardTitle: "إدارة الكيان",
+      form: {
+        selectLabel: "اختر الكيان",
+        selectPlaceholder: "ابحث واختر سجلاً",
+        actionType: "نوع العملية",
+        reason: "السبب (اختياري)",
+        reasonPlaceholder: "أدخل سبب الحذف أو الأرشفة",
+      },
+      actions: {
+        delete: "حذف",
+        archive: "أرشفة",
+      },
+      confirm: {
+        delete:
+          "هل أنت متأكد أنك تريد حذف هذا السجل؟ لا يمكن التراجع عن هذا الإجراء.",
+        archive: "هل أنت متأكد أنك تريد أرشفة هذا السجل؟",
+      },
+      success: {
+        delete: "تم حذف الكيان بنجاح.",
+        archive: "تمت أرشفة الكيان بنجاح.",
+      },
+    },
     students: {
       // Student Ops
-
-      addStudent: {
+      add: {
         title: "إضافة طالب",
         description: "إضافة طالب جديد إلى النظام",
         steps: {
@@ -95,18 +162,86 @@ export default {
           specialNeeds: "الاحتياجات الخاصة",
         },
       },
-      enrollStudent: "تسجيل طالب",
-      enrollStudent_desc: "تسجيل طالب في صف أو برنامج.",
+      enrollStudent: {
+        description: "تسجيل طالب في صف أو برنامج.",
+        title: "تسجيل طالب",
+        form: {
+          student: "الطالب",
+          selectStudent: "اختر طالبًا",
+          class: "الصف / الدورة",
+          selectClass: "اختر الصف",
+          enrollmentDate: "تاريخ التسجيل",
+          notes: "ملاحظات",
+          notesPlaceholder: "أضف أي معلومات إضافية...",
+        },
+      },
+      uploadDocuments: {
+        title: "رفع مستندات الطالب",
+        description: "رفع المستندات والملفات المتعلقة بالطالب.",
+        form: {
+          selectLabel: "اختر طالبًا",
+          selectPlaceholder: "ابحث عن طالب...",
+        },
+      },
+
       viewStudent: "عرض تفاصيل الطالب",
       viewStudent_desc: "عرض معلومات مفصلة عن الطالب.",
-      uploadDocuments: "رفع مستندات الطالب",
-      uploadDocuments_desc: "رفع المستندات والملفات المتعلقة بالطالب.",
       promoteStudent: "ترقية طالب",
       promoteStudent_desc: "ترقية الطالب إلى الصف أو المستوى التالي.",
       removeStudent: "حذف / أرشفة طالب",
       removeStudent_desc: "حذف الطالب من النظام أو أرشفة سجلاته.",
     },
+    teachers: {
+      add: {
+        title: "إضافة معلم",
+        description:
+          "قم بملء المعلومات الشخصية والوظيفية والمستندات الخاصة بالمعلم.",
+        steps: {
+          personalInfo: "المعلومات الشخصية",
+          employmentInfo: "معلومات التوظيف",
+          documents: "المستندات",
+        },
+        form: {
+          firstName: "الاسم الأول",
+          lastName: "اسم العائلة",
+          email: "البريد الإلكتروني",
+          phoneNumber: "رقم الهاتف",
+          dateOfBirth: "تاريخ الميلاد",
+          gender: "الجنس",
+          address: "العنوان",
+          department: "القسم",
+          position: "الوظيفة",
+          salary: "الراتب",
+          hireDate: "تاريخ التعيين",
+          contractType: "نوع العقد",
+          resume: "السيرة الذاتية",
+          certificates: "الشهادات",
+          notes: "ملاحظات",
+        },
+      },
+    },
 
+    classes: {
+      add: {
+        title: "إضافة فصل",
+        description: "أنشئ فصلًا جديدًا وحدد جدوله والمعلم المسؤول عنه.",
+        steps: {
+          classInfo: "معلومات الفصل",
+          schedule: "جدول الفصل",
+        },
+        form: {
+          className: "اسم الفصل",
+          gradeLevel: "الصف الدراسي",
+          homeroomTeacher: "المعلم الرئيسي",
+          description: "الوصف",
+          startDate: "تاريخ البداية",
+          endDate: "تاريخ الانتهاء",
+          daysOfWeek: "أيام الأسبوع",
+          startTime: "وقت البدء",
+          endTime: "وقت الانتهاء",
+        },
+      },
+    },
     // Teacher Ops
     addTeacher: "إضافة معلم",
     addTeacher_desc: "إضافة معلم جديد إلى النظام.",

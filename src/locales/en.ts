@@ -6,8 +6,42 @@ export default {
     select: "Select",
     remove: "Remove",
     enterAmount: "Enter Amount",
+    loading: "Loading...",
+    noResults: "No results found",
+    documents: "Documents",
+    uploadFiles: "Upload Files",
+    invalidFileType: "Only image, PDF, or Word files are allowed.",
+    uploadsuccess: "files uploaded successfully!",
     validations: {
       required: "This field is required",
+    },
+    enterPosition: "Enter Position",
+    enterClassName: "Enter Class Name",
+    enterAddress: "Enter Address",
+    enterEmail: "Enter Email",
+    enterPhone: "Enter Phone Number",
+    enterName: "Enter Name",
+    selectGrade: "Select Grade",
+    selectTeacher: "Select Teacher",
+    selectDays: "Select Days",
+
+    success: "Operation completed successfully",
+    departments: {
+      math: "Mathematics",
+      science: "Science",
+      english: "English",
+      social: "Social Studies",
+    },
+    contract: {
+      fullTime: "Full-time",
+      partTime: "Part-time",
+    },
+    days: {
+      sunday: "Sunday",
+      monday: "Monday",
+      tuesday: "Tuesday",
+      wednesday: "Wednesday",
+      thursday: "Thursday",
     },
   },
   relations: {
@@ -33,7 +67,21 @@ export default {
     error: "Invalid username or password",
   },
   footer: {
-    text: "School Management Dashboard ©{year} Created by You",
+    description:
+      "A modern school management platform that helps educators and students thrive.",
+    usefulLinks: {
+      title: "Useful Links",
+      about: "About Us",
+      contact: "Contact",
+      privacy: "Privacy Policy",
+      terms: "Terms of Service",
+    },
+    contact: {
+      title: "Contact Us",
+      email: "Email",
+      phone: "Phone",
+    },
+    text: "© {year} EduSmart. All rights reserved.",
   },
 
   operations: {
@@ -47,10 +95,34 @@ export default {
       attendance: "Attendance",
       system: "System Administration",
     },
+    deleteOrArchive: {
+      title: "Delete or Archive",
+      description: "Manage student or teacher records securely.",
+      cardTitle: "Entity Management",
+      form: {
+        selectLabel: "Select Entity",
+        selectPlaceholder: "Search and select a record",
+        actionType: "Action Type",
+        reason: "Reason (Optional)",
+        reasonPlaceholder: "Enter reason for deletion or archiving",
+      },
+      actions: {
+        delete: "Delete",
+        archive: "Archive",
+      },
+      confirm: {
+        delete:
+          "Are you sure you want to delete this record? This cannot be undone.",
+        archive: "Are you sure you want to archive this record?",
+      },
+      success: {
+        delete: "Entity deleted successfully.",
+        archive: "Entity archived successfully.",
+      },
+    },
     students: {
       // Student Ops
-
-      addStudent: {
+      add: {
         title: "Add Student",
         description: "Add a new student to the system",
         steps: {
@@ -75,19 +147,19 @@ export default {
           guardianAddress: "Address",
           guardianPrimary: "Primary Guardian",
           guardianAddGuardian: "Add Another Guardian",
-        tuitionPlan: "Tuition Plan",
-        initialPayment: "Initial Payment",
-        paymentMethod: "Payment Method",
-        plans: {
-          monthly: "Monthly",
-          term: "Per Term",
-          yearly: "Yearly",
-        },
-        methods: {
-          cash: "Cash",
-          card: "Card",
-          transfer: "Bank Transfer",
-        },
+          tuitionPlan: "Tuition Plan",
+          initialPayment: "Initial Payment",
+          paymentMethod: "Payment Method",
+          plans: {
+            monthly: "Monthly",
+            term: "Per Term",
+            yearly: "Yearly",
+          },
+          methods: {
+            cash: "Cash",
+            card: "Card",
+            transfer: "Bank Transfer",
+          },
           additionalNotes: "Additional Notes",
           medicalConditions: "Medical Conditions",
           previousSchool: "Previous School",
@@ -101,17 +173,87 @@ export default {
           primaryGuardian: "Set as Primary Guardian",
         },
       },
-      enrollStudent: "Enroll Student",
-      enrollStudent_desc: "Enroll a student in a class or program.",
+      enrollStudent: {
+        title: "Enroll Student",
+        description: "Enroll a student in a class or program.",
+        form: {
+          student: "Student",
+          selectStudent: "Select a student",
+          class: "Class / Course",
+          selectClass: "Select a class",
+          enrollmentDate: "Enrollment Date",
+          notes: "Notes",
+          notesPlaceholder: "Add any additional information...",
+        },
+      },
+      uploadDocuments: {
+        title: "Upload Student Documents",
+        description: "Upload student-related documents and files.",
+        form: {
+          selectLabel: "Select Student",
+          selectPlaceholder: "Search student...",
+        },
+      },
+
       viewStudent: "View Student Details",
       viewStudent_desc: "View detailed information about a student.",
-      uploadDocuments: "Upload Student Documents",
-      uploadDocuments_desc: "Upload student-related documents and files.",
       promoteStudent: "Promote Student",
       promoteStudent_desc: "Promote a student to the next grade or level.",
       removeStudent: "Remove / Archive Student",
       removeStudent_desc:
         "Remove a student from the system or archive their records.",
+    },
+    teachers: {
+      add: {
+        title: "Add Teacher",
+        description:
+          "Fill in the teacher’s personal, employment, and document details.",
+        steps: {
+          personalInfo: "Personal Information",
+          employmentInfo: "Employment Details",
+          documents: "Documents",
+        },
+        form: {
+          firstName: "First Name",
+          lastName: "Last Name",
+          email: "Email",
+          phoneNumber: "Phone Number",
+          dateOfBirth: "Date of Birth",
+          gender: "Gender",
+          address: "Address",
+          department: "Department",
+          position: "Position",
+          salary: "Salary",
+          hireDate: "Hire Date",
+          contractType: "Contract Type",
+          resume: "Resume",
+          certificates: "Certificates",
+          notes: "Notes",
+        },
+      },
+    },
+
+    classes: {
+      add: {
+        title: "Add Class",
+        description:
+          "Create a new class and set up its schedule and teacher assignments.",
+        steps: {
+          classInfo: "Class Information",
+          schedule: "Class Schedule",
+        },
+        form: {
+          className: "Class Name",
+          gradeLevel: "Grade Level",
+          homeroomTeacher: "Homeroom Teacher",
+          description: "Description",
+          startDate: "Start Date",
+          endDate: "End Date",
+          daysOfWeek: "Days of Week",
+          startTime: "Start Time",
+          endTime: "End Time",
+        },
+      },
     },
 
     // Student Ops
