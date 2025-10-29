@@ -27,6 +27,27 @@ const routes: RouteRecordRaw[] = [
         path: "/operations/addStudent",
         component: () => import("@/views/Operations/AddStudent.vue"),
       },
+      {
+        path: "/operations/:type/add",
+        name: "AddEntity",
+        component: () => import("@/views/operations/AddEntity.vue"),
+      },
+      {
+        path: "/operations/enrollStudent",
+        component: () => import("@/views/Operations/EnrollStudent.vue"),
+      },
+      {
+        path: "/operations/upload/:type",
+        name: "uploadDocuments",
+        component: () => import("@/views/Operations/UploadDocuments.vue"),
+        props: true,
+      },
+      {
+        path: "/operations/deleteOrarchive",
+        name: "deleteOrarchive",
+        component: () => import("@/views/Operations/DeleteOrArchive.vue"),
+        props: true,
+      },
     ],
   },
 ];
