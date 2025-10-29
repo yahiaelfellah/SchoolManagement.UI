@@ -99,8 +99,8 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const tf = (key: string, params?: Record<string, any>) => 
-  params ? t(`operations.students.addStudent.form.${key}`, params) 
-         : t(`operations.students.addStudent.form.${key}`)
+  params ? t(`operations.students.add.form.${key}`, params) 
+         : t(`operations.students.add.form.${key}`)
 
 
 const props = defineProps<{ form: any }>()

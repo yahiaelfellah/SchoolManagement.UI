@@ -59,7 +59,7 @@
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const tf = (key: string) => t(`operations.students.addStudent.form.${key}`)
+const tf = (key: string) => t(`operations.students.add.form.${key}`)
 
 defineProps<{ form: any }>()
 </script>
