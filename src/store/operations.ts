@@ -67,18 +67,18 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.students',
           items: [
-            { key: 'addStudent', title: 'operations.students.addStudent.title', description: 'operations.students.addStudent.description', icon: UserAddOutlined, disabled: false, newFeature: false },
-            { key: 'enrollStudent', title: 'operations.students.enrollStudent', description: 'operations.students.enrollStudent_desc', icon: SolutionOutlined, disabled: false, newFeature: false },
-            { key: 'viewStudent', title: 'operations.students.viewStudent', description: 'operations.students.viewStudent_desc', icon: ProfileOutlined, disabled: false, newFeature: false },
-            { key: 'uploadDocuments', title: 'operations.students.uploadDocuments', description: 'operations.students.uploadDocuments_desc', icon: UploadOutlined, disabled: false, newFeature: false },
-            { key: 'promoteStudent', title: 'operations.students.promoteStudent', description: 'operations.students.promoteStudent_desc', icon: ArrowUpOutlined, disabled: false, newFeature: false },
-            { key: 'removeStudent', title: 'operations.students.removeStudent', description: 'operations.students.removeStudent_desc', icon: UserDeleteOutlined, disabled: false, newFeature: false },
+            { key: 'students/add', title: 'operations.students.add.title', description: 'operations.students.add.description', icon: UserAddOutlined, disabled: false, newFeature: false },
+            { key: 'enrollStudent', title: 'operations.students.enrollStudent.title', description: 'operations.students.enrollStudent.description', icon: SolutionOutlined, disabled: false, newFeature: false },
+            // { key: 'viewStudent', title: 'operations.students.viewStudent', description: 'operations.students.viewStudent_desc', icon: ProfileOutlined, disabled: false, newFeature: false },
+            { key: 'upload/students', title: 'operations.students.uploadDocuments.title', description: 'operations.students.uploadDocuments.description', icon: UploadOutlined, disabled: false, newFeature: false },
+            // { key: 'promoteStudent', title: 'operations.students.promoteStudent', description: 'operations.students.promoteStudent_desc', icon: ArrowUpOutlined, disabled: false, newFeature: false },
+            { key: 'deleteOrarchive', title: 'operations.deleteOrArchive.title', description: 'operations.deleteOrArchive.description', icon: UserDeleteOutlined, disabled: false, newFeature: false },
           ],
         },
         {
           title: 'operations.groups.teachers',
           items: [
-            { key: 'addTeacher', title: 'operations.addTeacher', description: 'operations.addTeacher_desc', icon: UsergroupAddOutlined, disabled: false, newFeature: false },
+            { key: 'teachers/add', title: 'operations.teachers.add.title', description: 'operations.teachers.add.description', icon: UsergroupAddOutlined, disabled: false, newFeature: false },
             { key: 'assignTeacher', title: 'operations.assignTeacher', description: 'operations.assignTeacher_desc', icon: TeamOutlined, disabled: false, newFeature: false },
             { key: 'updateTeacher', title: 'operations.updateTeacher', description: 'operations.updateTeacher_desc', icon: EditOutlined, disabled: false, newFeature: false },
             { key: 'viewTeacherPerformance', title: 'operations.viewTeacherPerformance', description: 'operations.viewTeacherPerformance_desc', icon: BarChartOutlined, disabled: false, newFeature: false },
@@ -87,7 +87,7 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.academics',
           items: [
-            { key: 'addClass', title: 'operations.addClass', description: 'operations.addClass_desc', icon: BookOutlined, disabled: false, newFeature: false },
+            { key: 'classes/add', title: 'operations.addClass', description: 'operations.addClass_desc', icon: BookOutlined, disabled: false, newFeature: false },
             { key: 'assignSubjects', title: 'operations.assignSubjects', description: 'operations.assignSubjects_desc', icon: BranchesOutlined, disabled: false, newFeature: false },
             { key: 'setCalendar', title: 'operations.setCalendar', description: 'operations.setCalendar_desc', icon: CalendarOutlined, disabled: false, newFeature: false },
             { key: 'generateTimetable', title: 'operations.generateTimetable', description: 'operations.generateTimetable_desc', icon: ScheduleOutlined, disabled: false, newFeature: false },
