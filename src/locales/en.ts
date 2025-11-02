@@ -1,5 +1,10 @@
 export default {
   common: {
+    add: "Add",
+    edit: "Edit",
+    delete: "Delete",
+    cancel: "Cancel",
+    create: "Create",
     next: "Next",
     previous: "Previous",
     submit: "Submit",
@@ -12,6 +17,7 @@ export default {
     uploadFiles: "Upload Files",
     invalidFileType: "Only image, PDF, or Word files are allowed.",
     uploadsuccess: "files uploaded successfully!",
+    generate: "Generate",
     validations: {
       required: "This field is required",
     },
@@ -42,6 +48,13 @@ export default {
       tuesday: "Tuesday",
       wednesday: "Wednesday",
       thursday: "Thursday",
+      friday: "Friday",
+      saturday: "Saturday", 
+    },
+    calendar: {
+      monthly: "Monthly View",
+      weekly: "Weekly View",
+      daily: "Daily View",
     },
   },
   relations: {
@@ -231,6 +244,26 @@ export default {
           notes: "Notes",
         },
       },
+      assignTeacher: {
+        title: "Assign Teacher to Class",
+        description: "Select a class and assign one or more teachers to it.",
+        form: {
+          source: "Class",
+          target: "Teacher(s)",
+          selectSource: "Select a class",
+          selectTarget: "Select teachers",
+        },
+      },
+      assignSubjects: {
+        title: "Assign Subjects to Teacher",
+        description: "Select a teacher and assign subjects they will teach.",
+        form: {
+          source: "Teacher",
+          target: "Subject(s)",
+          selectSource: "Select a teacher",
+          selectTarget: "Select subjects",
+        },
+      },
     },
 
     classes: {
@@ -255,6 +288,55 @@ export default {
         },
       },
     },
+    setCalendar: {
+      title: "Academic Calendar Management",
+      description: "Create academic years and add related school events.",
+      academicYear: {
+        management: "Academic Year Management",
+        name: "Academic Year",
+        namePlaceholder: "e.g. 2024–2025",
+        range: "Date Range",
+        selectYear: "Select Academic Year",
+        open: "Open",
+        closed: "Closed",
+        close: "Close Academic Year",
+        closedInfo: "This academic year is closed. You cannot add new events.",
+        closedSuccess: "Academic year closed successfully.",
+        noActive: "No active academic year found.",
+        onlyOneActive: "Only one active academic year can exist at a time.",
+      },
+      events: {
+        title: "School Events",
+        form: {
+          title: "Event Title",
+          titlePlaceholder: "Parent Meeting, Exam, etc.",
+          type: "Event Type",
+          typePlaceholder: "Select type",
+          range: "Event Range",
+        },
+        types: {
+          meeting: "Meeting",
+          exam: "Exam",
+          holiday: "Holiday",
+          activity: "Activity",
+        },
+      },
+    },
+    generateTimetable: {
+      title: "Generate Timetable",
+      description: "Generate timetable schedules for classes and teachers.",
+      form: {
+        class: "Class",
+        selectClass: "Select a class",
+        teacher: "Teacher",
+        selectTeacher: "Select a teacher",
+        days: "Select Days",
+        timeSlot: "Time Slot",
+        notes: "Notes",
+        notesPlaceholder: "Additional notes or details",
+      },
+      success: "Timetable generated successfully!",
+    },
 
     // Student Ops
 
@@ -274,11 +356,7 @@ export default {
     addClass_desc: "Create a new class or course in the academic system.",
     assignSubjects: "Assign Subjects to Teachers",
     assignSubjects_desc: "Assign subjects to classes or teachers.",
-    setCalendar: "Set Academic Calendar",
     setCalendar_desc: "Configure the academic calendar and holidays.",
-    generateTimetable: "Generate Timetable",
-    generateTimetable_desc:
-      "Generate timetable schedules for classes and teachers.",
     enterGrades: "Enter Grades",
     enterGrades_desc: "Enter or update student grades for subjects.",
 

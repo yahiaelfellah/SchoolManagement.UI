@@ -1,10 +1,16 @@
 export default {
   common: {
+    add: "إضافة",
+    edit: "تعديل",
+    delete: "حذف",
+    cancel: "إلغاء",
+    create: "إنشاء",
     next: "التالي",
     previous: "السابق",
     submit: "إرسال",
     select: "اختر",
     remove: "إزالة",
+    generate: "إنشاء",
     enterAmount: "أدخل المبلغ",
     noResults: "لم يتم العثور على نتائج",
     loading: "جارٍ التحميل...",
@@ -43,6 +49,13 @@ export default {
       tuesday: "الثلاثاء",
       wednesday: "الأربعاء",
       thursday: "الخميس",
+      friday: "الجمعة",
+      saturday: "السبت",
+    },
+    calendar: {
+      monthly: "عرض شهري",
+      weekly: "عرض أسبوعي",
+      daily: "عرض يومي",
     },
   },
   relations: {
@@ -219,6 +232,26 @@ export default {
           notes: "ملاحظات",
         },
       },
+      assignTeacher: {
+        title: "تعيين المعلم للفصل",
+        description: "اختر فصلًا وقم بتعيين معلم أو أكثر له.",
+        form: {
+          source: "الفصل",
+          target: "المعلمون",
+          selectSource: "اختر فصلًا",
+          selectTarget: "اختر المعلمين",
+        },
+      },
+      assignSubjects: {
+        title: "تعيين المواد للمعلم",
+        description: "اختر معلمًا وقم بتعيين المواد التي سيقوم بتدريسها.",
+        form: {
+          source: "المعلم",
+          target: "المواد",
+          selectSource: "اختر معلمًا",
+          selectTarget: "اختر المواد",
+        },
+      },
     },
 
     classes: {
@@ -242,6 +275,58 @@ export default {
         },
       },
     },
+
+    setCalendar: {
+      title: "إدارة التقويم الأكاديمي",
+      description: "أنشئ السنوات الدراسية وأضف الأحداث المدرسية المرتبطة بها.",
+      academicYear: {
+        management: "إدارة العام الدراسي",
+        name: "العام الدراسي",
+        namePlaceholder: "مثال: 2024–2025",
+        range: "الفترة الزمنية",
+        selectYear: "اختر العام الدراسي",
+        open: "مفتوح",
+        closed: "مغلق",
+        close: "إغلاق العام الدراسي",
+        closedInfo: "هذا العام الدراسي مغلق. لا يمكنك إضافة أحداث جديدة.",
+        closedSuccess: "تم إغلاق العام الدراسي بنجاح.",
+        noActive: "لا يوجد عام دراسي نشط حالياً.",
+        onlyOneActive:
+          "يمكن أن يكون هناك عام دراسي نشط واحد فقط في الوقت نفسه.",
+      },
+      events: {
+        title: "الفعاليات المدرسية",
+        form: {
+          title: "عنوان الفعالية",
+          titlePlaceholder: "اجتماع أولياء الأمور، اختبار، إلخ...",
+          type: "نوع الفعالية",
+          typePlaceholder: "اختر النوع",
+          range: "مدة الفعالية",
+        },
+        types: {
+          meeting: "اجتماع",
+          exam: "اختبار",
+          holiday: "عطلة",
+          activity: "نشاط",
+        },
+      },
+    },
+
+    generateTimetable: {
+      title: "إنشاء الجدول الزمني",
+      description: "إنشاء جداول زمنية للفصول الدراسية والمعلمين.",
+      form: {
+        class: "الفصل الدراسي",
+        selectClass: "اختر الفصل الدراسي",
+        teacher: "المعلم",
+        selectTeacher: "اختر المعلم",
+        days: "اختر الأيام",
+        timeSlot: "الفترة الزمنية",
+        notes: "ملاحظات",
+        notesPlaceholder: "أضف أي ملاحظات أو تفاصيل إضافية",
+      },
+      success: "تم إنشاء الجدول الزمني بنجاح!",
+    },
     // Teacher Ops
     addTeacher: "إضافة معلم",
     addTeacher_desc: "إضافة معلم جديد إلى النظام.",
@@ -257,10 +342,7 @@ export default {
     addClass_desc: "إنشاء صف أو دورة جديدة في النظام الأكاديمي.",
     assignSubjects: "تعيين المواد للمعلمين",
     assignSubjects_desc: "تعيين المواد للصفوف أو للمعلمين.",
-    setCalendar: "تحديد التقويم الأكاديمي",
     setCalendar_desc: "إعداد التقويم الأكاديمي والعطلات.",
-    generateTimetable: "إنشاء الجدول الدراسي",
-    generateTimetable_desc: "إنشاء جداول الصفوف والمعلمين.",
     enterGrades: "إدخال الدرجات",
     enterGrades_desc: "إدخال أو تحديث درجات الطلاب.",
 

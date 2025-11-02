@@ -7,7 +7,10 @@
     />
 
     <a-card>
-      <a-form layout="vertical" @finish="handleSubmit">
+      <a-form
+        layout="vertical"
+        @finish="handleSubmit"
+      >
         <!-- Entity Selection -->
         <a-form-item
           :label="tl('form.selectLabel')"
@@ -39,13 +42,20 @@
           :rules="[{ required: true, message: t('validations.required') }]"
         >
           <a-radio-group v-model:value="form.action">
-            <a-radio value="archive">{{ tl('actions.archive') }}</a-radio>
-            <a-radio value="delete">{{ tl('actions.delete') }}</a-radio>
+            <a-radio value="archive">
+              {{ tl('actions.archive') }}
+            </a-radio>
+            <a-radio value="delete">
+              {{ tl('actions.delete') }}
+            </a-radio>
           </a-radio-group>
         </a-form-item>
 
         <!-- Notes (optional) -->
-        <a-form-item :label="tl('form.reason')" name="reason">
+        <a-form-item
+          :label="tl('form.reason')"
+          name="reason"
+        >
           <a-textarea
             v-model:value="form.reason"
             :placeholder="tl('form.reasonPlaceholder')"

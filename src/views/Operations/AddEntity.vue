@@ -6,8 +6,16 @@
       @back="() => $router.go(-1)"
     />
 
-    <a-steps :current="currentStep" size="small" class="steps-header">
-      <a-step v-for="(s, i) in steps" :key="i" :title="tl(s.title)" />
+    <a-steps
+      :current="currentStep"
+      size="small"
+      class="steps-header"
+    >
+      <a-step
+        v-for="(s, i) in steps"
+        :key="i"
+        :title="tl(s.title)"
+      />
     </a-steps>
 
     <a-form
@@ -25,7 +33,10 @@
 
       <!-- Footer navigation -->
       <div class="form-footer">
-        <a-button v-if="currentStep > 0" @click="prevStep">
+        <a-button
+          v-if="currentStep > 0"
+          @click="prevStep"
+        >
           {{ t('common.previous') }}
         </a-button>
 

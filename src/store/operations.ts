@@ -79,7 +79,7 @@ export const useOperationsStore = defineStore('operations', {
           title: 'operations.groups.teachers',
           items: [
             { key: 'teachers/add', title: 'operations.teachers.add.title', description: 'operations.teachers.add.description', icon: UsergroupAddOutlined, disabled: false, newFeature: false },
-            { key: 'assignTeacher', title: 'operations.assignTeacher', description: 'operations.assignTeacher_desc', icon: TeamOutlined, disabled: false, newFeature: false },
+            { key: 'teachers/assign', title: 'operations.assignTeacher', description: 'operations.assignTeacher_desc', icon: TeamOutlined, disabled: false, newFeature: false },
             { key: 'updateTeacher', title: 'operations.updateTeacher', description: 'operations.updateTeacher_desc', icon: EditOutlined, disabled: false, newFeature: false },
             { key: 'viewTeacherPerformance', title: 'operations.viewTeacherPerformance', description: 'operations.viewTeacherPerformance_desc', icon: BarChartOutlined, disabled: false, newFeature: false },
           ],
@@ -88,9 +88,9 @@ export const useOperationsStore = defineStore('operations', {
           title: 'operations.groups.academics',
           items: [
             { key: 'classes/add', title: 'operations.addClass', description: 'operations.addClass_desc', icon: BookOutlined, disabled: false, newFeature: false },
-            { key: 'assignSubjects', title: 'operations.assignSubjects', description: 'operations.assignSubjects_desc', icon: BranchesOutlined, disabled: false, newFeature: false },
-            { key: 'setCalendar', title: 'operations.setCalendar', description: 'operations.setCalendar_desc', icon: CalendarOutlined, disabled: false, newFeature: false },
-            { key: 'generateTimetable', title: 'operations.generateTimetable', description: 'operations.generateTimetable_desc', icon: ScheduleOutlined, disabled: false, newFeature: false },
+            { key: 'subjects/assign', title: 'operations.assignSubjects', description: 'operations.assignSubjects_desc', icon: BranchesOutlined, disabled: false, newFeature: false },
+            { key: 'setCalendar', title: 'operations.setCalendar.title', description: 'operations.setCalendar.description', icon: CalendarOutlined, disabled: false, newFeature: false },
+            { key: 'generateTimetable', title: 'operations.generateTimetable.title', description: 'operations.generateTimetable.description', icon: ScheduleOutlined, disabled: false, newFeature: false },
             { key: 'enterGrades', title: 'operations.enterGrades', description: 'operations.enterGrades_desc', icon: FileDoneOutlined, disabled: false, newFeature: false },
           ],
         },

@@ -24,13 +24,19 @@ const routes: RouteRecordRaw[] = [
       { path: "/teachers", component: () => import("@/views/Teachers.vue") },
       { path: "/classes", component: () => import("@/views/Teachers.vue") },
       {
-        path: "/operations/addStudent",
-        component: () => import("@/views/Operations/AddStudent.vue"),
-      },
-      {
         path: "/operations/:type/add",
         name: "AddEntity",
         component: () => import("@/views/operations/AddEntity.vue"),
+      },
+            {
+        path: "/operations/:type/assign",
+        name: "AssignEntity",
+        component: () => import("@/views/operations/AssignEntity.vue"),
+      },
+                  {
+        path: "/operations/generateTimetable",
+        name: "GenerateTimetable",
+        component: () => import("@/views/operations/GenerateTimetable.vue"),
       },
       {
         path: "/operations/enrollStudent",
@@ -46,6 +52,12 @@ const routes: RouteRecordRaw[] = [
         path: "/operations/deleteOrarchive",
         name: "deleteOrarchive",
         component: () => import("@/views/Operations/DeleteOrArchive.vue"),
+        props: true,
+      },
+      {
+        path: "/operations/setCalendar",
+        name: "setCalendar",
+        component: () => import("@/views/Operations/SetCalendar.vue"),
         props: true,
       },
     ],
