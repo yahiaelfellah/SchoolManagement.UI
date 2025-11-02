@@ -442,13 +442,7 @@ export default {
     // System
     manageUsers: "Manage Users & Roles",
     manageUsers_desc: "Manage system users and access rights.",
-    backupData: "Backup / Restore Data",
-    backupData_desc:
-      "Backup system data to prevent loss and restore when needed.",
-    syncData: "Sync Data with Server",
-    syncData_desc: "Synchronize system data with external sources.",
-    sendNotifications: "Send Notifications",
-    sendNotifications_desc: "Send notifications to users or groups.",
+
     manageLanguages: "Manage Languages / RTL",
     manageLanguages_desc:
       "Configure system languages and localization settings.",
@@ -525,10 +519,15 @@ export default {
       },
     },
     backupData: {
+      title: "Backup / Restore Data",
+      description:
+        "Backup system data to prevent loss and restore when needed.",
       inProgress: "Backup in progress...",
       done: "Backup completed successfully",
     },
     syncData: {
+      title: "Data Synchronization",
+      description: "Synchronize system data with external sources.",
       inProgress: "Sync in progress...",
       done: "Synchronization completed",
     },

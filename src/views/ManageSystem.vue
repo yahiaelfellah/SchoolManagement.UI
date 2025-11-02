@@ -3,7 +3,6 @@
     <a-page-header
       :title="t('operations.groups.system')"
       :sub-title="t('operations.manageUsers_desc')"
-      @back="() => $router.go(-1)"
     />
 
     <a-card

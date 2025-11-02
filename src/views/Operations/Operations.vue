@@ -1,10 +1,5 @@
 <template>
   <div class="operations-container">
-    <!-- <h2 class="page-title">
-      {{ t('operations.title') }}
-    </h2> -->
-
-    <!-- modern filter card -->
 
     <Filter
       :filters="filters"
@@ -36,14 +31,12 @@
 </template>
 
 <script setup lang="ts">
-// filepath: d:\Project\SchoolManagementSystem\schoolmanagementsystem.client\src\views\Operations\Operations.vue
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted, computed } from 'vue'
 import { type TabsProps } from 'ant-design-vue'
 import OperationCard from '@/components/Operations/OperationCard.vue'
 import { useOperationsStore } from '@/store/operations'
 import Filter from '@/components/Filter.vue'
-import { SearchOutlined } from '@ant-design/icons-vue'
 
 const { t } = useI18n()
 const activeKey = ref(0)

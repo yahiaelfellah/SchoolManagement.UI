@@ -95,6 +95,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue' // Import onMounted
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -102,8 +103,15 @@ const tf = (key: string, params?: Record<string, any>) =>
   params ? t(`operations.students.add.form.${key}`, params) 
          : t(`operations.students.add.form.${key}`)
 
-
 const props = defineProps<{ form: any }>()
+
+// Create the first guardian on mount
+onMounted(() => {
+  props.form.guardians = []
+  if (props.form.guardians.length === 0) {
+    addGuardian() // Call addGuardian to create the first guardian
+  }
+})
 
 // Add new guardian
 const addGuardian = () => {

@@ -27,8 +27,10 @@
       <!-- Step content -->
       <component
         :is="currentComponent"
-        v-model:form="form"
+        :key="currentStep"
+        :form="form"
         :rules="rules"
+        @update:form="(val:any) => (form.value = val)"
       />
 
       <!-- Footer navigation -->
