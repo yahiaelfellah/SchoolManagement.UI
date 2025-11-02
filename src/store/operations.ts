@@ -5,9 +5,7 @@ import {
   UserAddOutlined,
   SolutionOutlined,
   UsergroupAddOutlined,
-  ProfileOutlined,
   UploadOutlined,
-  ArrowUpOutlined,
   UserDeleteOutlined,
   TeamOutlined,
   EditOutlined,
@@ -23,11 +21,7 @@ import {
   ExportOutlined,
   ClockCircleOutlined,
   TableOutlined,
-  SettingOutlined,
-  DatabaseOutlined,
-  CloudSyncOutlined,
-  NotificationOutlined,
-  GlobalOutlined,
+
 } from '@ant-design/icons-vue'
 import type FeatureState from '@/model/featureState'
 import router from '@/router'
@@ -68,11 +62,11 @@ export const useOperationsStore = defineStore('operations', {
           title: 'operations.groups.students',
           items: [
             { key: 'students/add', title: 'operations.students.add.title', description: 'operations.students.add.description', icon: UserAddOutlined, disabled: false, newFeature: false },
-            { key: 'enrollStudent', title: 'operations.students.enrollStudent.title', description: 'operations.students.enrollStudent.description', icon: SolutionOutlined, disabled: false, newFeature: false },
+            { key: 'students/enroll', title: 'operations.students.enrollStudent.title', description: 'operations.students.enrollStudent.description', icon: SolutionOutlined, disabled: false, newFeature: false },
             // { key: 'viewStudent', title: 'operations.students.viewStudent', description: 'operations.students.viewStudent_desc', icon: ProfileOutlined, disabled: false, newFeature: false },
-            { key: 'upload/students', title: 'operations.students.uploadDocuments.title', description: 'operations.students.uploadDocuments.description', icon: UploadOutlined, disabled: false, newFeature: false },
+            { key: 'students/upload', title: 'operations.students.uploadDocuments.title', description: 'operations.students.uploadDocuments.description', icon: UploadOutlined, disabled: false, newFeature: false },
             // { key: 'promoteStudent', title: 'operations.students.promoteStudent', description: 'operations.students.promoteStudent_desc', icon: ArrowUpOutlined, disabled: false, newFeature: false },
-            { key: 'deleteOrarchive', title: 'operations.deleteOrArchive.title', description: 'operations.deleteOrArchive.description', icon: UserDeleteOutlined, disabled: false, newFeature: false },
+            { key: 'students/delete', title: 'operations.deleteOrArchive.title', description: 'operations.deleteOrArchive.description', icon: UserDeleteOutlined, disabled: false, newFeature: false },
           ],
         },
         {
@@ -97,7 +91,7 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.finance',
           items: [
-            { key: 'addPayment', title: 'operations.addPayment', description: 'operations.addPayment_desc', icon: DollarOutlined, disabled: false, newFeature: false },
+            { key: 'addPayment', title: 'operations.addPayment.title', description: 'operations.addPayment.description', icon: DollarOutlined, disabled: false, newFeature: false },
             { key: 'generateInvoice', title: 'operations.generateInvoice', description: 'operations.generateInvoice_desc', icon: FileTextOutlined, disabled: false, newFeature: false },
             { key: 'viewFinanceReports', title: 'operations.viewFinanceReports', description: 'operations.viewFinanceReports_desc', icon: PieChartOutlined, disabled: false, newFeature: false },
             { key: 'exportFinanceData', title: 'operations.exportFinanceData', description: 'operations.exportFinanceData_desc', icon: ExportOutlined, disabled: false, newFeature: false },
@@ -106,21 +100,21 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.attendance',
           items: [
-            { key: 'markAttendance', title: 'operations.markAttendance', description: 'operations.markAttendance_desc', icon: ClockCircleOutlined, disabled: false, newFeature: false },
-            { key: 'viewAttendanceSummary', title: 'operations.viewAttendanceSummary', description: 'operations.viewAttendanceSummary_desc', icon: TableOutlined, disabled: false, newFeature: false },
-            { key: 'attendanceReport', title: 'operations.attendanceReport', description: 'operations.attendanceReport_desc', icon: BarChartOutlined, disabled: false, newFeature: false },
+            { key: 'markAttendance', title: 'operations.markAttendance.title', description: 'operations.markAttendance.description', icon: ClockCircleOutlined, disabled: false, newFeature: false },
+            { key: 'viewAttendanceSummary', title: 'operations.viewAttendanceSummary.title', description: 'operations.viewAttendanceSummary.description', icon: TableOutlined, disabled: false, newFeature: false },
+            { key: 'attendanceReport', title: 'operations.attendanceReport.title', description: 'operations.attendanceReport.description', icon: BarChartOutlined, disabled: false, newFeature: false },
           ],
         },
-        {
-          title: 'operations.groups.system',
-          items: [
-            { key: 'manageUsers', title: 'operations.manageUsers', description: 'operations.manageUsers_desc', icon: SettingOutlined, disabled: false, newFeature: false },
-            { key: 'backupData', title: 'operations.backupData', description: 'operations.backupData_desc', icon: DatabaseOutlined, disabled: false, newFeature: false },
-            { key: 'syncData', title: 'operations.syncData', description: 'operations.syncData_desc', icon: CloudSyncOutlined, disabled: false, newFeature: false },
-            { key: 'sendNotifications', title: 'operations.sendNotifications', description: 'operations.sendNotifications_desc', icon: NotificationOutlined, disabled: false, newFeature: false },
-            { key: 'manageLanguages', title: 'operations.manageLanguages', description: 'operations.manageLanguages_desc', icon: GlobalOutlined, disabled: false, newFeature: false },
-          ],
-        },
+        // {
+        //   title: 'operations.groups.system',
+        //   items: [
+        //     { key: 'manageUsers', title: 'operations.manageUsers', description: 'operations.manageUsers_desc', icon: SettingOutlined, disabled: false, newFeature: false },
+        //     { key: 'backupData', title: 'operations.backupData', description: 'operations.backupData_desc', icon: DatabaseOutlined, disabled: false, newFeature: false },
+        //     { key: 'syncData', title: 'operations.syncData', description: 'operations.syncData_desc', icon: CloudSyncOutlined, disabled: false, newFeature: false },
+        //     { key: 'sendNotifications', title: 'operations.sendNotifications', description: 'operations.sendNotifications_desc', icon: NotificationOutlined, disabled: false, newFeature: false },
+        //     { key: 'manageLanguages', title: 'operations.manageLanguages', description: 'operations.manageLanguages_desc', icon: GlobalOutlined, disabled: false, newFeature: false },
+        //   ],
+        // },
       ]
     },
 

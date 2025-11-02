@@ -38,6 +38,12 @@
         </template>
         {{ t('menu.classes') }}
       </a-menu-item>
+      <a-menu-item key="systems">
+        <template #icon>
+          <SettingOutlined />
+        </template>
+        {{ t('menu.system') }}
+      </a-menu-item>
       <a-menu-item key="logout">
         <template #icon>
           <LogoutOutlined />
@@ -58,6 +64,7 @@ import {
   TeamOutlined,
   BookOutlined,
   LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons-vue'
 
 const { t } = useI18n()

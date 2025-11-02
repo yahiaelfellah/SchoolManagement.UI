@@ -1,6 +1,10 @@
 export default {
   common: {
     add: "إضافة",
+    apply: "تطبيق",
+    startSync: "بدء المزامنة",
+    startBackup: "بدء النسخ الاحتياطي",
+    stopSync: "إيقاف المزامنة",
     edit: "تعديل",
     delete: "حذف",
     cancel: "إلغاء",
@@ -8,6 +12,7 @@ export default {
     next: "التالي",
     previous: "السابق",
     submit: "إرسال",
+    save: "حفظ",
     select: "اختر",
     remove: "إزالة",
     generate: "إنشاء",
@@ -31,6 +36,8 @@ export default {
     selectTeacher: "اختر المعلم",
     selectDays: "اختر الأيام",
     uploadFile: "رفع ملف",
+    search: "بحث",
+    reset: "إعادة تعيين",
 
     success: "تمت العملية بنجاح",
     departments: {
@@ -79,6 +86,7 @@ export default {
     students: "الطلاب",
     teachers: "المعلمين",
     classes: "الفصول",
+    system: "النظام",
     logout: "تسجيل الخروج",
   },
   dashboard: {
@@ -327,6 +335,70 @@ export default {
       },
       success: "تم إنشاء الجدول الزمني بنجاح!",
     },
+    addPayment: {
+      title: "إضافة دفعة",
+      description: "تسجيل دفعة مالية لطالب، بما في ذلك المبلغ وطريقة الدفع.",
+      form: {
+        student: "الطالب",
+        selectStudent: "اختر الطالب",
+        amount: "المبلغ",
+        enterAmount: "أدخل المبلغ المدفوع",
+        method: "طريقة الدفع",
+        selectMethod: "اختر طريقة الدفع",
+        methods: {
+          cash: "نقدًا",
+          card: "بطاقة",
+          bank: "تحويل بنكي",
+        },
+        date: "تاريخ الدفع",
+        notes: "ملاحظات",
+        notesPlaceholder: "تفاصيل إضافية حول الدفع",
+      },
+      success: "تمت إضافة الدفعة بنجاح!",
+    },
+    markAttendance: {
+      title: "تسجيل الحضور",
+      description: "تسجيل حضور الطلاب في الصف المحدد.",
+      form: {
+        class: "الصف",
+        selectClass: "اختر صفًا",
+        date: "التاريخ",
+        attendanceList: "قائمة حضور الطلاب",
+        noStudents: "لا يوجد طلاب في هذا الصف.",
+        status: {
+          title: "الحالة",
+          present: "حاضر",
+          absent: "غائب",
+          late: "متأخر",
+        },
+      },
+      success: "تم حفظ الحضور بنجاح!",
+    },
+    viewAttendanceSummary: {
+      title: "ملخص الحضور",
+      description: "عرض إحصائيات الحضور للطلاب.",
+      table: {
+        student: "الطالب",
+        totalDays: "إجمالي الأيام",
+        present: "الحضور",
+        absent: "الغياب",
+      },
+    },
+    attendanceReport: {
+      title: "تقرير الحضور",
+      description: "إنشاء تقارير أداء الحضور للصفوف.",
+      form: {
+        class: "الصف",
+        selectClass: "اختر صفًا",
+      },
+      table: {
+        student: "الطالب",
+        presentDays: "أيام الحضور",
+        absentDays: "أيام الغياب",
+        attendanceRate: "نسبة الحضور",
+      },
+      success: "تم إنشاء تقرير الحضور بنجاح!",
+    },
     // Teacher Ops
     addTeacher: "إضافة معلم",
     addTeacher_desc: "إضافة معلم جديد إلى النظام.",
@@ -347,7 +419,6 @@ export default {
     enterGrades_desc: "إدخال أو تحديث درجات الطلاب.",
 
     // Finance
-    addPayment: "إضافة سجل دفع",
     addPayment_desc: "تسجيل دفعة جديدة من الطالب أو ولي الأمر.",
     generateInvoice: "إنشاء فاتورة",
     generateInvoice_desc: "إنشاء الفواتير للطلاب أو الدورات.",
@@ -355,15 +426,6 @@ export default {
     viewFinanceReports_desc: "عرض التقارير المالية، الملخصات، والتحليلات.",
     exportFinanceData: "تصدير البيانات المالية",
     exportFinanceData_desc: "تصدير البيانات المالية إلى صيغ خارجية.",
-
-    // Attendance
-    markAttendance: "تسجيل الحضور",
-    markAttendance_desc: "تسجيل حضور الطلاب لصف أو جلسة.",
-    viewAttendanceSummary: "عرض ملخص الحضور",
-    viewAttendanceSummary_desc: "عرض ملخص حضور الطلاب أو الصفوف.",
-    attendanceReport: "إنشاء تقرير الحضور",
-    attendanceReport_desc: "إنشاء تقارير مفصلة عن الحضور.",
-
     // System
     manageUsers: "إدارة المستخدمين والصلاحيات",
     manageUsers_desc: "إدارة مستخدمي النظام وصلاحياتهم.",
@@ -375,6 +437,78 @@ export default {
     sendNotifications_desc: "إرسال الإشعارات للمستخدمين أو المجموعات.",
     manageLanguages: "إدارة اللغات / الاتجاه من اليمين لليسار",
     manageLanguages_desc: "إعدادات النظام للغات وتخصيص اتجاه النصوص.",
+    systems: {
+      users: {
+        form: {
+          username: "اسم المستخدم",
+          usernamePlaceholder: "أدخل اسم المستخدم",
+          password: "كلمة المرور",
+          passwordPlaceholder: "أدخل كلمة المرور",
+          name: "الاسم الكامل",
+          namePlaceholder: "أدخل الاسم الكامل",
+          role: "الدور",
+          rolePlaceholder: "اختر الدور",
+        },
+        table: {
+          username: "اسم المستخدم",
+          name: "الاسم",
+          role: "الدور",
+          created: "تاريخ الإنشاء",
+          actions: "الإجراءات",
+        },
+        messages: {
+          created: "تم إنشاء المستخدم بنجاح",
+          createError: "خطأ في إنشاء المستخدم",
+          deleted: "تم حذف المستخدم بنجاح",
+          statusUpdated: "تم تحديث حالة المستخدم",
+        },
+        roles: {
+          admin: "مدير النظام",
+          user: "مستخدم",
+          staff: "موظف",
+        },
+        validations: {
+          required: "هذا الحقل مطلوب",
+          passwordMin: "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+        },
+      },
+      systemSettings: {
+        title: "إعدادات النظام",
+        registrationEnabled: "السماح بالتسجيل الذاتي",
+        maintenanceMode: "وضع الصيانة",
+        updated: "تم تحديث إعدادات النظام",
+      },
+      roles: {
+        title: "الأدوار والصلاحيات",
+        add: "إضافة دور",
+        added: "تمت إضافة الدور",
+        removed: "تمت إزالة الدور",
+        exists: "الدور موجود بالفعل",
+        promptNewRole: "أدخل اسم الدور الجديد",
+        noPermissions: "لا توجد صلاحيات",
+      },
+      audit: {
+        title: "سجلات التدقيق",
+        reload: "إعادة تحميل السجلات",
+        noLogs: "لا توجد سجلات تدقيق",
+        reloaded: "تم إعادة تحميل السجلات",
+        columns: {
+          when: "الوقت",
+          message: "الرسالة",
+        },
+        logReloaded: "تم تحديث السجلات",
+      },
+      maintenance: {
+        title: "الصيانة",
+        clearCache: "مسح الذاكرة المؤقتة",
+        reindex: "إعادة فهرسة",
+        runMigrations: "تشغيل الترحيلات",
+        clearing: "جارٍ مسح الذاكرة المؤقتة...",
+        migrationsRunning: "جارٍ تشغيل الترحيلات...",
+        reindexing: "جارٍ إعادة الفهرسة...",
+        done: "اكتملت مهمة الصيانة",
+      },
+    },
   },
   students: {
     addStudentTitle: "إضافة طالب",

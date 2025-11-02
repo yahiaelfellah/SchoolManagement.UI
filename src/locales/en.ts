@@ -1,6 +1,10 @@
 export default {
   common: {
     add: "Add",
+    apply: "Apply",
+    startSync: "Start Sync",
+    startBackup: "Start Backup",
+    stopSync: "Stop Sync",
     edit: "Edit",
     delete: "Delete",
     cancel: "Cancel",
@@ -9,6 +13,7 @@ export default {
     previous: "Previous",
     submit: "Submit",
     select: "Select",
+    name: "Name",
     remove: "Remove",
     enterAmount: "Enter Amount",
     loading: "Loading...",
@@ -30,6 +35,8 @@ export default {
     selectGrade: "Select Grade",
     selectTeacher: "Select Teacher",
     selectDays: "Select Days",
+    search: "Search",
+    reset: "Reset",
 
     success: "Operation completed successfully",
     departments: {
@@ -49,7 +56,7 @@ export default {
       wednesday: "Wednesday",
       thursday: "Thursday",
       friday: "Friday",
-      saturday: "Saturday", 
+      saturday: "Saturday",
     },
     calendar: {
       monthly: "Monthly View",
@@ -67,6 +74,7 @@ export default {
     students: "Students",
     teachers: "Teachers",
     classes: "Classes",
+    system: "System",
     logout: "Logout",
   },
   dashboard: {
@@ -337,9 +345,71 @@ export default {
       },
       success: "Timetable generated successfully!",
     },
-
-    // Student Ops
-
+    addPayment: {
+      title: "Add Payment",
+      description:
+        "Record a payment for a student, including amount and method.",
+      form: {
+        student: "Student",
+        selectStudent: "Select a student",
+        amount: "Amount",
+        enterAmount: "Enter payment amount",
+        method: "Payment Method",
+        selectMethod: "Select a payment method",
+        methods: {
+          cash: "Cash",
+          card: "Card",
+          bank: "Bank Transfer",
+        },
+        date: "Payment Date",
+        notes: "Notes",
+        notesPlaceholder: "Additional payment details",
+      },
+      success: "Payment added successfully!",
+    },
+    markAttendance: {
+      title: "Mark Attendance",
+      description: "Record attendance for students in a selected class.",
+      form: {
+        class: "Class",
+        selectClass: "Select a class",
+        date: "Date",
+        attendanceList: "Student Attendance List",
+        noStudents: "No students found for this class.",
+        status: {
+          title: "Status",
+          present: "Present",
+          absent: "Absent",
+          late: "Late",
+        },
+      },
+      success: "Attendance saved successfully!",
+    },
+    viewAttendanceSummary: {
+      title: "Attendance Summary",
+      description: "View attendance statistics for students.",
+      table: {
+        student: "Student",
+        totalDays: "Total Days",
+        present: "Present",
+        absent: "Absent",
+      },
+    },
+    attendanceReport: {
+      title: "Attendance Report",
+      description: "Generate attendance performance reports for classes.",
+      form: {
+        class: "Class",
+        selectClass: "Select a class",
+      },
+      table: {
+        student: "Student",
+        presentDays: "Days Present",
+        absentDays: "Days Absent",
+        attendanceRate: "Attendance Rate",
+      },
+      success: "Attendance report generated!",
+    },
     // Teacher Ops
     addTeacher: "Add Teacher",
     addTeacher_desc: "Add a new teacher to the system.",
@@ -361,8 +431,6 @@ export default {
     enterGrades_desc: "Enter or update student grades for subjects.",
 
     // Finance
-    addPayment: "Add Payment Record",
-    addPayment_desc: "Record a new payment from a student or guardian.",
     generateInvoice: "Generate Invoice",
     generateInvoice_desc: "Generate invoices for students or courses.",
     viewFinanceReports: "View Financial Reports",
@@ -370,15 +438,6 @@ export default {
       "View financial reports, summaries, and analytics.",
     exportFinanceData: "Export Finance Data",
     exportFinanceData_desc: "Export finance-related data to external formats.",
-
-    // Attendance
-    markAttendance: "Mark Attendance",
-    markAttendance_desc: "Mark student attendance for a class or session.",
-    viewAttendanceSummary: "View Attendance Summary",
-    viewAttendanceSummary_desc:
-      "View a summary of attendance for students or classes.",
-    attendanceReport: "Generate Attendance Report",
-    attendanceReport_desc: "Generate detailed attendance reports.",
 
     // System
     manageUsers: "Manage Users & Roles",
@@ -393,6 +452,93 @@ export default {
     manageLanguages: "Manage Languages / RTL",
     manageLanguages_desc:
       "Configure system languages and localization settings.",
+    systems: {
+      users: {
+        form: {
+          username: "Username",
+          usernamePlaceholder: "Enter username",
+          password: "Password",
+          passwordPlaceholder: "Enter password",
+          name: "Full Name",
+          namePlaceholder: "Enter full name",
+          role: "Role",
+          rolePlaceholder: "Select role",
+        },
+        table: {
+          username: "Username",
+          name: "Name",
+          role: "Role",
+          created: "Created Date",
+          actions: "Actions",
+        },
+        messages: {
+          created: "User created successfully",
+          createError: "Error creating user",
+          deleted: "User deleted successfully",
+          statusUpdated: "User status updated",
+        },
+        roles: {
+          admin: "Administrator",
+          user: "User",
+          staff: "Staff Member",
+        },
+        validations: {
+          required: "This field is required",
+          passwordMin: "Password must be at least 6 characters",
+        },
+      },
+      systemSettings: {
+        title: "System Settings",
+        registrationEnabled: "Allow self-registration",
+        maintenanceMode: "Maintenance mode",
+        updated: "System settings updated",
+      },
+      roles: {
+        title: "Roles & Permissions",
+        add: "Add Role",
+        added: "Role added",
+        removed: "Role removed",
+        exists: "Role already exists",
+        promptNewRole: "Enter new role name",
+        noPermissions: "No permissions assigned",
+      },
+      audit: {
+        title: "Audit Logs",
+        reload: "Reload Logs",
+        noLogs: "No audit logs available",
+        reloaded: "Logs reloaded",
+        columns: {
+          when: "When",
+          message: "Message",
+        },
+        logReloaded: "Logs refreshed",
+      },
+      maintenance: {
+        title: "Maintenance",
+        clearCache: "Clear Cache",
+        reindex: "Reindex",
+        runMigrations: "Run Migrations",
+        clearing: "Clearing cache...",
+        migrationsRunning: "Running migrations...",
+        reindexing: "Reindexing...",
+        done: "Maintenance task completed",
+      },
+    },
+    backupData: {
+      inProgress: "Backup in progress...",
+      done: "Backup completed successfully",
+    },
+    syncData: {
+      inProgress: "Sync in progress...",
+      done: "Synchronization completed",
+    },
+    // Add the specific keys referenced by the component
+    backupData_inProgress: "Backup in progress...",
+    backupData_done: "Backup completed successfully",
+    syncData_inProgress: "Sync in progress...",
+    syncData_done: "Synchronization completed",
+    manageLanguages_select: "Select language",
+    manageLanguages_changed: "Language changed",
   },
   students: {
     addStudentTitle: "Add Student",

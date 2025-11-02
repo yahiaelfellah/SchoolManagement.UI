@@ -1,16 +1,24 @@
 <template>
   <div class="operations-container">
-    <h2 class="page-title">
+    <!-- <h2 class="page-title">
       {{ t('operations.title') }}
-    </h2>
+    </h2> -->
+
+    <!-- modern filter card -->
+
+    <Filter
+      :filters="filters"
+      @search="onSearch"
+      @reset="onReset"
+    />
 
     <a-tabs
       v-model:active-key="activeKey"
       :tab-position="mode"
-      :style="{ height: '200px' }"
+      class="operations-tabs"
     >
       <a-tab-pane
-        v-for="(group, groupIndex) in store.evaluatedGroups"
+        v-for="(group, groupIndex) in filteredGroups"
         :key="groupIndex"
         :tab="t(group.title)"
       >
@@ -28,11 +36,14 @@
 </template>
 
 <script setup lang="ts">
+// filepath: d:\Project\SchoolManagementSystem\schoolmanagementsystem.client\src\views\Operations\Operations.vue
 import { useI18n } from 'vue-i18n'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { type TabsProps } from 'ant-design-vue'
 import OperationCard from '@/components/Operations/OperationCard.vue'
 import { useOperationsStore } from '@/store/operations'
+import Filter from '@/components/Filter.vue'
+import { SearchOutlined } from '@ant-design/icons-vue'
 
 const { t } = useI18n()
 const activeKey = ref(0)
@@ -45,6 +56,32 @@ onMounted(async () => {
   await store.fetchFeatureStates()
 })
 
+// local filters + computed filteredGroups + handlers
+const filters = ref({ query: '' } as Record<string, string>)
+
+const filteredGroups = computed(() => {
+  const q = (filters.value.query || '').toString().trim().toLowerCase()
+  if (!q) return store.evaluatedGroups
+
+  return store.evaluatedGroups
+    .map(group => ({
+      ...group,
+      items: (group.items || []).filter((op: any) => {
+        const title = (t(op.title) || op.title || '').toString().toLowerCase()
+        return title.includes(q)
+      })
+    }))
+    .filter((g: any) => Array.isArray(g.items) && g.items.length > 0)
+})
+
+const onSearch = (payload: Record<string, string>) => {
+  filters.value.query = (payload.query ?? '').toString()
+}
+
+const onReset = () => {
+  filters.value.query = ''
+}
+
 const handleCardClick = (key: string) => {
   store.navigateToOperation(key)
 }
@@ -54,64 +91,78 @@ const handleCardClick = (key: string) => {
 .operations-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.operation-group {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.group-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  border-bottom: 2px solid var(--ant-primary-color, #1677ff);
-  display: inline-block;
-  padding-bottom: 4px;
-}
-
-.operations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
 }
 
-.operation-card {
-  text-align: center;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  cursor: pointer;
+/* header */
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ant-primary-color, #0d47a1);
 }
 
-.operation-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+/* filter card */
+.filter-wrapper {
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
-
-.card-content {
+.filter-title {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 28px 0;
+  gap: 8px;
+  font-weight: 600;
+}
+.filter-icon {
+  font-size: 16px;
+  color: var(--ant-primary-color, #0d47a1);
+}
+
+/* tabs */
+.operations-tabs >>> .ant-tabs-nav {
+  margin-bottom: 8px;
+}
+
+/* grid and cards */
+.operations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+/* fallback styles if OperationCard does not style itself */
+.operation-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(3, 0, 71, 0.04);
+}
+.operation-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(3, 0, 71, 0.08);
 }
 
 .card-icon {
-  font-size: 34px;
-  color: var(--ant-primary-color, #1677ff);
-  margin-bottom: 10px;
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(13,71,161,0.08), rgba(13,71,161,0.02));
+  font-size: 24px;
+  color: var(--ant-primary-color, #0d47a1);
+  margin-bottom: 12px;
 }
 
 .card-title {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
 }
 </style>

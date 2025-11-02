@@ -23,33 +23,36 @@ const routes: RouteRecordRaw[] = [
       { path: "/students", component: () => import("@/views/Students.vue") },
       { path: "/teachers", component: () => import("@/views/Teachers.vue") },
       { path: "/classes", component: () => import("@/views/Teachers.vue") },
+        {path:"/systems",component:()=>import("@/views/ManageSystem.vue"),},
       {
         path: "/operations/:type/add",
         name: "AddEntity",
         component: () => import("@/views/operations/AddEntity.vue"),
       },
-            {
+      {
         path: "/operations/:type/assign",
         name: "AssignEntity",
         component: () => import("@/views/operations/AssignEntity.vue"),
       },
-                  {
+      {
         path: "/operations/generateTimetable",
         name: "GenerateTimetable",
         component: () => import("@/views/operations/GenerateTimetable.vue"),
       },
       {
-        path: "/operations/enrollStudent",
+        path: "/operations/students/enroll",
+        name: "EnrollStudent",
+
         component: () => import("@/views/Operations/EnrollStudent.vue"),
       },
       {
-        path: "/operations/upload/:type",
+        path: "/operations/:type/upload",
         name: "uploadDocuments",
         component: () => import("@/views/Operations/UploadDocuments.vue"),
         props: true,
       },
       {
-        path: "/operations/deleteOrarchive",
+        path: "/operations/:type/delete",
         name: "deleteOrarchive",
         component: () => import("@/views/Operations/DeleteOrArchive.vue"),
         props: true,
@@ -58,6 +61,30 @@ const routes: RouteRecordRaw[] = [
         path: "/operations/setCalendar",
         name: "setCalendar",
         component: () => import("@/views/Operations/SetCalendar.vue"),
+        props: true,
+      },
+      {
+        path: "/operations/addPayment",
+        name: "addPayment",
+        component: () => import("@/views/Operations/AddPayment.vue"),
+        props: true,
+      },
+      {
+        path: "/operations/markAttendance",
+        name: "markAttendance",
+        component: () => import("@/views/Operations/MarkAttendance.vue"),
+        props: true,
+      },
+            {
+        path: "/operations/attendanceReport",
+        name: "attendanceReport",
+        component: () => import("@/views/Operations/AttendanceReport.vue"),
+        props: true,
+      },
+        {
+        path: "/operations/viewAttendanceSummary",
+        name: "viewAttendanceSummary",
+        component: () => import("@/views/Operations/ViewAttendanceSummary.vue"),
         props: true,
       },
     ],
