@@ -19,6 +19,8 @@ export default {
     loading: "Loading...",
     noResults: "No results found",
     documents: "Documents",
+    download: "Download",
+    viewDetails: "View Details",
     uploadFiles: "Upload Files",
     invalidFileType: "Only image, PDF, or Word files are allowed.",
     uploadsuccess: "files uploaded successfully!",
@@ -213,6 +215,42 @@ export default {
         form: {
           selectLabel: "Select Student",
           selectPlaceholder: "Search student...",
+        },
+      },
+      view: {
+        title: "All Students",
+        description: "View, filter, and manage all enrolled students.",
+        table: {
+          fullName: "Full Name",
+          class: "Class",
+          attendance: "Attendance",
+          enrolledSince: "Enrolled Since",
+          actions: "Actions",
+        },
+      },
+      details: {
+        title: "Student Details",
+        description:
+          "View complete profile and records for the selected student.",
+        sections: {
+          basicInfo: "Student Information",
+          guardian: "Guardian Information",
+          classInfo: "Class Information",
+          payments: "Payment History",
+        },
+        fields: {
+          fullName: "Full Name",
+          gender: "Gender",
+          age: "Age",
+          enrolledSince: "Enrolled Since",
+          status: "Status",
+          guardianName: "Guardian Name",
+          relationship: "Relationship",
+          phone: "Phone",
+          email: "Email",
+          currentClass: "Current Class",
+          homeroomTeacher: "Homeroom Teacher",
+          previousClasses: "Previous Classes",
         },
       },
 

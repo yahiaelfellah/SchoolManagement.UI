@@ -1,6 +1,5 @@
 <template>
   <div class="operations-container">
-
     <Filter
       :filters="filters"
       @search="onSearch"

@@ -16,6 +16,7 @@ export default {
     select: "اختر",
     remove: "إزالة",
     generate: "إنشاء",
+    viewDetails: "عرض التفاصيل",
     enterAmount: "أدخل المبلغ",
     noResults: "لم يتم العثور على نتائج",
     loading: "جارٍ التحميل...",
@@ -204,9 +205,17 @@ export default {
           selectPlaceholder: "ابحث عن طالب...",
         },
       },
-
-      viewStudent: "عرض تفاصيل الطالب",
-      viewStudent_desc: "عرض معلومات مفصلة عن الطالب.",
+      view:{
+        title: "عرض تفاصيل الطالب",
+        description: "عرض المعلومات الشخصية والأكاديمية والمالية للطالب.",
+        table:{
+            fullName: "الاسم الكامل",
+            class: "الصف",
+            attendance: "الحضور",
+            enrolledSince: "مسجل منذ",
+            actions: "الإجراءات",
+        }
+      },
       promoteStudent: "ترقية طالب",
       promoteStudent_desc: "ترقية الطالب إلى الصف أو المستوى التالي.",
       removeStudent: "حذف / أرشفة طالب",

@@ -17,3 +17,5 @@ export async function setI18nLocale(locale: LocaleType) {
   document.dir = locale === 'ar' ? 'rtl' : 'ltr'
   localStorage.setItem('locale', locale)
 }
+
+export type { LocaleType }
