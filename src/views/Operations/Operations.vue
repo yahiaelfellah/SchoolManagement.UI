@@ -34,7 +34,7 @@ import { useI18n } from 'vue-i18n'
 import { ref, onMounted, computed } from 'vue'
 import { type TabsProps } from 'ant-design-vue'
 import OperationCard from '@/components/Operations/OperationCard.vue'
-import { useOperationsStore } from '@/store/operations'
+import { useOperationsStore } from '@/stores/operations'
 import Filter from '@/components/Filter.vue'
 
 const { t } = useI18n()

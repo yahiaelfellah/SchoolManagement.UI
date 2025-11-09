@@ -102,7 +102,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useDialogStore } from '@/store/operationsDialog'
+import { useDialogStore } from '@/stores/operationsDialog'
 import { useLocalI18n } from '@/helpers/useLocalI18n'
 import type Student from '@/model/student'
 import type Class from '@/model/class'

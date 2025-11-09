@@ -41,8 +41,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '../store/settings'
-import { useAuthStore } from '../store/auth'
+import { useSettingsStore } from '../stores/settings'
+import { useAuthStore } from '../stores/auth'
 import SideNav from '@/components/Sidenav.vue'
 import FooterBar from '@/components/Footer.vue'
 

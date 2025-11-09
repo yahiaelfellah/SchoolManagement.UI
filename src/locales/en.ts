@@ -220,13 +220,6 @@ export default {
       view: {
         title: "All Students",
         description: "View, filter, and manage all enrolled students.",
-        table: {
-          fullName: "Full Name",
-          class: "Class",
-          attendance: "Attendance",
-          enrolledSince: "Enrolled Since",
-          actions: "Actions",
-        },
       },
       details: {
         title: "Student Details",
@@ -311,6 +304,10 @@ export default {
           selectTarget: "Select subjects",
         },
       },
+      view: { 
+        title: "All Teachers",
+        description: "View, filter, and manage all teachers in the system.",
+      }
     },
 
     classes: {

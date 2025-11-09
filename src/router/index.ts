@@ -4,7 +4,7 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import DashboardLayout from "../layouts/Dashboard.vue";
-import { useAuthStore } from "../store/auth";
+import { useAuthStore } from "../stores/auth";
 
 const routes: RouteRecordRaw[] = [
   { path: "/login", component: () => import("@/views/Login.vue") },

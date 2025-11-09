@@ -59,10 +59,10 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '../store/auth'
+import { useAuthStore } from '../stores/auth'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '../store/settings'
+import { useSettingsStore } from '../stores/settings'
 import { message } from 'ant-design-vue'
 
 const auth = useAuthStore()

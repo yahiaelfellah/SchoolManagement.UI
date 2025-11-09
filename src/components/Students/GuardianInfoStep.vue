@@ -97,6 +97,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue' // Import onMounted
 import { useI18n } from 'vue-i18n'
+import { useGuardianStore } from '@/stores/guardianStore' // new store import
 
 const { t } = useI18n()
 const tf = (key: string, params?: Record<string, any>) => 
@@ -104,25 +105,19 @@ const tf = (key: string, params?: Record<string, any>) =>
          : t(`operations.students.add.form.${key}`)
 
 const props = defineProps<{ form: any }>()
-
+const guardianStore = useGuardianStore()
 // Create the first guardian on mount
 onMounted(() => {
-  props.form.guardians = []
+  // ensure form.guardians is an array and has at least one guardian
+  if (!Array.isArray(props.form.guardians)) props.form.guardians = []
   if (props.form.guardians.length === 0) {
-    addGuardian() // Call addGuardian to create the first guardian
+    props.form.guardians.push(guardianStore.createGuardian())
   }
 })
 
 // Add new guardian
 const addGuardian = () => {
-  props.form.guardians.push({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    relation: '',
-    address: '',
-    isPrimary: false,
-  })
+  props.form.guardians.push(guardianStore.createGuardian())
 }
 
 // Remove guardian

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDialogStore } from '@/store/operationsDialog'
+import { useDialogStore } from '@/stores/operationsDialog'
 // import AddStudentDialog from '@/components/Students/AddStudentDialog.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
