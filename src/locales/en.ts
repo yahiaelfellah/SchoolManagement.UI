@@ -237,6 +237,7 @@ export default {
           guardian: "Guardian Information",
           classInfo: "Class Information",
           payments: "Payment History",
+          documents: "Documents",
         },
         fields: {
           fullName: "Full Name",

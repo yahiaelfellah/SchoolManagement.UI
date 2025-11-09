@@ -4,113 +4,107 @@
       :title="tl('title')"
       :sub-title="tl('description')"
     />
-    <!-- 🔍 Filter -->
+
+    <!-- Filter component -->
     <Filter
       :filters="{ searchTerm }"
       @search="handleSearch"
       @reset="resetFilters"
     />
 
+    <!-- List layout with avatar, meta and actions -->
+    <a-card class="mt-4">
+      <a-list
+        item-layout="horizontal"
+        :data-source="filteredStudents"
+        :pagination="{ pageSize: 8 }"
+        :loading="store.loading"
+      >
+        <template #renderItem="{ item }">
+          <a-list-item :key="item.id">
+            <a-list-item-meta>
+              <template #avatar>
+                <a-avatar :src="avatarFor(item)" />
+              </template>
+              <template #title>
+                {{ item.firstName }} {{ item.lastName }}
+              </template>
+              <template #description>
+                Class: {{ item.className }} • Enrolled: {{ item.enrolledSince }}
+              </template>
+            </a-list-item-meta>
 
-    <!-- 🧾 Students Table -->
-    <a-table
-      :data-source="filteredStudents"
-      :columns="columns"
-      row-key="id"
-      :loading="loading"
-      :pagination="{ pageSize: 8 }"
-    >
-      <template #bodyCell="{ column, record }">
-        <!-- Attendance Tag -->
-        <template v-if="column.key === 'attendance'">
-          <a-tag :color="getAttendanceColor(record.attendance)">
-            {{ record.attendance }}
-          </a-tag>
-        </template>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <!-- <a-tag :color="getAttendanceColor(item.attendance)">
+                {{ item.attendance }}
+              </a-tag> -->
+              <a-button
+                type="link"
+                @click.stop="viewStudentDetails(item)"
+              >
+                {{ t('common.viewDetails') }}
+              </a-button>
 
-        <!-- Full Name -->
-        <template v-else-if="column.key === 'fullName'">
-          {{ record.firstName }} {{ record.lastName }}
+              <!-- Delete action: open modal -->
+              <a-button danger @click.stop="openDeleteModal(item)">
+                <template #icon><DeleteOutlined /></template>
+              </a-button>
+            </div>
+          </a-list-item>
         </template>
-        <template v-else-if="column.key === 'action'">
-          <a-button
-            type="link" 
-            @click.stop="viewStudentDetails(record)"
-          >
-            {{ t('common.viewDetails') }}
-          </a-button>
-        </template>
-      </template>
-    </a-table>
+      </a-list>
 
-    <!-- Empty state -->
-    <div
-      v-if="!filteredStudents.length && !loading"
-      class="empty-state"
-    >
-      {{ t('common.noResults') }}
-    </div>
+      <!-- Delete confirmation modal -->
+      <a-modal
+        v-model:visible="deleteModalVisible"
+        title="Confirm deletion"
+        ok-text="Delete"
+        ok-type="danger"
+        @ok="confirmDelete"
+        @cancel="cancelDelete"
+      >
+        <p>Are you sure you want to delete <strong>{{ deleteTargetName }}</strong>?</p>
+      </a-modal>
+
+      <div v-if="!filteredStudents.length && !store.loading" class="empty-state">
+        {{ t('common.noResults') }}
+      </div>
+    </a-card>
   </div>
 </template>
 
 <script setup lang="ts">
+// filepath: d:\Project\SchoolManagementSystem\schoolmanagementsystem.client\src\views\Students.vue
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useLocalI18n } from '@/helpers/useLocalI18n'
-
-interface Student {
-  id: number
-  firstName: string
-  lastName: string
-  className: string
-  enrolledSince: string
-  attendance: 'Present' | 'Absent' | 'Late'
-}
+import { DeleteOutlined } from '@ant-design/icons-vue'
+import Filter from '@/components/Filter.vue'
+import { useStudentStore } from '@/stores/studentStore' // <--- use the new store
 
 const { t, tl } = useLocalI18n('operations.students.view')
 const router = useRouter()
 
 // ---------- STATE ----------
-const loading = ref(false)
-const students = ref<Student[]>([])
+const store = useStudentStore()
 const searchTerm = ref('')
 
-// ---------- MOCK API ----------
-const mockApi = {
-  async getStudents(): Promise<Student[]> {
-    await new Promise(r => setTimeout(r, 700))
-    return [
-      { id: 1, firstName: 'Ali', lastName: 'Ahmed', className: 'Grade 1', enrolledSince: '2023-09-01', attendance: 'Present' },
-      { id: 2, firstName: 'Sara', lastName: 'Mohamed', className: 'Grade 2', enrolledSince: '2022-09-01', attendance: 'Absent' },
-      { id: 3, firstName: 'Omar', lastName: 'Hassan', className: 'Grade 1', enrolledSince: '2023-02-15', attendance: 'Late' },
-      { id: 4, firstName: 'Layla', lastName: 'Khaled', className: 'Math Advanced', enrolledSince: '2024-01-10', attendance: 'Present' },
-      { id: 5, firstName: 'Hassan', lastName: 'Ali', className: 'Science', enrolledSince: '2022-06-01', attendance: 'Present' },
-      { id: 6, firstName: 'Noura', lastName: 'Yassin', className: 'Grade 2', enrolledSince: '2023-04-20', attendance: 'Absent' },
-      { id: 7, firstName: 'Fatima', lastName: 'Hassan', className: 'Grade 3', enrolledSince: '2024-02-01', attendance: 'Late' }
-    ]
-  }
-}
+// modal state for deletion
+const deleteModalVisible = ref(false)
+const deleteTargetId = ref<number | null>(null)
+const deleteTargetName = ref('')
 
 // ---------- LIFECYCLE ----------
 onMounted(async () => {
-  loading.value = true
-  try {
-    students.value = await mockApi.getStudents()
-  } catch (err) {
-    console.error(err)
-    message.error(t('common.error'))
-  } finally {
-    loading.value = false
-  }
+  await store.fetchStudents() // fetch from store's mocked API
 })
 
 // ---------- FILTERING ----------
-// Update filtering logic to use the search term from the Filter component
 const filteredStudents = computed(() => {
   const term = searchTerm.value.toLowerCase().trim()
-  if (!term) return students.value
-  return students.value.filter(s =>
+  if (!term) return store.students
+  return store.students.filter(s =>
     `${s.firstName} ${s.lastName}`.toLowerCase().includes(term) ||
     s.className.toLowerCase().includes(term)
   )
@@ -125,50 +119,46 @@ const resetFilters = () => {
 }
 
 // ---------- ACTIONS ----------
-const viewStudentDetails = (record: Student) => {
+const viewStudentDetails = (record: any) => {
   router.push(`/students/${record.id}`)
 }
 
-// ---------- HELPERS ----------
-const getAttendanceColor = (status: string) => {
-  switch (status) {
-    case 'Present': return 'green'
-    case 'Absent': return 'red'
-    case 'Late': return 'orange'
-    default: return 'default'
-  }
+// open modal with selected student
+const openDeleteModal = (item: any) => {
+  deleteTargetId.value = item.id
+  deleteTargetName.value = `${item.firstName} ${item.lastName}`
+  deleteModalVisible.value = true
 }
 
-// ---------- TABLE COLUMNS ----------
-const columns = [
-  {
-    title: tl('table.fullName'),
-    key: 'fullName',
-    sorter: (a: Student, b: Student) => a.firstName.localeCompare(b.firstName)
-  },
-  {
-    title: tl('table.class'),
-    dataIndex: 'className',
-    key: 'className',
-    sorter: (a: Student, b: Student) => a.className.localeCompare(b.className)
-  },
-  {
-    title: tl('table.enrolledSince'),
-    dataIndex: 'enrolledSince',
-    key: 'enrolledSince',
-    sorter: (a: Student, b: Student) =>
-      new Date(a.enrolledSince).getTime() - new Date(b.enrolledSince).getTime()
-  },
-  {
-    title: tl('table.attendance'),
-    dataIndex: 'attendance',
-    key: 'attendance',
-    sorter: (a: Student, b: Student) => a.attendance.localeCompare(b.attendance)
-  },  {
-    title: 'Action',
-    key: 'action',
-  },
-]
+const confirmDelete = () => {
+  if (deleteTargetId.value !== null) {
+    deleteStudent(deleteTargetId.value)
+  }
+  deleteModalVisible.value = false
+  deleteTargetId.value = null
+  deleteTargetName.value = ''
+}
+
+const cancelDelete = () => {
+  deleteModalVisible.value = false
+  deleteTargetId.value = null
+  deleteTargetName.value = ''
+}
+
+// delete student locally with confirmation - delegate to store
+const deleteStudent = (id: number) => {
+  const idx = store.students.findIndex((s: any) => s.id === id)
+  if (idx === -1) {
+    message.error(t('common.error'))
+    return
+  }
+  store.deleteStudent(id)
+  message.success(t('common.deleted') || 'Student deleted')
+}
+
+// ---------- HELPERS ----------
+const avatarFor = (s: any) =>
+  `https://ui-avatars.com/api/?name=${encodeURIComponent(s.firstName + ' ' + s.lastName)}&background=1677ff&color=fff&size=64`
 </script>
 
 <style scoped>
@@ -178,16 +168,8 @@ const columns = [
   padding: 24px;
 }
 
-.filter-bar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-.ant-table-row:hover {
-  cursor: pointer;
-  background-color: #fafafa !important;
-  transition: background 0.3s;
+.mt-4 {
+  margin-top: 16px;
 }
 
 .empty-state {
