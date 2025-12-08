@@ -24,6 +24,7 @@ export default {
     uploadFiles: "Upload Files",
     invalidFileType: "Only image, PDF, or Word files are allowed.",
     uploadsuccess: "files uploaded successfully!",
+    save: "Save",
     generate: "Generate",
     validations: {
       required: "This field is required",
@@ -231,6 +232,7 @@ export default {
           classInfo: "Class Information",
           payments: "Payment History",
           documents: "Documents",
+          academicInfo: "Academic Information",
         },
         fields: {
           fullName: "Full Name",

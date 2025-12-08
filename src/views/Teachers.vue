@@ -47,8 +47,13 @@
               </a-button>
 
               <!-- Delete action: open modal -->
-              <a-button danger @click.stop="openDeleteModal(item)">
-                <template #icon><DeleteOutlined /></template>
+              <a-button
+                danger
+                @click.stop="openDeleteModal(item)"
+              >
+                <template #icon>
+                  <DeleteOutlined />
+                </template>
               </a-button>
             </div>
           </a-list-item>
@@ -67,7 +72,10 @@
         <p>Are you sure you want to delete <strong>{{ deleteTargetName }}</strong>?</p>
       </a-modal>
 
-      <div v-if="!filteredTeachers.length && !store.loading" class="empty-state">
+      <div
+        v-if="!filteredTeachers.length && !store.loading"
+        class="empty-state"
+      >
         {{ t('common.noResults') }}
       </div>
     </a-card>

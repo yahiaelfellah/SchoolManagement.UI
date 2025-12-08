@@ -40,6 +40,13 @@ export default {
     search: "بحث",
     reset: "إعادة تعيين",
 
+    // Added/ synced keys
+    error: "حدث خطأ. الرجاء المحاولة مرة أخرى.",
+    deleted: "تم الحذف بنجاح.",
+    invalidId: "معرّف غير صالح.",
+    download: "تحميل",
+    searchPlaceholder: "ابحث...",
+
     success: "تمت العملية بنجاح",
     departments: {
       math: "الرياضيات",

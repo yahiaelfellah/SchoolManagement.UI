@@ -4,19 +4,12 @@
       :loading="loading"
       active
     >
-      <div
-        v-if="student"
-        class="flex gap-4 items-center"
-      >
+      <div v-if="student">
         <a-avatar
           size="large"
           src="https://cdn-icons-png.flaticon.com/512/219/219970.png"
         />
-        <div
-          style="  display: flex;
-                                justify-content: space-between;
-    align-items: center;"
-        >
+        <div class="flex justify-between items-center w-full">
           <div>
             <h3 class="font-semibold text-lg">
               {{ student.fullName }}
@@ -25,87 +18,102 @@
               {{ student.currentClass }}
             </p>
           </div>
-
-          <a-tag :color="student.status === 'Active' ? 'green' : 'red'">
-            {{ student.status }}
-          </a-tag>
+          <a-badge
+            :status="student.status === 'Active' ? 'processing' : 'red'"
+            :text="student.status"
+          />
         </div>
       </div>
 
       <a-divider />
 
-      <a-descriptions
+      <a-list
         v-if="student"
-        size="small"
-        :column="1"
-        bordered
+        item-layout="horizontal"
+        :data-source="infoList"
+        class="info-list"
       >
-        <a-descriptions-item label="Gender">
-          {{ student.gender }}
-        </a-descriptions-item>
-        <a-descriptions-item label="Age">
-          {{ student.age }}
-        </a-descriptions-item>
-        <a-descriptions-item label="Enrolled Since">
-          {{ student.enrolledSince }}
-        </a-descriptions-item>
-        <a-descriptions-item label="Homeroom Teacher">
-          {{ student.homeroomTeacher }}
-        </a-descriptions-item>
-      </a-descriptions>
+        <template #renderItem="{ item }">
+          <a-list-item>
+            <a-list-item-meta
+              :title="item.label"
+            />
+            <div class="text-gray-500">
+              {{ item.value }}
+            </div>
+          </a-list-item>
+        </template>
+      </a-list>
     </a-skeleton>
+
     <div
       v-if="invalidId"
-      class="text-red-500"
+      class="text-red-500 text-center mt-2"
     >
-      Invalid student id
+      Invalid student ID
     </div>
   </a-card>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
+import { useStudentStore } from '@/stores/studentStore'
 
-const props = defineProps<{ studentId?: number, title?: string }>();
-const student = ref<any | null>(null);
-const loading = ref(false);
-const invalidId = ref(false);
+const props = defineProps<{ studentId?: number; title?: string }>()
+const store = useStudentStore()
 
-// mock fetch for student details (local to component)
-async function fetchStudent(id?: number) {
-    if (!id || Number.isNaN(id) || id <= 0) {
-        invalidId.value = true
-        student.value = null
-        return
+// 🧭 Lifecycle
+onMounted(() => store.fetchStudent(props.studentId))
+watch(() => props.studentId, (v) => store.fetchStudent(v))
+
+// 🔄 Store state
+const student = computed(() => store.student)
+const loading = computed(() => store.loading)
+const invalidId = computed(() => store.invalidId)
+
+// 🧠 Computed info list for rendering
+const infoList = computed(() => {
+  if (!student.value) return []
+  return [
+    { label: 'Gender', value: student.value.gender },
+    { label: 'Date of Birth', value: student.value.dateOfBirth },
+    { label: 'Age', value: `${student.value.age} years` },
+    { label: 'Enrolled Since', value: student.value.enrolledSince },
+    { label: 'Homeroom Teacher', value: student.value.homeroomTeacher },
+    { label: 'Address', value: student.value.address },
+    {
+      label: 'Special Needs',
+      value: student.value.specialNeeds?.length
+        ? student.value.specialNeeds.join(', ')
+        : 'None'
+    },
+    {
+      label: 'Emergency Contact',
+      value: `${student.value.emergencyContact.name} (${student.value.emergencyContact.relationship}) — ${student.value.emergencyContact.phone}`
+    },
+    {
+      label: 'Medical Conditions',
+      value: student.value.medicalConditions?.length
+        ? student.value.medicalConditions.join(', ')
+        : 'No known conditions'
     }
-    invalidId.value = false
-    loading.value = true
-    // simulate network delay
-    await new Promise(r => setTimeout(r, 500))
-    student.value = {
-        id,
-        fullName: 'Ali Ahmed',
-        gender: 'Male',
-        age: 14,
-        enrolledSince: '2022-09-01',
-        status: 'Active',
-        currentClass: 'Grade 2',
-        homeroomTeacher: 'Mr. Saleh'
-    }
-    loading.value = false
-}
-
-onMounted(() => fetchStudent(props.studentId))
-watch(() => props.studentId, (v) => fetchStudent(v))
+  ]
+})
 </script>
 
 <style scoped>
 .card {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-
 .text-gray-500 {
-    color: #888;
+  color: #888;
+}
+.info-list :deep(.ant-list-item-meta-title) {
+  font-weight: 600;
+  color: #333;
+}
+.info-list :deep(.ant-list-item-meta-description) {
+  color: #555;
 }
 </style>
