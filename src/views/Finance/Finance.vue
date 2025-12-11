@@ -69,19 +69,6 @@
           <p>Record a new payment transaction</p>
         </a-card>
       </a-col>
-
-      <a-col :xs="24" :sm="12" :md="8">
-        <a-card
-          hoverable
-          @click="navigateTo('audit-log')"
-          class="finance-card"
-        >
-          <template #title>
-            <FileSearchOutlined /> Audit Log
-          </template>
-          <p>View all financial operations and changes</p>
-        </a-card>
-      </a-col>
     </a-row>
   </div>
 </template>
@@ -92,9 +79,7 @@ import {
   DashboardOutlined,
   FileTextOutlined,
   TableOutlined,
-  CalendarOutlined,
   AppstoreOutlined,
-  FileSearchOutlined,
   PlusCircleOutlined
 } from '@ant-design/icons-vue'
 

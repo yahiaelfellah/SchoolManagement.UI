@@ -80,12 +80,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { useFinanceStore } from '@/stores/financeStore'
 import type { PaymentLedger } from '@/model/paymentLedger'
 import dayjs from 'dayjs'
 
-const router = useRouter()
 const financeStore = useFinanceStore()
 const paymentLedgers = computed<PaymentLedger[]>(() => financeStore.paymentLedgers)
 const loading = computed(() => financeStore.loading)

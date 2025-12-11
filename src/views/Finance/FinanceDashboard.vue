@@ -167,13 +167,13 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useFinanceStore } from '@/stores/financeStore'
 import dayjs from 'dayjs'
 
-const router = useRouter()
 const financeStore = useFinanceStore()
-const { dashboardStats, overdueStudents, loading } = financeStore
+const dashboardStats = computed(() => financeStore.dashboardStats)
+const loading = computed(() => financeStore.loading)
+const overdueStudents = computed(() => financeStore.overdueStudents)
 
 onMounted(async () => {
   // Fetch all necessary data first
