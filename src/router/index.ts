@@ -102,6 +102,47 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/Operations/ViewAttendanceSummary.vue"),
         props: true,
       },
+      // Finance Module Routes
+      {
+        path: "finance",
+        name: "Finance",
+        component: () => import("@/views/Finance/Finance.vue"),
+      },
+      {
+        path: "finance/dashboard",
+        name: "dashboard",
+        component: () => import("@/views/Finance/FinanceDashboard.vue"),
+      },
+      {
+        path: "finance/tuition-plans",
+        name: "tuition-plans",
+        component: () => import("@/views/Finance/TuitionPlans.vue"),
+      },
+      {
+        path: "finance/payment-ledger",
+        name: "payment-ledger",
+        component: () => import("@/views/Finance/PaymentLedger.vue"),
+      },
+      {
+        path: "finance/payment-calendar",
+        name: "payment-calendar",
+        component: () => import("@/views/Finance/PaymentCalendar.vue"),
+      },
+      {
+        path: "finance/services",
+        name: "services",
+        component: () => import("@/views/Finance/Services.vue"),
+      },
+      {
+        path: "finance/audit-log",
+        name: "audit-log",
+        component: () => import("@/views/Finance/AuditLog.vue"),
+      },
+      {
+        path: "finance/add-payment",
+        name: "add-payment",
+        component: () => import("@/views/Finance/AddPayment.vue"),
+      },
     ],
   },
 ];

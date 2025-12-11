@@ -12,6 +12,7 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 16px;">
+          <FinancialAlerts />
           <a-select
             v-model:value="locale"
             style="width: 100px"
@@ -45,6 +46,7 @@ import { useSettingsStore } from '../stores/settings'
 import { useAuthStore } from '../stores/auth'
 import SideNav from '@/components/Sidenav.vue'
 import FooterBar from '@/components/Footer.vue'
+import FinancialAlerts from '@/components/Finance/FinancialAlerts.vue'
 
 const { t } = useI18n()
 const auth = useAuthStore()

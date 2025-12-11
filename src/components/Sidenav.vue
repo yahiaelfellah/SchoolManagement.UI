@@ -38,6 +38,12 @@
         </template>
         {{ t('menu.classes') }}
       </a-menu-item>
+      <a-menu-item key="finance">
+        <template #icon>
+          <DollarOutlined />
+        </template>
+        Finance
+      </a-menu-item>
       <a-menu-item key="systems">
         <template #icon>
           <SettingOutlined />
@@ -65,6 +71,7 @@ import {
   BookOutlined,
   LogoutOutlined,
   SettingOutlined,
+  DollarOutlined,
 } from '@ant-design/icons-vue'
 
 const { t } = useI18n()
