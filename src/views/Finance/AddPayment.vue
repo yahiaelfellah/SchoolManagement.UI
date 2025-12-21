@@ -3,7 +3,6 @@
     <a-page-header
       title="Add Payment"
       sub-title="Record a new payment transaction"
-      @back="() => $router.push({ name: 'Finance' })"
     />
 
     <a-card>
@@ -14,20 +13,34 @@
         layout="vertical"
         @finish="handleSubmit"
       >
-        <a-form-item label="Student" name="studentId" required>
+        <a-form-item
+          label="Student"
+          name="studentId"
+          required
+        >
           <a-select
             v-model:value="form.studentId"
             placeholder="Select student"
             show-search
             :filter-option="false"
           >
-            <a-select-option :value="1">Student 1</a-select-option>
-            <a-select-option :value="2">Student 2</a-select-option>
-            <a-select-option :value="3">Student 3</a-select-option>
+            <a-select-option :value="1">
+              Student 1
+            </a-select-option>
+            <a-select-option :value="2">
+              Student 2
+            </a-select-option>
+            <a-select-option :value="3">
+              Student 3
+            </a-select-option>
           </a-select>
         </a-form-item>
 
-        <a-form-item label="Amount (TND)" name="amount" required>
+        <a-form-item
+          label="Amount (TND)"
+          name="amount"
+          required
+        >
           <a-input-number
             v-model:value="form.amount"
             :min="0"
@@ -36,7 +49,11 @@
           />
         </a-form-item>
 
-        <a-form-item label="Payment Date" name="date" required>
+        <a-form-item
+          label="Payment Date"
+          name="date"
+          required
+        >
           <a-date-picker
             v-model:value="form.date"
             style="width: 100%"
@@ -44,50 +61,86 @@
           />
         </a-form-item>
 
-        <a-form-item label="Payment Method" name="methodType" required>
+        <a-form-item
+          label="Payment Method"
+          name="methodType"
+          required
+        >
           <a-select
             v-model:value="form.methodType"
             placeholder="Select payment method"
             @change="handleMethodChange"
           >
-            <a-select-option value="cash">Cash</a-select-option>
-            <a-select-option value="card">Card</a-select-option>
-            <a-select-option value="transfer">Bank Transfer</a-select-option>
-            <a-select-option value="cheque">Cheque</a-select-option>
+            <a-select-option value="cash">
+              Cash
+            </a-select-option>
+            <a-select-option value="card">
+              Card
+            </a-select-option>
+            <a-select-option value="transfer">
+              Bank Transfer
+            </a-select-option>
+            <a-select-option value="cheque">
+              Cheque
+            </a-select-option>
           </a-select>
         </a-form-item>
 
         <!-- Payment Method Details -->
         <template v-if="form.methodType === 'transfer'">
           <a-form-item label="Bank Name">
-            <a-input v-model:value="form.bankName" placeholder="Enter bank name" />
+            <a-input
+              v-model:value="form.bankName"
+              placeholder="Enter bank name"
+            />
           </a-form-item>
           <a-form-item label="Reference Number">
-            <a-input v-model:value="form.reference" placeholder="Transaction reference" />
+            <a-input
+              v-model:value="form.reference"
+              placeholder="Transaction reference"
+            />
           </a-form-item>
         </template>
 
         <template v-if="form.methodType === 'card'">
           <a-form-item label="Gateway Transaction ID">
-            <a-input v-model:value="form.gatewayId" placeholder="Gateway transaction ID" />
+            <a-input
+              v-model:value="form.gatewayId"
+              placeholder="Gateway transaction ID"
+            />
           </a-form-item>
           <a-form-item label="Reference Number">
-            <a-input v-model:value="form.reference" placeholder="Card reference" />
+            <a-input
+              v-model:value="form.reference"
+              placeholder="Card reference"
+            />
           </a-form-item>
         </template>
 
         <template v-if="form.methodType === 'cheque'">
-          <a-form-item label="Cheque Number" required>
-            <a-input v-model:value="form.chequeNumber" placeholder="Enter cheque number" />
+          <a-form-item
+            label="Cheque Number"
+            required
+          >
+            <a-input
+              v-model:value="form.chequeNumber"
+              placeholder="Enter cheque number"
+            />
           </a-form-item>
           <a-form-item label="Bank Name">
-            <a-input v-model:value="form.bankName" placeholder="Enter bank name" />
+            <a-input
+              v-model:value="form.bankName"
+              placeholder="Enter bank name"
+            />
           </a-form-item>
         </template>
 
         <template v-if="form.methodType === 'cash'">
           <a-form-item label="Reference (Optional)">
-            <a-input v-model:value="form.reference" placeholder="Optional reference" />
+            <a-input
+              v-model:value="form.reference"
+              placeholder="Optional reference"
+            />
           </a-form-item>
         </template>
 
@@ -122,10 +175,17 @@
         </a-form-item>
 
         <a-form-item>
-          <a-button type="primary" html-type="submit" :loading="loading">
+          <a-button
+            type="primary"
+            html-type="submit"
+            :loading="loading"
+          >
             Save Payment
           </a-button>
-          <a-button style="margin-left: 8px" @click="handleCancel">
+          <a-button
+            style="margin-left: 8px"
+            @click="handleCancel"
+          >
             Cancel
           </a-button>
         </a-form-item>
@@ -145,8 +205,8 @@ import dayjs, { type Dayjs } from 'dayjs'
 
 const router = useRouter()
 const financeStore = useFinanceStore()
-const { paymentLedgers, loading } = financeStore
-
+const paymentLedgers = computed(() => financeStore.paymentLedgers)
+const loading = computed(() => financeStore.loading)
 const formRef = ref()
 
 const form = ref({

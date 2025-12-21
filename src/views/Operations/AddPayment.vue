@@ -1,80 +1,59 @@
 <template>
-  <div class="operations-container">
+  <div class="add-payment-page">
     <a-page-header
       :title="tl('title')"
       :sub-title="tl('description')"
       @back="() => $router.go(-1)"
     />
 
-    <a-card :title="tl('title')">
+    <a-card>
       <a-form
-        ref="paymentFormRef"
-        layout="vertical"
+        ref="formRef"
         :model="form"
         :rules="rules"
+        layout="vertical"
         @finish="handleSubmit"
       >
-        <!-- Select Student -->
         <a-form-item
           :label="tl('form.student')"
           name="studentId"
+          required
         >
           <a-select
             v-model:value="form.studentId"
             :placeholder="tl('form.selectStudent')"
             show-search
             :filter-option="false"
-            :not-found-content="studentLoading ? t('common.loading') : t('common.noResults')"
-            @search="handleStudentSearch"
           >
-            <a-select-option
-              v-for="student in filteredStudents"
-              :key="student.id"
-              :value="student.id"
-            >
-              {{ student.firstName }} {{ student.lastName }}
+            <a-select-option :value="1">
+              Student 1
+            </a-select-option>
+            <a-select-option :value="2">
+              Student 2
+            </a-select-option>
+            <a-select-option :value="3">
+              Student 3
             </a-select-option>
           </a-select>
         </a-form-item>
 
-        <!-- Payment Amount -->
         <a-form-item
           :label="tl('form.amount')"
           name="amount"
+          required
         >
           <a-input-number
             v-model:value="form.amount"
             :min="0"
-            :placeholder="tl('form.enterAmount')"
             style="width: 100%"
+            :placeholder="tl('form.enterAmount')"
           />
         </a-form-item>
 
-        <!-- Payment Method -->
-        <a-form-item
-          :label="tl('form.method')"
-          name="method"
-        >
-          <a-select
-            v-model:value="form.method"
-            :placeholder="tl('form.selectMethod')"
-          >
-            <a-select-option value="cash">
-              {{ tl('form.methods.cash') }}
-            </a-select-option>
-            <a-select-option value="card">
-              {{ tl('form.methods.card') }}
-            </a-select-option>
-            <a-select-option value="bank">
-              {{ tl('form.methods.bank') }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-
-        <!-- Payment Date -->
         <a-form-item
           :label="tl('form.date')"
           name="date"
+          required
         >
           <a-date-picker
             v-model:value="form.date"
@@ -83,19 +62,71 @@
           />
         </a-form-item>
 
-        <!-- Notes -->
+        <a-form-item
+          :label="tl('form.method')"
+          name="methodType"
+          required
+        >
+          <a-select
+            v-model:value="form.methodType"
+            :placeholder="tl('form.selectMethod')"
+            @change="handleMethodChange"
+          >
+            <a-select-option value="cash">
+              tl('form.methods.cash')
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+
+        <template v-if="form.methodType === 'cash'">
+          <a-form-item
+            :label="tl('form.reference')"
+            name="reference"
+          >
+            <a-input
+              v-model:value="form.reference"
+              :placeholder="tl('form.referencePlaceholder')"
+            />
+          </a-form-item>
+        </template>
+
+        <a-form-item
+          :label="tl('form.applyToLedger')"
+          name="ledgerId"
+        >
+          <a-select
+            v-model:value="form.ledgerId"
+            :placeholder="tl('form.applyToLedgerPlaceholder')"
+            allow-clear
+          >
+            <a-select-option
+              v-for="ledger in availableLedgers"
+              :key="ledger.id"
+              :value="ledger.id"
+            >
+              {{ formatLedgerLabel(ledger) }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item
           :label="tl('form.notes')"
           name="notes"
         >
           <a-textarea
             v-model:value="form.notes"
-            rows="3"
+            :rows="3"
             :placeholder="tl('form.notesPlaceholder')"
           />
         </a-form-item>
 
-        <!-- Submit -->
+        <a-form-item>
+          <a-checkbox v-model:checked="form.generateReceipt">
+            {{ tl('form.generateReceipt') }}
+          </a-checkbox>
+        </a-form-item>
+
         <a-form-item>
           <a-button
             type="primary"
@@ -104,6 +135,12 @@
           >
             {{ t('common.save') }}
           </a-button>
+          <a-button
+            style="margin-left: 8px"
+            @click="handleCancel"
+          >
+            {{ t('common.cancel') }} 
+          </a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -111,83 +148,120 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
+import { useFinanceStore } from '@/stores/financeStore'
+import type { PaymentMethod } from '@/model/paymentMethod'
+import type { PaymentLedger } from '@/model/paymentLedger'
+import dayjs, { type Dayjs } from 'dayjs'
 import { useLocalI18n } from '@/helpers/useLocalI18n'
-import type Student from '@/model/student'
-
 
 const { t, tl } = useLocalI18n('operations.addPayment')
-
-const paymentFormRef = ref()
-const loading = ref(false)
-const studentLoading = ref(false)
+const router = useRouter()
+const financeStore = useFinanceStore()
+const paymentLedgers = computed(() => financeStore.paymentLedgers)
+const loading = computed(() => financeStore.loading)
+const formRef = ref()
 
 const form = ref({
-  studentId: null as number | null,
-  amount: null as number | null,
-  method: null as string | null,
-  date: null as string | null,
-  notes: ''
+  studentId: undefined as number | undefined,
+  amount: undefined as number | undefined,
+  date: dayjs() as Dayjs | null,
+  methodType: undefined as 'cash' | 'card' | 'transfer' | 'cheque' | undefined,
+  bankName: '',
+  reference: '',
+  gatewayId: '',
+  chequeNumber: '',
+  ledgerId: undefined as string | undefined,
+  notes: '',
+  generateReceipt: true
 })
 
 const rules = {
-  studentId: [{ required: true, message: t('common.validations.required'), trigger: 'change' }],
-  amount: [{ required: true, message: t('common.validations.required'), trigger: 'change' }],
-  method: [{ required: true, message: t('common.validations.required'), trigger: 'change' }],
-  date: [{ required: true, message: t('common.validations.required'), trigger: 'change' }]
+  studentId: [{ required: true, message: 'Please select a student' }],
+  amount: [{ required: true, message: 'Please enter amount' }],
+  date: [{ required: true, message: 'Please select payment date' }],
+  methodType: [{ required: true, message: 'Please select payment method' }],
+  chequeNumber: [
+    {
+      required: () => form.value.methodType === 'cheque',
+      message: 'Cheque number is required'
+    }
+  ]
 }
 
-// Mock Data (replace with API)
-const students = ref<Student[]>([])
-const filteredStudents = ref<Student[]>([])
-
-onMounted(async () => {
-  studentLoading.value = true
-  await new Promise(r => setTimeout(r, 300))
-  students.value = [
-    { id: 1, firstName: 'Ali', lastName: 'Ahmed' },
-    { id: 2, firstName: 'Sara', lastName: 'Mohamed' }
-  ]
-  filteredStudents.value = [...students.value]
-  studentLoading.value = false
+const availableLedgers = computed(() => {
+  if (!form.value.studentId) return []
+  return paymentLedgers.value.filter(l => l.studentId === form.value.studentId)
 })
 
-// Search student
-const handleStudentSearch = async (query: string) => {
-  studentLoading.value = true
-  await new Promise(r => setTimeout(r, 250))
-  const lower = query.toLowerCase()
-  filteredStudents.value = students.value.filter(s =>
-    `${s.firstName} ${s.lastName}`.toLowerCase().includes(lower)
-  )
-  studentLoading.value = false
+const formatLedgerLabel = (ledger: PaymentLedger) => {
+  return `${ledger.month} - Due: ${ledger.amountDue.toLocaleString()} TND, Balance: ${ledger.balance.toLocaleString()} TND`
 }
 
-// Submit handler
+const handleMethodChange = () => {
+  // Reset method-specific fields when method changes
+  form.value.bankName = ''
+  form.value.reference = ''
+  form.value.gatewayId = ''
+  form.value.chequeNumber = ''
+}
+
 const handleSubmit = async () => {
   try {
-    await paymentFormRef.value?.validate()
-    loading.value = true
+    await formRef.value?.validate()
+    
+    if (!form.value.methodType) {
+      message.error('Please select a payment method')
+      return
+    }
 
-    const payload = { ...form.value }
-    console.log('Payment payload:', payload)
-    // TODO: API call for payment submission
+    const paymentMethod: PaymentMethod = {
+      type: form.value.methodType,
+      reference: form.value.reference || undefined,
+      bankName: form.value.bankName || undefined,
+      gatewayId: form.value.gatewayId || undefined,
+      chequeNumber: form.value.chequeNumber || undefined
+    }
 
-    message.success(tl('success'))
-  } catch (err) {
-    console.error(err)
-    message.error(t('common.validationError'))
-  } finally {
-    loading.value = false
+    const payment = await financeStore.createPayment({
+      studentId: form.value.studentId!,
+      amount: form.value.amount!,
+      method: paymentMethod,
+      date: form.value.date!.format('YYYY-MM-DD'),
+      ledgerId: form.value.ledgerId,
+      notes: form.value.notes || undefined
+    })
+
+    if (form.value.generateReceipt) {
+      await financeStore.generateReceipt(payment.id, payment.studentId)
+      message.success('Payment recorded and receipt generated')
+    } else {
+      message.success('Payment recorded successfully')
+    }
+
+    router.push({ name: 'Finance' })
+  } catch (error) {
+    console.error('Validation error:', error)
+    message.error('Please fill all required fields')
   }
 }
+
+const handleCancel = () => {
+  router.push({ name: 'Finance' })
+}
+
+onMounted(() => {
+  financeStore.fetchPaymentLedgers()
+})
 </script>
 
 <style scoped>
-.operations-container {
-  max-width: 50vw;
-  margin: auto;
+.add-payment-page {
   padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 </style>
+

@@ -3,11 +3,15 @@
     <a-page-header title="Student Finance & Payment Module" />
     
     <a-row :gutter="[16, 16]">
-      <a-col :xs="24" :sm="12" :md="8">
+      <a-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+      >
         <a-card
           hoverable
-          @click="navigateTo('dashboard')"
           class="finance-card"
+          @click="navigateTo('dashboard')"
         >
           <template #title>
             <DashboardOutlined /> Dashboard
@@ -16,11 +20,15 @@
         </a-card>
       </a-col>
 
-      <a-col :xs="24" :sm="12" :md="8">
+      <a-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+      >
         <a-card
           hoverable
-          @click="navigateTo('tuition-plans')"
           class="finance-card"
+          @click="navigateTo('tuition-plans')"
         >
           <template #title>
             <FileTextOutlined /> Tuition Plans
@@ -29,11 +37,15 @@
         </a-card>
       </a-col>
 
-      <a-col :xs="24" :sm="12" :md="8">
+      <a-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+      >
         <a-card
           hoverable
-          @click="navigateTo('payment-ledger')"
           class="finance-card"
+          @click="navigateTo('payment-ledger')"
         >
           <template #title>
             <TableOutlined /> Payment Ledger
@@ -44,11 +56,15 @@
 
 
 
-      <a-col :xs="24" :sm="12" :md="8">
+      <a-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+      >
         <a-card
           hoverable
-          @click="navigateTo('services')"
           class="finance-card"
+          @click="navigateTo('services')"
         >
           <template #title>
             <AppstoreOutlined /> Services
@@ -57,11 +73,15 @@
         </a-card>
       </a-col>
 
-      <a-col :xs="24" :sm="12" :md="8">
+      <a-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+      >
         <a-card
           hoverable
-          @click="navigateTo('add-payment')"
           class="finance-card"
+          @click="navigateTo('add-payment')"
         >
           <template #title>
             <PlusCircleOutlined /> Add Payment

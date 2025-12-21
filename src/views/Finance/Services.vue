@@ -8,8 +8,13 @@
 
     <a-card>
       <template #extra>
-        <a-button type="primary" @click="showModal = true">
-          <template #icon><PlusOutlined /></template>
+        <a-button
+          type="primary"
+          @click="showModal = true"
+        >
+          <template #icon>
+            <PlusOutlined />
+          </template>
           Add Service
         </a-button>
       </template>
@@ -36,12 +41,23 @@
           </template>
           <template v-else-if="column.key === 'actions'">
             <a-space>
-              <a-button size="small" @click="handleEdit(record)">
-                <template #icon><EditOutlined /></template>
+              <a-button
+                size="small"
+                @click="handleEdit(record)"
+              >
+                <template #icon>
+                  <EditOutlined />
+                </template>
                 Edit
               </a-button>
-              <a-button size="small" danger @click="handleDelete(record.id)">
-                <template #icon><DeleteOutlined /></template>
+              <a-button
+                size="small"
+                danger
+                @click="handleDelete(record.id)"
+              >
+                <template #icon>
+                  <DeleteOutlined />
+                </template>
                 Delete
               </a-button>
             </a-space>
@@ -57,12 +73,24 @@
       @ok="handleSubmit"
       @cancel="handleCancel"
     >
-      <a-form :model="form" layout="vertical">
-        <a-form-item label="Service Name" required>
-          <a-input v-model:value="form.name" placeholder="e.g., Transport, Lunch" />
+      <a-form
+        :model="form"
+        layout="vertical"
+      >
+        <a-form-item
+          label="Service Name"
+          required
+        >
+          <a-input
+            v-model:value="form.name"
+            placeholder="e.g., Transport, Lunch"
+          />
         </a-form-item>
 
-        <a-form-item label="Cost (TND)" required>
+        <a-form-item
+          label="Cost (TND)"
+          required
+        >
           <a-input-number
             v-model:value="form.cost"
             :min="0"

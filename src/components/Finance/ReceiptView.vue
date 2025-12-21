@@ -3,10 +3,14 @@
     <template #extra>
       <a-space>
         <a-button @click="handleDownloadPDF">
-          <template #icon><DownloadOutlined /></template>
+          <template #icon>
+            <DownloadOutlined />
+          </template>
           Download PDF
         </a-button>
-        <a-button @click="$emit('close')">Close</a-button>
+        <a-button @click="$emit('close')">
+          Close
+        </a-button>
       </a-space>
     </template>
 
@@ -28,19 +32,31 @@
           <span class="detail-label">Payment Method:</span>
           <span>{{ formatPaymentMethod(receipt.paymentMethod) }}</span>
         </div>
-        <div v-if="receipt.paymentMethod.reference" class="detail-row">
+        <div
+          v-if="receipt.paymentMethod.reference"
+          class="detail-row"
+        >
           <span class="detail-label">Reference:</span>
           <span>{{ receipt.paymentMethod.reference }}</span>
         </div>
-        <div v-if="receipt.paymentMethod.bankName" class="detail-row">
+        <div
+          v-if="receipt.paymentMethod.bankName"
+          class="detail-row"
+        >
           <span class="detail-label">Bank:</span>
           <span>{{ receipt.paymentMethod.bankName }}</span>
         </div>
-        <div v-if="receipt.paymentMethod.chequeNumber" class="detail-row">
+        <div
+          v-if="receipt.paymentMethod.chequeNumber"
+          class="detail-row"
+        >
           <span class="detail-label">Cheque Number:</span>
           <span>{{ receipt.paymentMethod.chequeNumber }}</span>
         </div>
-        <div v-if="receipt.paymentMethod.gatewayId" class="detail-row">
+        <div
+          v-if="receipt.paymentMethod.gatewayId"
+          class="detail-row"
+        >
           <span class="detail-label">Gateway Transaction ID:</span>
           <span>{{ receipt.paymentMethod.gatewayId }}</span>
         </div>

@@ -1,5 +1,8 @@
 <template>
-  <a-badge :count="alertCount" :number-style="{ backgroundColor: '#ff4d4f' }">
+  <a-badge
+    :count="alertCount"
+    :number-style="{ backgroundColor: '#ff4d4f' }"
+  >
     <a-popover
       placement="bottomRight"
       :title="`Financial Alerts (${alertCount})`"
@@ -23,7 +26,7 @@
                 </template>
                 <template #description>
                   {{ item.description }}
-                  <br />
+                  <br>
                   <span class="text-gray">{{ formatDate(item.timestamp) }}</span>
                 </template>
               </a-list-item-meta>
@@ -31,11 +34,18 @@
           </template>
         </a-list>
         <a-divider style="margin: 8px 0" />
-        <a-button type="link" block @click="handleViewAll">
+        <a-button
+          type="link"
+          block
+          @click="handleViewAll"
+        >
           View All Alerts
         </a-button>
       </template>
-      <a-button type="text" class="alert-button">
+      <a-button
+        type="text"
+        class="alert-button"
+      >
         <template #icon>
           <BellOutlined />
         </template>

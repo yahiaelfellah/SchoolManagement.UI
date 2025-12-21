@@ -72,6 +72,11 @@ export default {
       weekly: "عرض أسبوعي",
       daily: "عرض يومي",
     },
+    cheque: "شيك",
+    bankName: "اسم البنك",
+    reference: "رقم المرجع",
+    gatewayId: "معرّف بوابة الدفع",
+    chequeNumber: "رقم الشيك",
   },
   relations: {
     parent: "والد / والدة",
@@ -353,24 +358,30 @@ export default {
     },
     addPayment: {
       title: "إضافة دفعة",
-      description: "تسجيل دفعة مالية لطالب، بما في ذلك المبلغ وطريقة الدفع.",
+      description: "تسجيل معاملة دفع جديدة",
       form: {
         student: "الطالب",
         selectStudent: "اختر الطالب",
         amount: "المبلغ",
-        enterAmount: "أدخل المبلغ المدفوع",
+        enterAmount: "أدخل المبلغ",
         method: "طريقة الدفع",
         selectMethod: "اختر طريقة الدفع",
+        date: "تاريخ الدفع",
+        notes: "ملاحظات",
+        notesPlaceholder: "أضف أي معلومات إضافية",
+              reference: "مرجع (اختياري)",
+        referencePlaceholder: "معرّف المعاملة، رقم الشيك، إلخ.",
+        applyToLedger: "تطبيق على السجل (اختياري)",
+        applyToLedgerPlaceholder: "اختر إدخال السجل",
+        generateReceipt: "إنشاء إيصال فوراً",
         methods: {
           cash: "نقدًا",
           card: "بطاقة",
-          bank: "تحويل بنكي",
-        },
-        date: "تاريخ الدفع",
-        notes: "ملاحظات",
-        notesPlaceholder: "تفاصيل إضافية حول الدفع",
+          bank: "تحويل بنكي"
+        }
       },
-      success: "تمت إضافة الدفعة بنجاح!",
+      success: "تمت إضافة الدفعة بنجاح",
+
     },
     markAttendance: {
       title: "تسجيل الحضور",

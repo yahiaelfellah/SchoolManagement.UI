@@ -3,10 +3,14 @@
     <template #extra>
       <a-space>
         <a-button @click="handleDownloadPDF">
-          <template #icon><DownloadOutlined /></template>
+          <template #icon>
+            <DownloadOutlined />
+          </template>
           Download PDF
         </a-button>
-        <a-button @click="$emit('close')">Close</a-button>
+        <a-button @click="$emit('close')">
+          Close
+        </a-button>
       </a-space>
     </template>
 

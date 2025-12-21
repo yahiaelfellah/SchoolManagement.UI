@@ -2,9 +2,22 @@
   <div class="finance-dashboard">
     <a-page-header
       title="Finance Dashboard"
-      @back="() => $router.push({ name: 'Finance' })"
     />
 
+    <a-row :gutter="[16, 16]">
+      <a-col
+        v-for="op in operations[0]?.items || []"
+        :key="op.key"
+        :xs="24"
+        :sm="12"
+        :md="6"
+      >
+        <OperationCard 
+        :op="op" 
+        :click="handleCardClick(op.key)"
+        />
+      </a-col>
+    </a-row>
     <a-row :gutter="[16, 16]">
       <!-- Stats Cards -->
       <a-col :xs="24" :sm="12" :md="6">
@@ -161,6 +174,9 @@
           </a-list>
         </a-card>
       </a-col>
+
+      <!-- Navigation Cards -->
+
     </a-row>
   </div>
 </template>
@@ -169,11 +185,17 @@
 import { onMounted, computed } from 'vue'
 import { useFinanceStore } from '@/stores/financeStore'
 import dayjs from 'dayjs'
+import { useOperationsStore } from '@/stores/operations'
+import OperationCard from '@/components/Operations/OperationCard.vue'
+
 
 const financeStore = useFinanceStore()
+const operationStore = useOperationsStore()
+
 const dashboardStats = computed(() => financeStore.dashboardStats)
 const loading = computed(() => financeStore.loading)
 const overdueStudents = computed(() => financeStore.overdueStudents)
+const operations = computed(() => operationStore.fetchOperationsGroups('finance'))
 
 onMounted(async () => {
   // Fetch all necessary data first
@@ -195,6 +217,9 @@ const getBarHeight = (amount: number) => {
   return Math.max((amount / maxRevenue.value) * 100, 5) // Minimum 5% height for visibility
 }
 
+const handleCardClick = (key: string) => {
+  operationStore.navigateToOperation(key)
+}
 const formatMonth = (month: string) => {
   return dayjs(`${month}-01`).format('MMMM YYYY')
 }
@@ -290,6 +315,29 @@ const formatMonthShort = (month: string) => {
 
 .text-gray-500 {
   color: #888;
+}
+
+.navigation-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.navigation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.navigation-card :deep(.ant-card-body) {
+  min-height: 120px;
+}
+
+/* optional: existing .operations-grid kept for reference but no longer used by the template */
+.operations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
 }
 </style>
 

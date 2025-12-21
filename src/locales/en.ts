@@ -1,3 +1,5 @@
+import { ref } from "vue";
+
 export default {
   common: {
     add: "Add",
@@ -402,7 +404,12 @@ export default {
         },
         date: "Payment Date",
         notes: "Notes",
+        reference: "Reference (Optional)",
+        referencePlaceholder: "Transaction ID, Cheque Number, etc.",
+        applyToLedger: "Apply to Ledger (Optional)",
+        applyToLedgerPlaceholder: "Select ledger entry",
         notesPlaceholder: "Additional payment details",
+        generateReceipt: "Generate receipt immediately",
       },
       success: "Payment added successfully!",
     },
@@ -638,25 +645,30 @@ export default {
     },
     addPayment: {
       title: "Add Payment",
-      description: "Record a new payment transaction",
-      student: "Student",
-      amount: "Amount (TND)",
-      paymentDate: "Payment Date",
-      paymentMethod: "Payment Method",
-      bankName: "Bank Name",
-      reference: "Reference Number",
-      gatewayId: "Gateway Transaction ID",
-      chequeNumber: "Cheque Number",
-      applyToLedger: "Apply to Ledger (Optional)",
-      notes: "Notes",
-      generateReceipt: "Generate receipt immediately",
-      savePayment: "Save Payment",
-    },
-    auditLog: {
-      title: "Audit Log",
-      description: "View all financial operations and changes",
-      filterByAction: "Filter by action",
-      filterByEntity: "Filter by entity",
+      description:
+        "Record a payment for a student, including amount and method.",
+      form: {
+        student: "Student",
+        selectStudent: "Select a student",
+        amount: "Amount",
+        enterAmount: "Enter payment amount",
+        method: "Payment Method",
+        selectMethod: "Select a payment method",
+        methods: {
+          cash: "Cash",
+          card: "Card",
+          bank: "Bank Transfer",
+        },
+        date: "Payment Date",
+        notes: "Notes",
+        reference: "Reference (Optional)",
+        referencePlaceholder: "Transaction ID, Cheque Number, etc.",
+        applyToLedger: "Apply to Ledger (Optional)",
+        applyToLedgerPlaceholder: "Select ledger entry",
+        notesPlaceholder: "Additional payment details",
+        generateReceipt: "Generate receipt immediately",
+      },
+      success: "Payment added successfully!",
     },
   },
 };

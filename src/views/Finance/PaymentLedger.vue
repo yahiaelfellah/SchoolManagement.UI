@@ -16,9 +16,15 @@
             style="width: 200px"
             @change="handleFilter"
           >
-            <a-select-option :value="1">Student 1</a-select-option>
-            <a-select-option :value="2">Student 2</a-select-option>
-            <a-select-option :value="3">Student 3</a-select-option>
+            <a-select-option :value="1">
+              Student 1
+            </a-select-option>
+            <a-select-option :value="2">
+              Student 2
+            </a-select-option>
+            <a-select-option :value="3">
+              Student 3
+            </a-select-option>
           </a-select>
 
           <a-select
@@ -28,9 +34,15 @@
             style="width: 150px"
             @change="handleFilter"
           >
-            <a-select-option value="paid">Paid</a-select-option>
-            <a-select-option value="partial">Partial</a-select-option>
-            <a-select-option value="overdue">Overdue</a-select-option>
+            <a-select-option value="paid">
+              Paid
+            </a-select-option>
+            <a-select-option value="partial">
+              Partial
+            </a-select-option>
+            <a-select-option value="overdue">
+              Overdue
+            </a-select-option>
           </a-select>
         </a-space>
       </template>
@@ -68,7 +80,10 @@
             {{ formatDate(record.dueDate) }}
           </template>
           <template v-else-if="column.key === 'services'">
-            <a-tag v-for="(amount, serviceId) in record.servicesBreakdown" :key="serviceId">
+            <a-tag
+              v-for="(amount, serviceId) in record.servicesBreakdown"
+              :key="serviceId"
+            >
               Service {{ serviceId }}: {{ amount }} TND
             </a-tag>
           </template>

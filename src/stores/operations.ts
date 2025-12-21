@@ -16,12 +16,10 @@ import {
   ScheduleOutlined,
   FileDoneOutlined,
   DollarOutlined,
-  FileTextOutlined,
-  PieChartOutlined,
   ExportOutlined,
   ClockCircleOutlined,
   TableOutlined,
-
+  AppstoreOutlined,
 } from '@ant-design/icons-vue'
 import type FeatureState from '@/model/featureState'
 import router from '@/router'
@@ -30,10 +28,7 @@ import router from '@/router'
 
 export const useOperationsStore = defineStore('operations', {
   state: () => ({
-    // ✅ All groups and operations (static metadata)
     operationGroups: [] as OperationGroup[],
-
-    // ✅ Dynamic feature flags (could be fetched from backend)
     featureStates: [] as FeatureState[],
   }),
 
@@ -63,9 +58,7 @@ export const useOperationsStore = defineStore('operations', {
           items: [
             { key: 'students/add', title: 'operations.students.add.title', description: 'operations.students.add.description', icon: UserAddOutlined, disabled: false, newFeature: false },
             { key: 'students/enroll', title: 'operations.students.enrollStudent.title', description: 'operations.students.enrollStudent.description', icon: SolutionOutlined, disabled: false, newFeature: false },
-            // { key: 'viewStudent', title: 'operations.students.viewStudent', description: 'operations.students.viewStudent_desc', icon: ProfileOutlined, disabled: false, newFeature: false },
             { key: 'students/upload', title: 'operations.students.uploadDocuments.title', description: 'operations.students.uploadDocuments.description', icon: UploadOutlined, disabled: false, newFeature: false },
-            // { key: 'promoteStudent', title: 'operations.students.promoteStudent', description: 'operations.students.promoteStudent_desc', icon: ArrowUpOutlined, disabled: false, newFeature: false },
             { key: 'students/delete', title: 'operations.deleteOrArchive.title', description: 'operations.deleteOrArchive.description', icon: UserDeleteOutlined, disabled: false, newFeature: false },
           ],
         },
@@ -91,10 +84,9 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.finance',
           items: [
-            { key: 'addPayment', title: 'operations.addPayment.title', description: 'operations.addPayment.description', icon: DollarOutlined, disabled: false, newFeature: false },
-            { key: 'generateInvoice', title: 'operations.generateInvoice', description: 'operations.generateInvoice_desc', icon: FileTextOutlined, disabled: false, newFeature: false },
-            { key: 'viewFinanceReports', title: 'operations.viewFinanceReports', description: 'operations.viewFinanceReports_desc', icon: PieChartOutlined, disabled: false, newFeature: false },
-            { key: 'exportFinanceData', title: 'operations.exportFinanceData', description: 'operations.exportFinanceData_desc', icon: ExportOutlined, disabled: false, newFeature: false },
+            { key: 'finance/payment-ledger', title: 'finance.paymentLedger.title', description: 'finance.paymentLedger.description', icon: TableOutlined, disabled: false, newFeature: false },
+            { key: 'finance/services', title: 'finance.services.title', description: 'finance.services.description', icon: AppstoreOutlined, disabled: false, newFeature: false },
+            { key: 'addPayment', title: 'finance.addPayment.title', description: 'finance.addPayment.description', icon: DollarOutlined, disabled: false, newFeature: false },
           ],
         },
         {
@@ -104,20 +96,15 @@ export const useOperationsStore = defineStore('operations', {
             { key: 'viewAttendanceSummary', title: 'operations.viewAttendanceSummary.title', description: 'operations.viewAttendanceSummary.description', icon: TableOutlined, disabled: false, newFeature: false },
             { key: 'attendanceReport', title: 'operations.attendanceReport.title', description: 'operations.attendanceReport.description', icon: BarChartOutlined, disabled: false, newFeature: false },
           ],
-        },
-        // {
-        //   title: 'operations.groups.system',
-        //   items: [
-        //     { key: 'manageUsers', title: 'operations.manageUsers', description: 'operations.manageUsers_desc', icon: SettingOutlined, disabled: false, newFeature: false },
-        //     { key: 'backupData', title: 'operations.backupData', description: 'operations.backupData_desc', icon: DatabaseOutlined, disabled: false, newFeature: false },
-        //     { key: 'syncData', title: 'operations.syncData', description: 'operations.syncData_desc', icon: CloudSyncOutlined, disabled: false, newFeature: false },
-        //     { key: 'sendNotifications', title: 'operations.sendNotifications', description: 'operations.sendNotifications_desc', icon: NotificationOutlined, disabled: false, newFeature: false },
-        //     { key: 'manageLanguages', title: 'operations.manageLanguages', description: 'operations.manageLanguages_desc', icon: GlobalOutlined, disabled: false, newFeature: false },
-        //   ],
-        // },
+        }
       ]
     },
 
+    fetchOperationsGroups(groupKey: string) {
+      // For now, we initialize statically
+      this.initializeOperations()
+      return this.operationGroups.filter(g => g.title === `operations.groups.${groupKey}`)
+    },
     async fetchFeatureStates() {
       // Example: could come from API
       this.featureStates = [
@@ -129,9 +116,9 @@ export const useOperationsStore = defineStore('operations', {
 
     navigateToOperation(key: string) {
       // Logic to navigate to the operation's route
-      // This is a placeholder; actual implementation may vary
-      console.log(`Navigating to operation: ${key}`)
-      router.push({ path: `/operations/${key}` })
+      // Handle Finance routes differently
+
+        router.push({ path: `/operations/${key}` })
     }
   },
 })

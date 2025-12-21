@@ -1,8 +1,6 @@
 <template>
   <a-layout-sider
-    v-model:collapsed="collapsed"
-    collapsible
-    theme="dark"
+    :style="siderStyle"
   >
     <div class="logo">
       🎓 {{ t('dashboard.title') }}
@@ -42,7 +40,7 @@
         <template #icon>
           <DollarOutlined />
         </template>
-        Finance
+        {{ t('menu.finance') }}
       </a-menu-item>
       <a-menu-item key="systems">
         <template #icon>
@@ -74,19 +72,37 @@ import {
   DollarOutlined,
 } from '@ant-design/icons-vue'
 
-const { t } = useI18n()
-const collapsed = ref(false)
+const { t, locale } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 
 const selectedKey = computed(() => route.name?.toString() || '')
 
+// detect RTL: based on current locale or document direction
+const isRtl = computed(() => {
+  const docDir = document.documentElement.getAttribute('dir')
+  const localeVal = locale?.value ? String(locale.value) : ''
+  return docDir === 'rtl' || localeVal.startsWith('ar') || localeVal.startsWith('he') // basic RTL locale checks
+})
+
+// computed style for the sider to flip left/right in RTL
+const siderStyle = computed(() => ({
+  overflow: 'auto',
+  height: '100vh',
+  position: 'fixed',
+  left: isRtl.value ? 'unset' : 0,
+  right: isRtl.value ? 0 : 'unset',
+  top: 0,
+  bottom: 0,
+}))
+
 const onMenuClick = (info: any) => {
   if (info.key === 'logout') {
     auth.logout()
     router.push('/login')
   } else {
+    console
     router.push({path:`/${info.key}`})
   }
 }
