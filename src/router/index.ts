@@ -14,118 +14,113 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        redirect: "operations", // relative redirect
+        redirect: "/operations", // changed to absolute redirect
       },
       {
-        path: "operations", // removed leading slash to be nested
+        path: "/operations", // changed to absolute path
         component: () => import("@/views/Operations/Operations.vue"),
       },
       {
-        path: "students",
+        path: "/students",
         component: () => import("@/views/Students.vue"),
       },
       {
-        path: "students/:id",
+        path: "/students/:id",
         component: () => import("@/views/StudentDetails.vue"),
       },
       {
-        path: "teachers",
+        path: "/teachers",
         component: () => import("@/views/Teachers.vue"),
       },
       {
-        path: "classes", // fixed: point to Classes view
+        path: "/classes", // fixed: point to Classes view
         component: () => import("@/views/Classes.vue"),
       },
       {
-        path: "systems",
+        path: "/systems",
         component: () => import("@/views/ManageSystem.vue"),
       },
       {
-        path: "operations/:type/add",
+        path: "/operations/:type/add",
         name: "AddEntity",
         component: () => import("@/views/Operations/AddEntity.vue"),
       },
       {
-        path: "operations/:type/assign",
+        path: "/operations/:type/assign",
         name: "AssignEntity",
         component: () => import("@/views/Operations/AssignEntity.vue"),
       },
       {
-        path: "operations/generateTimetable",
+        path: "/operations/generateTimetable",
         name: "GenerateTimetable",
         component: () => import("@/views/Operations/GenerateTimetable.vue"),
       },
       {
-        path: "operations/students/enroll",
+        path: "/operations/students/enroll",
         name: "EnrollStudent",
         component: () => import("@/views/Operations/EnrollStudent.vue"),
       },
       {
-        path: "operations/:type/upload",
+        path: "/operations/:type/upload",
         name: "uploadDocuments",
         component: () => import("@/views/Operations/UploadDocuments.vue"),
         props: true,
       },
       {
-        path: "operations/:type/delete",
+        path: "/operations/:type/delete",
         name: "deleteOrarchive",
         component: () => import("@/views/Operations/DeleteOrArchive.vue"),
         props: true,
       },
       {
-        path: "operations/setCalendar",
+        path: "/operations/setCalendar",
         name: "setCalendar",
         component: () => import("@/views/Operations/SetCalendar.vue"),
         props: true,
       },
       {
-        path: "operations/addPayment",
+        path: "/operations/addPayment",
         name: "addPayment",
         component: () => import("@/views/Operations/AddPayment.vue"),
         props: true,
       },
       {
-        path: "operations/markAttendance",
+        path: "/operations/markAttendance",
         name: "markAttendance",
         component: () => import("@/views/Operations/MarkAttendance.vue"),
         props: true,
       },
       {
-        path: "operations/attendanceReport",
+        path: "/operations/attendanceReport",
         name: "attendanceReport",
         component: () => import("@/views/Operations/AttendanceReport.vue"),
         props: true,
       },
       {
-        path: "operations/viewAttendanceSummary",
+        path: "/operations/viewAttendanceSummary",
         name: "viewAttendanceSummary",
         component: () => import("@/views/Operations/ViewAttendanceSummary.vue"),
         props: true,
       },
       {
-        path: "finance",
-        name: "dashboard",
+        path: "/finance",
+        name: "finance-dashboard", // explicit name to ensure clear matching
         component: () => import("@/views/Finance/FinanceDashboard.vue"),
       },
       {
-        path: "finance/tuition-plans",
+        path: "/finance/tuition-plans",
         name: "tuition-plans",
         component: () => import("@/views/Finance/TuitionPlans.vue"),
       },
       {
-        path: "finance/payment-ledger",
+        path: "/finance/payment-ledger",
         name: "payment-ledger",
         component: () => import("@/views/Finance/PaymentLedger.vue"),
       },
       {
-        path: "finance/services",
+        path: "/finance/services",
         name: "services",
         component: () => import("@/views/Finance/Services.vue"),
-      },
-      {
-        path: "finance/add-payment",
-        name: "add-payment",
-        component: () => import("@/views/Finance/AddPayment.vue"),
       },
     ],
   },
