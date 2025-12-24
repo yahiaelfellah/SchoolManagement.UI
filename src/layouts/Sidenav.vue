@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
@@ -98,13 +98,9 @@ const siderStyle = computed(() => ({
 }))
 
 const onMenuClick = (info: any) => {
-  if (info.key === 'logout') {
-    auth.logout()
-    router.push('/login')
-  } else {
-    console
-    router.push({path:`/${info.key}`})
-  }
+  if (info.key === 'logout') auth.logout()
+  router.push({path:`/${info.key}`})
+
 }
 </script>
 
