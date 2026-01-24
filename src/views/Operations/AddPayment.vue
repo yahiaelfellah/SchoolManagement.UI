@@ -157,7 +157,7 @@ import type { PaymentLedger } from '@/model/paymentLedger'
 import dayjs, { type Dayjs } from 'dayjs'
 import { useLocalI18n } from '@/helpers/useLocalI18n'
 
-const { t, tl } = useLocalI18n('operations.addPayment')
+const { t, tl } = useLocalI18n('operations.finance.addPayment')
 const router = useRouter()
 const financeStore = useFinanceStore()
 const paymentLedgers = computed(() => financeStore.paymentLedgers)

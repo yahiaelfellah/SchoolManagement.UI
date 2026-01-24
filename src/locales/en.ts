@@ -200,7 +200,7 @@ export default {
           primaryGuardian: "Set as Primary Guardian",
         },
       },
-      enrollStudent: {
+      enroll: {
         title: "Enroll Student",
         description: "Enroll a student in a class or program.",
         form: {
@@ -312,6 +312,10 @@ export default {
       view: { 
         title: "All Teachers",
         description: "View, filter, and manage all teachers in the system.",
+      },
+      update : {
+        title: "Update Teacher Information",
+        description: "Update personal or employment details of a teacher.",
       }
     },
 
@@ -461,8 +465,6 @@ export default {
     addTeacher_desc: "Add a new teacher to the system.",
     assignTeacher: "Assign Teacher to Class",
     assignTeacher_desc: "Assign a teacher to classes or subjects.",
-    updateTeacher: "Update Teacher Info",
-    updateTeacher_desc: "Update teacher information or credentials.",
     viewTeacherPerformance: "View Teacher Performance",
     viewTeacherPerformance_desc:
       "View performance and evaluation reports for teachers.",

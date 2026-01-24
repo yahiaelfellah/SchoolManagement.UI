@@ -16,7 +16,7 @@ import {
   ScheduleOutlined,
   FileDoneOutlined,
   DollarOutlined,
-  ExportOutlined,
+  FileTextOutlined,
   ClockCircleOutlined,
   TableOutlined,
   AppstoreOutlined,
@@ -30,8 +30,8 @@ export const useOperationsStore = defineStore('operations', {
   state: () => ({
     operationGroups: [] as OperationGroup[],
     featureStates: [] as FeatureState[],
+    lastOperationCategory : 0,
   }),
-
   getters: {
     // Returns the operation groups but applies feature flags dynamically
     evaluatedGroups: (state) => {
@@ -57,7 +57,7 @@ export const useOperationsStore = defineStore('operations', {
           title: 'operations.groups.students',
           items: [
             { key: 'students/add', title: 'operations.students.add.title', description: 'operations.students.add.description', icon: UserAddOutlined, disabled: false, newFeature: false },
-            { key: 'students/enroll', title: 'operations.students.enrollStudent.title', description: 'operations.students.enrollStudent.description', icon: SolutionOutlined, disabled: false, newFeature: false },
+            { key: 'students/enroll', title: 'operations.students.enroll.title', description: 'operations.students.enroll.description', icon: SolutionOutlined, disabled: false, newFeature: false },
             { key: 'students/upload', title: 'operations.students.uploadDocuments.title', description: 'operations.students.uploadDocuments.description', icon: UploadOutlined, disabled: false, newFeature: false },
             { key: 'students/delete', title: 'operations.deleteOrArchive.title', description: 'operations.deleteOrArchive.description', icon: UserDeleteOutlined, disabled: false, newFeature: false },
           ],
@@ -66,9 +66,9 @@ export const useOperationsStore = defineStore('operations', {
           title: 'operations.groups.teachers',
           items: [
             { key: 'teachers/add', title: 'operations.teachers.add.title', description: 'operations.teachers.add.description', icon: UsergroupAddOutlined, disabled: false, newFeature: false },
-            { key: 'teachers/assign', title: 'operations.assignTeacher', description: 'operations.assignTeacher_desc', icon: TeamOutlined, disabled: false, newFeature: false },
-            { key: 'updateTeacher', title: 'operations.updateTeacher', description: 'operations.updateTeacher_desc', icon: EditOutlined, disabled: false, newFeature: false },
-            { key: 'viewTeacherPerformance', title: 'operations.viewTeacherPerformance', description: 'operations.viewTeacherPerformance_desc', icon: BarChartOutlined, disabled: false, newFeature: false },
+            { key: 'teachers/assign', title: 'operations.teachers.assignTeacher.title', description: 'operations.teachers.assignTeacher.description', icon: TeamOutlined, disabled: false, newFeature: false },
+            { key: 'teachers/update', title: 'operations.teachers.update.title', description: 'operations.teachers.update.description', icon: EditOutlined, disabled: false, newFeature: false },
+            // { key: 'viewTeacherPerformance', title: 'operations.viewTeacherPerformance', description: 'operations.viewTeacherPerformance_desc', icon: BarChartOutlined, disabled: false, newFeature: false },
           ],
         },
         {
@@ -84,10 +84,11 @@ export const useOperationsStore = defineStore('operations', {
         {
           title: 'operations.groups.finance',
           items: [
-            { key: 'finance/payment-ledger', title: 'finance.paymentLedger.title', description: 'finance.paymentLedger.description', icon: TableOutlined, disabled: false, newFeature: false },
-            { key: 'finance/services', title: 'finance.services.title', description: 'finance.services.description', icon: AppstoreOutlined, disabled: false, newFeature: false },
-            { key: 'addPayment', title: 'finance.addPayment.title', description: 'finance.addPayment.description', icon: DollarOutlined, disabled: false, newFeature: false },
-          ],
+            { key: 'finance/payment-ledger', title: 'operations.finance.paymentLedger.title', description: 'operations.finance.paymentLedger.description', icon: TableOutlined, disabled: false, newFeature: false },
+            { key: 'finance/services', title: 'operations.finance.services.title', description: 'operations.finance.services.description', icon: AppstoreOutlined, disabled: false, newFeature: false },
+            { key: 'finance/add', title: 'operations.finance.addPayment.title', description: 'operations.finance.addPayment.description', icon: DollarOutlined, disabled: false, newFeature: false },
+            { key: 'finance/generate', title: 'operations.finance.generateInvoice.title', description: 'operations.finance.generateInvoice.description', icon: FileTextOutlined, disabled: false, newFeature: false },
+              ],
         },
         {
           title: 'operations.groups.attendance',
@@ -117,8 +118,12 @@ export const useOperationsStore = defineStore('operations', {
     navigateToOperation(key: string) {
       // Logic to navigate to the operation's route
       // Handle Finance routes differently
-
+ if (key.startsWith('finance/')) {
+  console.log('Navigating to finance route:', key)
+        router.push({ path: `/${key}` })
+      } else {
         router.push({ path: `/operations/${key}` })
+      }
     }
   },
 })

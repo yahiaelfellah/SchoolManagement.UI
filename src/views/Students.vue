@@ -82,7 +82,6 @@
 </template>
 
 <script setup lang="ts">
-// filepath: d:\Project\SchoolManagementSystem\schoolmanagementsystem.client\src\views\Students.vue
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'

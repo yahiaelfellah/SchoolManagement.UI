@@ -7,7 +7,6 @@
       @back="() => $router.back()"
     />
 
-    <!-- 🧍 Student & 👨‍👩‍👧 Guardian Info -->
     <div class="info-grid">
       <BasicInfo
         :student-id="id"
@@ -20,7 +19,6 @@
       />
     </div>
 
-    <!-- 📚 Academic Info Section -->
     <div class="section mt-6">
       <h3 class="section-title">
         {{ tl('sections.academicInfo') }}

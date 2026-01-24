@@ -38,11 +38,13 @@ import { useOperationsStore } from '@/stores/operations'
 import Filter from '@/components/Filter.vue'
 
 const { t } = useI18n()
-const activeKey = ref(0)
 const mode = ref<TabsProps['tabPosition']>('top')
 
 const store = useOperationsStore()
-
+const activeKey = computed({
+  get: () => store.lastOperationCategory || 0,
+  set: (val) => store.lastOperationCategory = val
+})
 onMounted(async () => {
   store.initializeOperations()
   await store.fetchFeatureStates()

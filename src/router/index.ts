@@ -79,7 +79,7 @@ const routes: RouteRecordRaw[] = [
         props: true,
       },
       {
-        path: "/operations/addPayment",
+        path: "/finance/add",
         name: "addPayment",
         component: () => import("@/views/Operations/AddPayment.vue"),
         props: true,

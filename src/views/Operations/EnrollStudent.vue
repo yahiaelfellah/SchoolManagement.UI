@@ -108,7 +108,7 @@ import type Student from '@/model/student'
 import type Class from '@/model/class'
 
 // Scoped i18n helper
-const { t, tl } = useLocalI18n('operations.students.enrollStudent')
+const { t, tl } = useLocalI18n('operations.students.enroll')
 
 const dialogStore = useDialogStore()
 const enrollFormRef = ref()

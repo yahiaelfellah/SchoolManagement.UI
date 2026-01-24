@@ -13,8 +13,8 @@
         :md="6"
       >
         <OperationCard 
-        :op="op" 
-        :click="handleCardClick(op.key)"
+        :op="op"
+        @click="handleCardClick(op.key)"  
         />
       </a-col>
     </a-row>
@@ -195,7 +195,7 @@ const operationStore = useOperationsStore()
 const dashboardStats = computed(() => financeStore.dashboardStats)
 const loading = computed(() => financeStore.loading)
 const overdueStudents = computed(() => financeStore.overdueStudents)
-const operations = computed(() => operationStore.fetchOperationsGroups('finance'))
+const operations = computed(() => operationStore.fetchOperationsGroups('finance')) || []
 
 onMounted(async () => {
   // Fetch all necessary data first
