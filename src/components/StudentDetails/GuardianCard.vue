@@ -77,7 +77,7 @@ import { onMounted, watch, computed } from 'vue'
 import { useGuardianStore } from '@/stores/guardianStore'
 
 const store = useGuardianStore()
-const props = defineProps<{ studentId?: number; title?: string }>()
+const props = defineProps<{ studentId?: string; title?: string }>()
 
 // 🧭 Lifecycle: Fetch guardians when mounted or when ID changes
 onMounted(() => store.fetchGuardians(props.studentId))

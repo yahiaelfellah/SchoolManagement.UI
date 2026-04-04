@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import * as teachersApi from '@/api/teachers'
+import type { TeacherDto } from '@/model/teacher'
 
-interface Teacher {
-  id: number
+export interface TeacherRow {
+  id: string
   firstName: string
   lastName: string
   subject: string
@@ -11,39 +13,45 @@ interface Teacher {
   status: 'Active' | 'On Leave' | 'Inactive'
 }
 
+function mapTeacher(t: TeacherDto): TeacherRow {
+  const hired =
+    t.createdAt?.split('T')[0] ??
+    t.updatedAt?.split('T')[0] ??
+    '—'
+  return {
+    id: t.id,
+    firstName: t.firstName ?? '',
+    lastName: t.lastName ?? '',
+    subject: '—',
+    classAssigned: '—',
+    hiredSince: hired,
+    status: 'Active',
+  }
+}
+
 export const useTeacherStore = defineStore('teachers', () => {
-  const teachers = ref<Teacher[]>([])
+  const teachers = ref<TeacherRow[]>([])
   const loading = ref(false)
 
-  // ---------- Mocked API ----------
   async function fetchTeachers() {
     loading.value = true
     try {
-      await new Promise(r => setTimeout(r, 700))
-      teachers.value = [
-        { id: 1, firstName: 'Ahmed', lastName: 'Saleh', subject: 'Mathematics', classAssigned: 'Grade 1', hiredSince: '2019-08-01', status: 'Active' },
-        { id: 2, firstName: 'Lina', lastName: 'Hassan', subject: 'Science', classAssigned: 'Grade 2', hiredSince: '2021-02-10', status: 'Active' },
-        { id: 3, firstName: 'Mohamed', lastName: 'Ali', subject: 'History', classAssigned: 'Grade 3', hiredSince: '2020-05-15', status: 'On Leave' },
-        { id: 4, firstName: 'Noura', lastName: 'Youssef', subject: 'English', classAssigned: 'Grade 1', hiredSince: '2022-09-01', status: 'Active' },
-        { id: 5, firstName: 'Omar', lastName: 'Fahmy', subject: 'Physical Education', classAssigned: 'All Grades', hiredSince: '2018-01-20', status: 'Inactive' },
-        { id: 6, firstName: 'Fatima', lastName: 'Adel', subject: 'Art', classAssigned: 'Grade 2', hiredSince: '2023-03-10', status: 'Active' },
-        { id: 7, firstName: 'Khaled', lastName: 'Mahmoud', subject: 'Computer Science', classAssigned: 'Grade 3', hiredSince: '2020-11-25', status: 'On Leave' }
-      ]
+      const rows = await teachersApi.fetchTeachers()
+      teachers.value = rows.map(mapTeacher)
     } finally {
       loading.value = false
     }
   }
 
-  // ---------- Actions ----------
-  function deleteTeacher(id: number) {
-    const idx = teachers.value.findIndex(t => t.id === id)
-    if (idx !== -1) teachers.value.splice(idx, 1)
+  async function deleteTeacher(id: string) {
+    await teachersApi.deleteTeacher(id)
+    teachers.value = teachers.value.filter(t => t.id !== id)
   }
 
   return {
     teachers,
     loading,
     fetchTeachers,
-    deleteTeacher
+    deleteTeacher,
   }
 })

@@ -99,7 +99,7 @@ const searchTerm = ref('')
 
 // modal state for deletion
 const deleteModalVisible = ref(false)
-const deleteTargetId = ref<number | null>(null)
+const deleteTargetId = ref<string | null>(null)
 const deleteTargetName = ref('')
 
 // ---------- LIFECYCLE ----------
@@ -137,9 +137,14 @@ const openDeleteModal = (item: any) => {
   deleteModalVisible.value = true
 }
 
-const confirmDelete = () => {
+const confirmDelete = async () => {
   if (deleteTargetId.value !== null) {
-    deleteStudent(deleteTargetId.value)
+    try {
+      await deleteStudent(deleteTargetId.value)
+      message.success(t('common.deleted') || 'Student deleted')
+    } catch {
+      message.error(t('common.error'))
+    }
   }
   deleteModalVisible.value = false
   deleteTargetId.value = null
@@ -152,16 +157,7 @@ const cancelDelete = () => {
   deleteTargetName.value = ''
 }
 
-// delete student locally with confirmation - delegate to store
-const deleteStudent = (id: number) => {
-  const idx = store.students.findIndex((s: any) => s.id === id)
-  if (idx === -1) {
-    message.error(t('common.error'))
-    return
-  }
-  store.deleteStudent(id)
-  message.success(t('common.deleted') || 'Student deleted')
-}
+const deleteStudent = (id: string) => store.deleteStudent(id)
 
 // ---------- HELPERS ----------
 const avatarFor = (s: any) =>

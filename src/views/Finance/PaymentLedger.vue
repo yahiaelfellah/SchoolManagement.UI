@@ -1,8 +1,8 @@
 <template>
   <div class="payment-ledger-page">
     <a-page-header
-      title="Payment Ledger"
-      sub-title="Monthly payment tracking per student"
+      :title="tl('paymentLedger.title')"
+      :sub-title="tl('paymentLedger.description')"
       @back="() => $router.push({ name: 'Finance' })"
     />
 
@@ -11,7 +11,7 @@
         <a-space>
           <a-select
             v-model:value="selectedStudent"
-            placeholder="Filter by student"
+            :placeholder="tl('paymentLedger.filterByStudent')"
             allow-clear
             style="width: 200px"
             @change="handleFilter"
@@ -29,7 +29,7 @@
 
           <a-select
             v-model:value="selectedStatus"
-            placeholder="Filter by status"
+            :placeholder="tl('paymentLedger.filterByStatus')"
             allow-clear
             style="width: 150px"
             @change="handleFilter"
@@ -96,10 +96,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useFinanceStore } from '@/stores/financeStore'
+import { useLocalI18n } from '@/helpers/useLocalI18n'
 import type { PaymentLedger } from '@/model/paymentLedger'
 import dayjs from 'dayjs'
 
 const financeStore = useFinanceStore()
+const { tl, t } = useLocalI18n('operations.finance')
 const paymentLedgers = computed<PaymentLedger[]>(() => financeStore.paymentLedgers)
 const loading = computed(() => financeStore.loading)
 const selectedStudent = ref<number | undefined>(undefined)
@@ -120,14 +122,14 @@ const filteredLedgers = computed(() => {
 })
 
 const columns = [
-  { title: 'Student', key: 'studentId' },
-  { title: 'Month', key: 'month' },
-  { title: 'Amount Due', key: 'amountDue' },
-  { title: 'Amount Paid', key: 'amountPaid' },
-  { title: 'Balance', key: 'balance' },
-  { title: 'Status', key: 'status' },
-  { title: 'Due Date', key: 'dueDate' },
-  { title: 'Services', key: 'services' }
+  { title: tl('paymentLedger.student'), key: 'studentId' },
+  { title: tl('paymentLedger.month'), key: 'month' },
+  { title: tl('paymentLedger.amountDue'), key: 'amountDue' },
+  { title: tl('paymentLedger.amountPaid'), key: 'amountPaid' },
+  { title: tl('paymentLedger.balance'), key: 'balance' },
+  { title: tl('paymentLedger.status'), key: 'status' },
+  { title: tl('paymentLedger.dueDate'), key: 'dueDate' },
+  { title: tl('paymentLedger.services'), key: 'services' }
 ]
 
 const formatMonth = (month: string) => {

@@ -1,15 +1,27 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useGuardianStore = defineStore('guardian', () => {
-  
- const guardian = ref<any>(null)
-  const guardians = ref<any[]>([])
- const invalidId = ref(false)
- const loading = ref(false) 
+function validStudentId(studentId?: string) {
+  return typeof studentId === 'string' && studentId.trim().length > 0
+}
 
- async function fetchGuardians(studentId?: number) {
-    if (!studentId || Number.isNaN(studentId) || studentId <= 0) {
+export const useGuardianStore = defineStore('guardian', () => {
+  const guardian = ref<unknown>(null)
+  const guardians = ref<
+    {
+      id: number
+      name: string
+      relationship: string
+      phone: string
+      email: string
+      address: { street: string; city: string; state: string; country: string }
+    }[]
+  >([])
+  const invalidId = ref(false)
+  const loading = ref(false)
+
+  async function fetchGuardians(studentId?: string) {
+    if (!validStudentId(studentId)) {
       invalidId.value = true
       guardians.value = []
       return
@@ -30,8 +42,8 @@ export const useGuardianStore = defineStore('guardian', () => {
           street: '123 Palm St',
           city: 'Dubai',
           state: 'Dubai',
-          country: 'UAE'
-        }
+          country: 'UAE',
+        },
       },
       {
         id: 2,
@@ -43,43 +55,42 @@ export const useGuardianStore = defineStore('guardian', () => {
           street: '123 Palm St',
           city: 'Dubai',
           state: 'Dubai',
-          country: 'UAE'
-        }
-      }
+          country: 'UAE',
+        },
+      },
     ]
 
     loading.value = false
   }
- 
- async function fetchGuardian(id?: number) {
-  if (!id || Number.isNaN(id) || id <= 0) {
-    invalidId.value = true
-    guardian.value = null
-    return
-  }
 
-  invalidId.value = false
-  loading.value = true
-  await new Promise(r => setTimeout(r, 300))
-
-  guardian.value = {
-    id: 101,
-    name: 'Ahmed Youssef',
-    relationship: 'Father',
-    phone: '+971 555 123 456',
-    email: 'ahmed.youssef@example.com',
-    address: {
-      street: 'Villa 24, Al Nahda St.',
-      city: 'Dubai',
-      state: 'Dubai',
-      country: 'United Arab Emirates'
+  async function fetchGuardian(id?: number) {
+    if (!id || Number.isNaN(id) || id <= 0) {
+      invalidId.value = true
+      guardian.value = null
+      return
     }
+
+    invalidId.value = false
+    loading.value = true
+    await new Promise(r => setTimeout(r, 300))
+
+    guardian.value = {
+      id: 101,
+      name: 'Ahmed Youssef',
+      relationship: 'Father',
+      phone: '+971 555 123 456',
+      email: 'ahmed.youssef@example.com',
+      address: {
+        street: 'Villa 24, Al Nahda St.',
+        city: 'Dubai',
+        state: 'Dubai',
+        country: 'United Arab Emirates',
+      },
+    }
+
+    loading.value = false
   }
 
-  loading.value = false
-}
-  
-  
   function createGuardian() {
     return {
       firstName: '',

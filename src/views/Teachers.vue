@@ -101,7 +101,7 @@ const searchTerm = ref('')
 
 // modal state for deletion
 const deleteModalVisible = ref(false)
-const deleteTargetId = ref<number | null>(null)
+const deleteTargetId = ref<string | null>(null)
 const deleteTargetName = ref('')
 
 // ---------- LIFECYCLE ----------
@@ -129,8 +129,8 @@ const resetFilters = () => {
 }
 
 // ---------- ACTIONS ----------
-const viewTeacherDetails = (record: any) => {
-  router.push(`/teachers/${record.id}`)
+const viewTeacherDetails = (_record: unknown) => {
+  router.push('/teachers')
 }
 
 // open modal with selected teacher
@@ -140,9 +140,14 @@ const openDeleteModal = (item: any) => {
   deleteModalVisible.value = true
 }
 
-const confirmDelete = () => {
+const confirmDelete = async () => {
   if (deleteTargetId.value !== null) {
-    deleteTeacher(deleteTargetId.value)
+    try {
+      await deleteTeacher(deleteTargetId.value)
+      message.success(t('common.deleted') || 'Teacher deleted')
+    } catch {
+      message.error(t('common.error'))
+    }
   }
   deleteModalVisible.value = false
   deleteTargetId.value = null
@@ -155,16 +160,7 @@ const cancelDelete = () => {
   deleteTargetName.value = ''
 }
 
-// delete teacher locally with confirmation
-const deleteTeacher = (id: number) => {
-  const idx = store.teachers.findIndex((t: any) => t.id === id)
-  if (idx === -1) {
-    message.error(t('common.error'))
-    return
-  }
-  store.deleteTeacher(id)
-  message.success(t('common.deleted') || 'Teacher deleted')
-}
+const deleteTeacher = (id: string) => store.deleteTeacher(id)
 
 // ---------- HELPERS ----------
 const avatarFor = (t: any) =>

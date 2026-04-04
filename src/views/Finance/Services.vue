@@ -1,8 +1,8 @@
 <template>
   <div class="services-page">
     <a-page-header
-      title="Services Management"
-      sub-title="Manage student services (Transport, Lunch, Books, etc.)"
+      :title="tl('services.title')"
+      :sub-title="tl('services.description')"
       @back="() => $router.push({ name: 'Finance' })"
     />
 
@@ -15,7 +15,7 @@
           <template #icon>
             <PlusOutlined />
           </template>
-          Add Service
+          {{ tl('services.addService') }}
         </a-button>
       </template>
 
@@ -48,7 +48,7 @@
                 <template #icon>
                   <EditOutlined />
                 </template>
-                Edit
+                {{ tl('services.editService') }}
               </a-button>
               <a-button
                 size="small"
@@ -58,7 +58,7 @@
                 <template #icon>
                   <DeleteOutlined />
                 </template>
-                Delete
+                {{ tl('tuitionPlans.delete') }}
               </a-button>
             </a-space>
           </template>
@@ -69,7 +69,7 @@
     <!-- Add/Edit Modal -->
     <a-modal
       v-model:open="showModal"
-      :title="editingService ? 'Edit Service' : 'Create Service'"
+      :title="editingService ? tl('services.editService') : tl('services.createService')"
       @ok="handleSubmit"
       @cancel="handleCancel"
     >
@@ -78,17 +78,17 @@
         layout="vertical"
       >
         <a-form-item
-          label="Service Name"
+          :label="tl('services.serviceName')"
           required
         >
           <a-input
             v-model:value="form.name"
-            placeholder="e.g., Transport, Lunch"
+            :placeholder="tl('services.serviceName')"
           />
         </a-form-item>
 
         <a-form-item
-          label="Cost (TND)"
+          :label="`${tl('services.cost')} (TND)`"
           required
         >
           <a-input-number
@@ -108,13 +108,13 @@
 
         <a-form-item>
           <a-checkbox v-model:checked="form.recurring">
-            Recurring service (added monthly)
+            {{ tl('services.recurring') }}
           </a-checkbox>
         </a-form-item>
 
         <a-form-item>
           <a-checkbox v-model:checked="form.discountAllowed">
-            Discount allowed
+            {{ tl('services.discountAllowed') }}
           </a-checkbox>
         </a-form-item>
       </a-form>
@@ -123,16 +123,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { useFinanceStore } from '@/stores/financeStore'
+import { useLocalI18n } from '@/helpers/useLocalI18n'
 import type { Service } from '@/model/service'
 
 const router = useRouter()
 const financeStore = useFinanceStore()
-const { services, loading } = financeStore
+const { tl, t } = useLocalI18n('operations.finance')
+const services = computed(() => financeStore.services)
+const loading = computed(() => financeStore.loading)
 
 const showModal = ref(false)
 const editingService = ref<Service | null>(null)
@@ -146,10 +149,10 @@ const form = ref({
 })
 
 const columns = [
-  { title: 'Service Name', dataIndex: 'name', key: 'name' },
-  { title: 'Cost', key: 'cost' },
-  { title: 'Recurring', key: 'recurring' },
-  { title: 'Discount Allowed', key: 'discountAllowed' },
+  { title: tl('services.serviceName'), dataIndex: 'name', key: 'name' },
+  { title: tl('services.cost'), key: 'cost' },
+  { title: tl('services.recurring'), key: 'recurring' },
+  { title: tl('services.discountAllowed'), key: 'discountAllowed' },
   { title: 'Description', dataIndex: 'description', key: 'description' },
   { title: 'Actions', key: 'actions' }
 ]
@@ -169,29 +172,29 @@ const handleEdit = (service: Service) => {
 const handleDelete = async (id: string) => {
   try {
     await financeStore.deleteService(id)
-    message.success('Service deleted successfully')
+    message.success(t('common.success'))
   } catch (error) {
-    message.error('Failed to delete service')
+    message.error('Error deleting service')
   }
 }
 
 const handleSubmit = async () => {
   if (!form.value.name || !form.value.cost) {
-    message.error('Please fill all required fields')
+    message.error(t('common.validations.required'))
     return
   }
 
   try {
     if (editingService.value) {
       await financeStore.updateService(editingService.value.id, form.value)
-      message.success('Service updated successfully')
+      message.success(t('common.success'))
     } else {
       await financeStore.createService(form.value)
-      message.success('Service created successfully')
+      message.success(t('common.success'))
     }
     handleCancel()
   } catch (error) {
-    message.error('Failed to save service')
+    message.error('Error saving service')
   }
 }
 

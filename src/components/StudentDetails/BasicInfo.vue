@@ -59,7 +59,7 @@
 import { computed, onMounted, watch } from 'vue'
 import { useStudentStore } from '@/stores/studentStore'
 
-const props = defineProps<{ studentId?: number; title?: string }>()
+const props = defineProps<{ studentId?: string; title?: string }>()
 const store = useStudentStore()
 
 // 🧭 Lifecycle

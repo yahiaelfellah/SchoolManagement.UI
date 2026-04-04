@@ -304,9 +304,9 @@ const userColumns = [
 const handleAddUser = async () => {
   try {
     const newUser: User = {
-      id: Date.now(),
+      id: String(Date.now()),
       ...userForm.value,
-      role: userForm.value.role || 'user', // ensure fallback to 'user'
+      role: (userForm.value.role ?? 'user') as User['role'],
       active: true,
       createdAt: new Date()
     }
@@ -324,7 +324,7 @@ const handleAddUser = async () => {
   }
 }
 
-const handleUserStatus = (userId: number, active: boolean) => {
+const handleUserStatus = (userId: string, active: boolean) => {
   const user = users.value.find(u => u.id === userId)
   if (user) {
     user.active = active
@@ -332,7 +332,7 @@ const handleUserStatus = (userId: number, active: boolean) => {
   }
 }
 
-const removeUser = (userId: number) => {
+const removeUser = (userId: string) => {
   users.value = users.value.filter(u => u.id !== userId)
   message.success(tl('users.messages.deleted'))
 }

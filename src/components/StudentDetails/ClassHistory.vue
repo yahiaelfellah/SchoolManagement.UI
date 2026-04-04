@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 
-const props = defineProps<{ studentId?: number,  title?: string }>();
+const props = defineProps<{ studentId?: string; title?: string }>()
 const data = ref<any[]>([]);
 const loading = ref(false);
 const invalidId = ref(false);
@@ -39,8 +39,8 @@ const columns = [
   { title: 'Teacher', dataIndex: 'teacher', key: 'teacher' }
 ];
 
-async function fetchClassHistory(id?: number) {
-  if (!id || Number.isNaN(id) || id <= 0) {
+async function fetchClassHistory(id?: string) {
+  if (!id?.trim()) {
     invalidId.value = true
     data.value = []
     return

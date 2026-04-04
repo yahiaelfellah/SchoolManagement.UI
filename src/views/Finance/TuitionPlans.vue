@@ -1,8 +1,8 @@
 <template>
   <div class="tuition-plans-page">
     <a-page-header
-      title="Tuition Plans Manager"
-      sub-title="Manage tuition plans and auto-generate due dates"
+      :title="tl('tuitionPlans.title')"
+      :sub-title="tl('tuitionPlans.description')"
       @back="() => $router.push({ name: 'Finance' })"
     />
 
@@ -15,7 +15,7 @@
           <template #icon>
             <PlusOutlined />
           </template>
-          Add Plan
+          {{ tl('tuitionPlans.addPlan') }}
         </a-button>
       </template>
 
@@ -54,7 +54,7 @@
                 <template #icon>
                   <EditOutlined />
                 </template>
-                Edit
+                {{ tl('tuitionPlans.edit') }}
               </a-button>
               <a-button
                 size="small"
@@ -64,7 +64,7 @@
                 <template #icon>
                   <DeleteOutlined />
                 </template>
-                Delete
+                {{ tl('tuitionPlans.delete') }}
               </a-button>
             </a-space>
           </template>
@@ -75,7 +75,7 @@
     <!-- Add/Edit Modal -->
     <a-modal
       v-model:open="showModal"
-      :title="editingPlan ? 'Edit Tuition Plan' : 'Create Tuition Plan'"
+      :title="editingPlan ? tl('tuitionPlans.editPlan') : tl('tuitionPlans.createPlan')"
       @ok="handleSubmit"
       @cancel="handleCancel"
     >
@@ -84,7 +84,7 @@
         layout="vertical"
       >
         <a-form-item
-          label="Plan Name"
+          :label="tl('tuitionPlans.planName')"
           required
         >
           <a-select
@@ -104,7 +104,7 @@
         </a-form-item>
 
         <a-form-item
-          label="Amount (TND)"
+          :label="`${tl('tuitionPlans.amount')} (TND)`"
           required
         >
           <a-input-number
@@ -116,7 +116,7 @@
 
         <a-form-item>
           <a-checkbox v-model:checked="form.autoGenerateInvoices">
-            Auto-generate invoices
+            {{ tl('tuitionPlans.autoGenerateInvoices') }}
           </a-checkbox>
         </a-form-item>
 
@@ -133,7 +133,7 @@
 
         <a-form-item v-if="form.name && startDate">
           <a-button @click="generateDates">
-            Generate Due Dates
+            {{ tl('tuitionPlans.generateDates') }}
           </a-button>
         </a-form-item>
 
@@ -155,17 +155,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { useFinanceStore } from '@/stores/financeStore'
+import { useLocalI18n } from '@/helpers/useLocalI18n'
 import type { TuitionPlan } from '@/model/tuitionPlan'
 import dayjs, { type Dayjs } from 'dayjs'
 
-const router = useRouter()
 const financeStore = useFinanceStore()
-const { tuitionPlans, loading } = financeStore
+const { tl, t } = useLocalI18n('operations.finance')
+const tuitionPlans = computed(() => financeStore.tuitionPlans)
+const loading = computed(() => financeStore.loading)
 
 const showModal = ref(false)
 const editingPlan = ref<TuitionPlan | null>(null)
@@ -179,10 +181,10 @@ const form = ref({
 })
 
 const columns = [
-  { title: 'Plan Name', dataIndex: 'name', key: 'name' },
-  { title: 'Amount', key: 'amount' },
+  { title: tl('tuitionPlans.planName'), dataIndex: 'name', key: 'name' },
+  { title: tl('tuitionPlans.amount'), key: 'amount' },
   { title: 'Due Dates', key: 'dueDates' },
-  { title: 'Auto-generate Invoices', key: 'autoGenerateInvoices' },
+  { title: tl('tuitionPlans.autoGenerateInvoices'), key: 'autoGenerateInvoices' },
   { title: 'Actions', key: 'actions' }
 ]
 
@@ -220,29 +222,29 @@ const handleEdit = (plan: TuitionPlan) => {
 const handleDelete = async (id: string) => {
   try {
     await financeStore.deleteTuitionPlan(id)
-    message.success('Plan deleted successfully')
+    message.success(t('common.success'))
   } catch (error) {
-    message.error('Failed to delete plan')
+    message.error('Error deleting plan')
   }
 }
 
 const handleSubmit = async () => {
   if (!form.value.name || !form.value.amount) {
-    message.error('Please fill all required fields')
+    message.error(t('common.validations.required'))
     return
   }
 
   try {
     if (editingPlan.value) {
       await financeStore.updateTuitionPlan(editingPlan.value.id, form.value)
-      message.success('Plan updated successfully')
+      message.success(t('common.success'))
     } else {
       await financeStore.createTuitionPlan(form.value)
-      message.success('Plan created successfully')
+      message.success(t('common.success'))
     }
     handleCancel()
   } catch (error) {
-    message.error('Failed to save plan')
+    message.error('Error saving plan')
   }
 }
 

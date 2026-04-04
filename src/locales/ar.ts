@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 export default {
   common: {
     add: "إضافة",
@@ -42,6 +40,8 @@ export default {
     selectDays: "اختر الأيام",
     search: "بحث",
     reset: "إعادة تعيين",
+    yes: "نعم",
+    no: "لا",
 
     success: "تمت العملية بنجاح",
     departments: {
@@ -371,6 +371,14 @@ finance: {
     description: "تتبع المدفوعات الشهرية لكل طالب",
     filterByStudent: "التصفية حسب الطالب",
     filterByStatus: "التصفية حسب الحالة",
+    student: "الطالب",
+    month: "الشهر",
+    amountDue: "المبلغ المستحق",
+    amountPaid: "المبلغ المدفوع",
+    balance: "الرصيد",
+    status: "الحالة",
+    dueDate: "تاريخ الاستحقاق",
+    services: "الخدمات",
   },
   paymentCalendar: {
     title: "تقويم المدفوعات",

@@ -1,7 +1,7 @@
 <template>
   <div class="finance-dashboard">
     <a-page-header
-      title="Finance Dashboard"
+      :title="tl('dashboard.title')"
     />
 
     <a-row :gutter="[16, 16]">
@@ -23,7 +23,7 @@
       <a-col :xs="24" :sm="12" :md="6">
         <a-card>
           <a-statistic
-            title="Total Collected (This Month)"
+            :title="tl('dashboard.totalCollected')"
             :value="dashboardStats?.totalCollectedThisMonth || 0"
             :precision="0"
             suffix="TND"
@@ -34,7 +34,7 @@
       <a-col :xs="24" :sm="12" :md="6">
         <a-card>
           <a-statistic
-            title="Outstanding Balance"
+            :title="tl('dashboard.outstandingBalance')"
             :value="dashboardStats?.outstandingBalance || 0"
             :precision="0"
             suffix="TND"
@@ -46,7 +46,7 @@
       <a-col :xs="24" :sm="12" :md="6">
         <a-card>
           <a-statistic
-            title="Overdue Payments"
+            :title="tl('dashboard.overdueStudents')"
             :value="dashboardStats?.overdueCount || 0"
             :value-style="{ color: '#ff4d4f' }"
           />
@@ -56,7 +56,7 @@
       <a-col :xs="24" :sm="12" :md="6">
         <a-card>
           <a-statistic
-            title="Partial Payments"
+            :title="tl('dashboard.partialPayments')"
             :value="dashboardStats?.partialPaymentCount || 0"
             :value-style="{ color: '#faad14' }"
           />
@@ -65,7 +65,7 @@
 
       <!-- Revenue Graph -->
       <a-col :xs="24" :md="16">
-        <a-card title="Revenue Trend (Last 6 Months)">
+        <a-card :title="tl('dashboard.revenueTrend')">
           <div class="revenue-chart">
             <div v-if="dashboardStats?.revenueData && dashboardStats.revenueData.length > 0" class="chart-container">
               <div class="chart-bars">
@@ -96,7 +96,7 @@
 
       <!-- Overdue Students List -->
       <a-col :xs="24" :md="8">
-        <a-card title="Overdue Students">
+        <a-card :title="tl('dashboard.overdueStudents')">
           <a-list
             :data-source="overdueStudents"
             :loading="loading"
@@ -120,63 +120,6 @@
           </a-list>
         </a-card>
       </a-col>
-
-      <!-- Popular Services -->
-      <a-col :xs="24" :md="12">
-        <a-card title="Popular Services">
-          <a-list
-            :data-source="dashboardStats?.popularServices || []"
-            :loading="loading"
-            size="small"
-          >
-            <template #renderItem="{ item }">
-              <a-list-item>
-                <a-list-item-meta>
-                  <template #title>
-                    {{ item.serviceName }}
-                  </template>
-                  <template #description>
-                    <div>
-                      <div>Students: {{ item.studentCount }}</div>
-                      <div>Revenue: {{ item.totalRevenue.toLocaleString() }} TND</div>
-                    </div>
-                  </template>
-                </a-list-item-meta>
-              </a-list-item>
-            </template>
-          </a-list>
-        </a-card>
-      </a-col>
-
-      <!-- Payment Methods Stats -->
-      <a-col :xs="24" :md="12">
-        <a-card title="Payment Methods Statistics">
-          <a-list
-            :data-source="dashboardStats?.paymentMethodsStats || []"
-            :loading="loading"
-            size="small"
-          >
-            <template #renderItem="{ item }">
-              <a-list-item>
-                <a-list-item-meta>
-                  <template #title>
-                    {{ item.method.toUpperCase() }}
-                  </template>
-                  <template #description>
-                    <div>
-                      <div>Count: {{ item.count }}</div>
-                      <div>Total: {{ item.totalAmount.toLocaleString() }} TND ({{ item.percentage }}%)</div>
-                    </div>
-                  </template>
-                </a-list-item-meta>
-              </a-list-item>
-            </template>
-          </a-list>
-        </a-card>
-      </a-col>
-
-      <!-- Navigation Cards -->
-
     </a-row>
   </div>
 </template>
@@ -187,7 +130,9 @@ import { useFinanceStore } from '@/stores/financeStore'
 import dayjs from 'dayjs'
 import { useOperationsStore } from '@/stores/operations'
 import OperationCard from '@/components/Operations/OperationCard.vue'
+import { useLocalI18n } from '@/helpers/useLocalI18n'
 
+const { t, tl } = useLocalI18n('operations.finance')
 
 const financeStore = useFinanceStore()
 const operationStore = useOperationsStore()

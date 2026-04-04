@@ -68,17 +68,14 @@ export const useOperationsStore = defineStore('operations', {
             { key: 'teachers/add', title: 'operations.teachers.add.title', description: 'operations.teachers.add.description', icon: UsergroupAddOutlined, disabled: false, newFeature: false },
             { key: 'teachers/assign', title: 'operations.teachers.assignTeacher.title', description: 'operations.teachers.assignTeacher.description', icon: TeamOutlined, disabled: false, newFeature: false },
             { key: 'teachers/update', title: 'operations.teachers.update.title', description: 'operations.teachers.update.description', icon: EditOutlined, disabled: false, newFeature: false },
-            // { key: 'viewTeacherPerformance', title: 'operations.viewTeacherPerformance', description: 'operations.viewTeacherPerformance_desc', icon: BarChartOutlined, disabled: false, newFeature: false },
           ],
         },
         {
           title: 'operations.groups.academics',
           items: [
-            { key: 'classes/add', title: 'operations.addClass', description: 'operations.addClass_desc', icon: BookOutlined, disabled: false, newFeature: false },
-            { key: 'subjects/assign', title: 'operations.assignSubjects', description: 'operations.assignSubjects_desc', icon: BranchesOutlined, disabled: false, newFeature: false },
-            { key: 'setCalendar', title: 'operations.setCalendar.title', description: 'operations.setCalendar.description', icon: CalendarOutlined, disabled: false, newFeature: false },
-            { key: 'generateTimetable', title: 'operations.generateTimetable.title', description: 'operations.generateTimetable.description', icon: ScheduleOutlined, disabled: false, newFeature: false },
-            { key: 'enterGrades', title: 'operations.enterGrades', description: 'operations.enterGrades_desc', icon: FileDoneOutlined, disabled: false, newFeature: false },
+            { key: 'academics/Addclasse', title: 'operations.academics.addClass.title', description: 'operations.academics.addClass.description', icon: BookOutlined, disabled: false, newFeature: false },
+            { key: 'academics/AssignSubject', title: 'operations.academics.assignSubjects.title', description: 'operations.academics.assignSubjects.description', icon: BranchesOutlined, disabled: false, newFeature: false },
+            { key: 'academics/generateTimetable', title: 'operations.academics.generateTimetable.title', description: 'operations.academics.generateTimetable.description', icon: ScheduleOutlined, disabled: false, newFeature: false },
           ],
         },
         {
@@ -90,14 +87,14 @@ export const useOperationsStore = defineStore('operations', {
             { key: 'finance/generate', title: 'operations.finance.generateInvoice.title', description: 'operations.finance.generateInvoice.description', icon: FileTextOutlined, disabled: false, newFeature: false },
               ],
         },
-        {
-          title: 'operations.groups.attendance',
-          items: [
-            { key: 'markAttendance', title: 'operations.markAttendance.title', description: 'operations.markAttendance.description', icon: ClockCircleOutlined, disabled: false, newFeature: false },
-            { key: 'viewAttendanceSummary', title: 'operations.viewAttendanceSummary.title', description: 'operations.viewAttendanceSummary.description', icon: TableOutlined, disabled: false, newFeature: false },
-            { key: 'attendanceReport', title: 'operations.attendanceReport.title', description: 'operations.attendanceReport.description', icon: BarChartOutlined, disabled: false, newFeature: false },
-          ],
-        }
+        // {
+        //   title: 'operations.groups.attendance',
+        //   items: [
+        //     { key: 'markAttendance', title: 'operations.markAttendance.title', description: 'operations.markAttendance.description', icon: ClockCircleOutlined, disabled: false, newFeature: false },
+        //     { key: 'viewAttendanceSummary', title: 'operations.viewAttendanceSummary.title', description: 'operations.viewAttendanceSummary.description', icon: TableOutlined, disabled: false, newFeature: false },
+        //     { key: 'attendanceReport', title: 'operations.attendanceReport.title', description: 'operations.attendanceReport.description', icon: BarChartOutlined, disabled: false, newFeature: false },
+        //   ],
+        // }
       ]
     },
 

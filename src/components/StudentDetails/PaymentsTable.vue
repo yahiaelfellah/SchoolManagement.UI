@@ -34,8 +34,8 @@
         <template #renderItem="{ item }">
           <a-list-item class="payment-item">
             <a-list-item-meta
-              :title="`Payment on ${item.date}`"
-              :description="`${item.method} • ${item.amount.toLocaleString()} TND`"
+              :title="`Due ${item.date}`"
+              :description="`${item.status} • Due date billing`"
             />
             <div class="status-container">
               <a-tag
@@ -73,17 +73,20 @@ import {
   CreditCardOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons-vue'
+import * as paymentsApi from '@/api/payments'
+import { ApiError } from '@/api/client'
 
 const router = useRouter()
-const props = defineProps<{ studentId?: number; title?: string }>()
+const props = defineProps<{ studentId?: string; title?: string }>()
 
-const payments = ref<any[]>([])
+const payments = ref<
+  { id: string; date: string; amount: number; method: string; status: string }[]
+>([])
 const loading = ref(false)
 const invalidId = ref(false)
 
-// 🧾 Mock fetch
-async function fetchPayments(id?: number) {
-  if (!id || Number.isNaN(id) || id <= 0) {
+async function fetchPayments(id?: string) {
+  if (!id?.trim()) {
     invalidId.value = true
     payments.value = []
     return
@@ -91,24 +94,34 @@ async function fetchPayments(id?: number) {
 
   invalidId.value = false
   loading.value = true
-  await new Promise(r => setTimeout(r, 400))
-
-  payments.value = [
-    { id: 1, date: '2024-01-05', amount: 1200, method: 'Card', status: 'Paid' },
-    { id: 2, date: '2024-05-05', amount: 1200, method: 'Cash', status: 'Paid' },
-    { id: 3, date: '2024-09-05', amount: 1200, method: 'Card', status: 'Pending' },
-    { id: 4, date: '2024-10-05', amount: 1200, method: 'Bank Transfer', status: 'Overdue' },
-    { id: 5, date: '2025-01-05', amount: 1200, method: 'Card', status: 'Pending' }
-  ]
-
-  loading.value = false
+  try {
+    const rows = await paymentsApi.fetchPaymentsByStudent(id)
+    payments.value = rows.map(p => {
+      const due = p.dueDate?.split('T')[0] ?? p.dueDate
+      const overdue = !p.isPaid && due && new Date(due) < new Date()
+      const status = p.isPaid ? 'Paid' : overdue ? 'Overdue' : 'Pending'
+      return {
+        id: p.id,
+        date: due,
+        amount: 0,
+        method: '—',
+        status,
+      }
+    })
+  } catch (e) {
+    if (e instanceof ApiError && e.status === 404) {
+      payments.value = []
+    } else {
+      throw e
+    }
+  } finally {
+    loading.value = false
+  }
 }
 
-// ⚠️ Helpers
 const hasOverdue = computed(() =>
   payments.value.some(p => p.status === 'Overdue')
 )
-
 
 const statusTagColor = (status: string) => {
   switch (status) {
@@ -123,14 +136,16 @@ const statusTagColor = (status: string) => {
   }
 }
 
-// 🔗 Navigation
 function goToPaymentView() {
   if (!props.studentId) return
-  router.push({ name: 'PaymentsView', params: { studentId: props.studentId } })
+  router.push({
+    path: '/finance',
+    query: { studentId: props.studentId },
+  })
 }
 
 onMounted(() => fetchPayments(props.studentId))
-watch(() => props.studentId, (v) => fetchPayments(v))
+watch(() => props.studentId, v => fetchPayments(v))
 </script>
 
 <style scoped>

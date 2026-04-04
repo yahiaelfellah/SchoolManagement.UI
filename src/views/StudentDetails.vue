@@ -45,10 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useLocalI18n } from '@/helpers/useLocalI18n'
+import { useStudentStore } from '@/stores/studentStore'
 
 import BasicInfo from '@/components/StudentDetails/BasicInfo.vue'
 import GuardianCard from '@/components/StudentDetails/GuardianCard.vue'
@@ -57,20 +58,22 @@ import PaymentsTable from '@/components/StudentDetails/PaymentsTable.vue'
 import DocumentsTable from '@/components/StudentDetails/DocumentsTable.vue'
 
 const route = useRoute()
+const store = useStudentStore()
 const { t, tl } = useLocalI18n('operations.students.details')
 
-const id = Number(route.params.id)
+const id = computed(() => String(route.params.id ?? ''))
+
 const studentTitle = computed(() =>
-  Number.isNaN(id) || id <= 0 ? tl('title') : `${tl('title')} #${id}`
+  store.student?.fullName ? store.student.fullName : tl('title')
 )
 
-if (Number.isNaN(id) || id <= 0) {
+if (!id.value) {
   message.error(t('common.invalidId'))
 }
 
 // Mock document download
-const downloadFile = (record: any) => {
-  message.success(`Downloading ${record.name}...`)
+const downloadFile = (record: { name?: string }) => {
+  message.success(`Downloading ${record.name ?? 'file'}...`)
 }
 </script>
 

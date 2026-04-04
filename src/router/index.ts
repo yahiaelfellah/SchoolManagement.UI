@@ -33,6 +33,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/Teachers.vue"),
       },
       {
+        path: "/teachers/:id",
+        redirect: "/teachers",
+      },
+      {
         path: "/classes", // fixed: point to Classes view
         component: () => import("@/views/Classes.vue"),
       },
@@ -84,24 +88,24 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/Operations/AddPayment.vue"),
         props: true,
       },
-      {
-        path: "/operations/markAttendance",
-        name: "markAttendance",
-        component: () => import("@/views/Operations/MarkAttendance.vue"),
-        props: true,
-      },
-      {
-        path: "/operations/attendanceReport",
-        name: "attendanceReport",
-        component: () => import("@/views/Operations/AttendanceReport.vue"),
-        props: true,
-      },
-      {
-        path: "/operations/viewAttendanceSummary",
-        name: "viewAttendanceSummary",
-        component: () => import("@/views/Operations/ViewAttendanceSummary.vue"),
-        props: true,
-      },
+      // {
+      //   path: "/operations/markAttendance",
+      //   name: "markAttendance",
+      //   component: () => import("@/views/Operations/MarkAttendance.vue"),
+      //   props: true,
+      // },
+      // {
+      //   path: "/operations/attendanceReport",
+      //   name: "attendanceReport",
+      //   component: () => import("@/views/Operations/AttendanceReport.vue"),
+      //   props: true,
+      // },
+      // {
+      //   path: "/operations/viewAttendanceSummary",
+      //   name: "viewAttendanceSummary",
+      //   component: () => import("@/views/Operations/ViewAttendanceSummary.vue"),
+      //   props: true,
+      // },
       {
         path: "/finance",
         name: "finance-dashboard", // explicit name to ensure clear matching

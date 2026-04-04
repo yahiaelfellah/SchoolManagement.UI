@@ -85,13 +85,13 @@ import {
   DownloadOutlined
 } from '@ant-design/icons-vue'
 
-const props = defineProps<{ studentId?: number; title?: string }>()
+const props = defineProps<{ studentId?: string; title?: string }>()
 const documents = ref<any[]>([])
 const loading = ref(false)
 const invalidId = ref(false)
 
-async function fetchDocuments(id?: number) {
-  if (!id || Number.isNaN(id) || id <= 0) {
+async function fetchDocuments(id?: string) {
+  if (!id?.trim()) {
     invalidId.value = true
     documents.value = []
     return

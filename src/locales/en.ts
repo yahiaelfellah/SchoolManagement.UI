@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 export default {
   common: {
     add: "Add",
@@ -42,6 +40,8 @@ export default {
     selectDays: "Select Days",
     search: "Search",
     reset: "Reset",
+    yes: "Yes",
+    no: "No",
 
     success: "Operation completed successfully",
     departments: {
@@ -318,7 +318,6 @@ export default {
         description: "Update personal or employment details of a teacher.",
       }
     },
-
     classes: {
       add: {
         title: "Add Class",
@@ -341,54 +340,62 @@ export default {
         },
       },
     },
-    setCalendar: {
-      title: "Academic Calendar Management",
-      description: "Create academic years and add related school events.",
-      academicYear: {
-        management: "Academic Year Management",
-        name: "Academic Year",
-        namePlaceholder: "e.g. 2024–2025",
-        range: "Date Range",
-        selectYear: "Select Academic Year",
-        open: "Open",
-        closed: "Closed",
-        close: "Close Academic Year",
-        closedInfo: "This academic year is closed. You cannot add new events.",
-        closedSuccess: "Academic year closed successfully.",
-        noActive: "No active academic year found.",
-        onlyOneActive: "Only one active academic year can exist at a time.",
-      },
-      events: {
-        title: "School Events",
-        form: {
-          title: "Event Title",
-          titlePlaceholder: "Parent Meeting, Exam, etc.",
-          type: "Event Type",
-          typePlaceholder: "Select type",
-          range: "Event Range",
-        },
-        types: {
-          meeting: "Meeting",
-          exam: "Exam",
-          holiday: "Holiday",
-          activity: "Activity",
-        },
-      },
+    finance: {
+    title: "Student Finance & Payment Module",
+    dashboard: {
+      title: "Finance Dashboard",
+      totalCollected: "Total Collected (This Month)",
+      outstandingBalance: "Outstanding Balance",
+      overdueStudents: "Overdue Students",
+      partialPayments: "Partial Payments",
+      revenueTrend: "Revenue Trend",
+      popularServices: "Popular Services",
+      paymentMethods: "Payment Methods",
     },
-    generateTimetable: {
-      title: "Generate Timetable",
-      description: "Generate timetable schedules for classes and teachers.",
-      form: {
-        class: "Class",
-        selectClass: "Select a class",
-        teacher: "Teacher",
-        selectTeacher: "Select a teacher",
-        days: "Select Days",
-        timeSlot: "Time Slot",
-        notes: "Notes",
-        notesPlaceholder: "Additional notes or details",
-      },
-      success: "Timetable generated successfully!",
+    tuitionPlans: {
+      title: "Tuition Plans Manager",
+      description: "Manage tuition plans and auto-generate due dates",
+      addPlan: "Add Plan",
+      editPlan: "Edit Tuition Plan",
+      createPlan: "Create Tuition Plan",
+      planName: "Plan Name",
+      amount: "Amount",
+      autoGenerateInvoices: "Auto-generate invoices",
+      generateDates: "Generate Dates",
+      edit: "Edit",
+      delete: "Delete",
+    },
+    paymentLedger: {
+      title: "Payment Ledger",
+      description: "Monthly payment tracking per student",
+      filterByStudent: "Filter by student",
+      filterByStatus: "Filter by status",
+      student: "Student",
+      month: "Month",
+      amountDue: "Amount Due",
+      amountPaid: "Amount Paid",
+      balance: "Balance",
+      status: "Status",
+      dueDate: "Due Date",
+      services: "Services",
+    },
+    paymentCalendar: {
+      title: "Payment Calendar",
+      description: "Visual calendar view of payment statuses",
+      previous: "Previous",
+      next: "Next",
+      today: "Today",
+    },
+    services: {
+      title: "Services Management",
+      description: "Manage student services (Transport, Lunch, Books, etc.)",
+      addService: "Add Service",
+      editService: "Edit Service",
+      createService: "Create Service",
+      serviceName: "Service Name",
+      cost: "Cost",
+      recurring: "Recurring service (added monthly)",
+      discountAllowed: "Discount allowed",
     },
     addPayment: {
       title: "Add Payment",
@@ -417,75 +424,43 @@ export default {
       },
       success: "Payment added successfully!",
     },
-    markAttendance: {
-      title: "Mark Attendance",
-      description: "Record attendance for students in a selected class.",
-      form: {
-        class: "Class",
-        selectClass: "Select a class",
-        date: "Date",
-        attendanceList: "Student Attendance List",
-        noStudents: "No students found for this class.",
-        status: {
-          title: "Status",
-          present: "Present",
-          absent: "Absent",
-          late: "Late",
+    generateInvoice : { 
+      title:"Generate Invoice",
+      description : "Generate invoices for students."
+
+    }
+    },
+    academics: {
+      title : "Academic Management",
+      description: "Manage classes, subjects, timetables, and academic calendar.",
+      addClass: {
+        title: "Add Class",
+        description: "Create a new class or course in the academic system.",
+      },
+      assignSubjects: {
+        title: "Assign Subjects to Teachers",
+        description: "Assign subjects to classes or teachers.",
+      },
+      generateTimetable: {
+        title: "Generate Timetable",
+        description: "Generate timetable schedules for classes and teachers.",
+        form: {
+          class: "Class",
+          selectClass: "Select a class",
+          teacher: "Teacher",
+          selectTeacher: "Select a teacher",
+          days: "Select Days",
+          timeSlot: "Time Slot",
+          notes: "Notes",
+          notesPlaceholder: "Additional notes or details",
         },
-      },
-      success: "Attendance saved successfully!",
-    },
-    viewAttendanceSummary: {
-      title: "Attendance Summary",
-      description: "View attendance statistics for students.",
-      table: {
-        student: "Student",
-        totalDays: "Total Days",
-        present: "Present",
-        absent: "Absent",
+        success: "Timetable generated successfully!",
       },
     },
-    attendanceReport: {
-      title: "Attendance Report",
-      description: "Generate attendance performance reports for classes.",
-      form: {
-        class: "Class",
-        selectClass: "Select a class",
-      },
-      table: {
-        student: "Student",
-        presentDays: "Days Present",
-        absentDays: "Days Absent",
-        attendanceRate: "Attendance Rate",
-      },
-      success: "Attendance report generated!",
-    },
-    // Teacher Ops
-    addTeacher: "Add Teacher",
-    addTeacher_desc: "Add a new teacher to the system.",
-    assignTeacher: "Assign Teacher to Class",
-    assignTeacher_desc: "Assign a teacher to classes or subjects.",
-    viewTeacherPerformance: "View Teacher Performance",
-    viewTeacherPerformance_desc:
-      "View performance and evaluation reports for teachers.",
+    ///-----------------------------------------------------------------///
 
-    // Academics
-    addClass: "Add Class / Course",
-    addClass_desc: "Create a new class or course in the academic system.",
-    assignSubjects: "Assign Subjects to Teachers",
-    assignSubjects_desc: "Assign subjects to classes or teachers.",
-    setCalendar_desc: "Configure the academic calendar and holidays.",
-    enterGrades: "Enter Grades",
-    enterGrades_desc: "Enter or update student grades for subjects.",
 
-    // Finance
-    generateInvoice: "Generate Invoice",
-    generateInvoice_desc: "Generate invoices for students or courses.",
-    viewFinanceReports: "View Financial Reports",
-    viewFinanceReports_desc:
-      "View financial reports, summaries, and analytics.",
-    exportFinanceData: "Export Finance Data",
-    exportFinanceData_desc: "Export finance-related data to external formats.",
+
 
     // System
     manageUsers: "Manage Users & Roles",
@@ -587,90 +562,5 @@ export default {
     manageLanguages_select: "Select language",
     manageLanguages_changed: "Language changed",
   },
-  students: {
-    addStudentTitle: "Add Student",
-    steps: {
-      studentInfo: "Student Information",
-      guardianInfo: "Parent / Guardian Information",
-      paymentInfo: "Payment Information",
-      additionalInfo: "Additional Information",
-    },
-  },
-  finance: {
-    title: "Student Finance & Payment Module",
-    dashboard: {
-      title: "Finance Dashboard",
-      totalCollected: "Total Collected (This Month)",
-      outstandingBalance: "Outstanding Balance",
-      overdueStudents: "Overdue Students",
-      partialPayments: "Partial Payments",
-      revenueTrend: "Revenue Trend",
-      popularServices: "Popular Services",
-      paymentMethods: "Payment Methods",
-    },
-    tuitionPlans: {
-      title: "Tuition Plans Manager",
-      description: "Manage tuition plans and auto-generate due dates",
-      addPlan: "Add Plan",
-      editPlan: "Edit Tuition Plan",
-      createPlan: "Create Tuition Plan",
-      planName: "Plan Name",
-      amount: "Amount",
-      autoGenerateInvoices: "Auto-generate invoices",
-      generateDates: "Generate Dates",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    paymentLedger: {
-      title: "Payment Ledger",
-      description: "Monthly payment tracking per student",
-      filterByStudent: "Filter by student",
-      filterByStatus: "Filter by status",
-    },
-    paymentCalendar: {
-      title: "Payment Calendar",
-      description: "Visual calendar view of payment statuses",
-      previous: "Previous",
-      next: "Next",
-      today: "Today",
-    },
-    services: {
-      title: "Services Management",
-      description: "Manage student services (Transport, Lunch, Books, etc.)",
-      addService: "Add Service",
-      editService: "Edit Service",
-      createService: "Create Service",
-      serviceName: "Service Name",
-      cost: "Cost",
-      recurring: "Recurring service (added monthly)",
-      discountAllowed: "Discount allowed",
-    },
-    addPayment: {
-      title: "Add Payment",
-      description:
-        "Record a payment for a student, including amount and method.",
-      form: {
-        student: "Student",
-        selectStudent: "Select a student",
-        amount: "Amount",
-        enterAmount: "Enter payment amount",
-        method: "Payment Method",
-        selectMethod: "Select a payment method",
-        methods: {
-          cash: "Cash",
-          card: "Card",
-          bank: "Bank Transfer",
-        },
-        date: "Payment Date",
-        notes: "Notes",
-        reference: "Reference (Optional)",
-        referencePlaceholder: "Transaction ID, Cheque Number, etc.",
-        applyToLedger: "Apply to Ledger (Optional)",
-        applyToLedgerPlaceholder: "Select ledger entry",
-        notesPlaceholder: "Additional payment details",
-        generateReceipt: "Generate receipt immediately",
-      },
-      success: "Payment added successfully!",
-    },
-  },
+
 };
