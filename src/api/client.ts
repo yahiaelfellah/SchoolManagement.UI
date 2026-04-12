@@ -1,7 +1,11 @@
 /**
  * Shared fetch wrapper for the ASP.NET API. Uses relative `/api` URLs so the Vite dev server proxy applies.
+ * In Electron, the main process passes the spawned backend URL via preload (`__ELECTRON_API_BASE__`).
  */
-const apiBase = import.meta.env.VITE_API_BASE ?? ''
+const apiBase =
+  (typeof window !== 'undefined' && window.__ELECTRON_API_BASE__) ||
+  import.meta.env.VITE_API_BASE ||
+  ''
 
 export class ApiError extends Error {
   constructor(
