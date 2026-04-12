@@ -1,4 +1,5 @@
 import { app, BrowserWindow, dialog } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import net from 'net'
@@ -13,6 +14,29 @@ const VITE_DEV_SERVER_URL =
   process.env.VITE_DEV_SERVER_URL ?? 'https://localhost:5173'
 
 let backendProcess = null
+
+function setupAutoUpdater() {
+  if (!app.isPackaged) return
+
+  autoUpdater.autoDownload = true
+
+  autoUpdater.on('update-downloaded', (info) => {
+    const parent =
+      BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0]
+    const response = dialog.showMessageBoxSync(parent ?? undefined, {
+      type: 'info',
+      buttons: ['Restart now', 'Later'],
+      defaultId: 0,
+      cancelId: 1,
+      title: 'Update ready',
+      message: `Version ${info.version} has been downloaded.`,
+      detail: 'Restart the application to install the update.',
+    })
+    if (response === 0) {
+      autoUpdater.quitAndInstall(false, true)
+    }
+  })
+}
 
 function getBackendExePath() {
   if (app.isPackaged) {
@@ -126,14 +150,26 @@ async function createWindow(backendPort) {
     const indexHtml = path.join(__dirname, '../dist/index.html')
     await win.loadFile(indexHtml)
   }
+
+  return win
 }
 
 app.whenReady().then(async () => {
+  setupAutoUpdater()
+
   const port = await getFreePort()
   const ok = await startBackend(port)
   if (!ok) return
 
-  await createWindow(port)
+  const win = await createWindow(port)
+
+  if (app.isPackaged) {
+    win.webContents.once('did-finish-load', () => {
+      autoUpdater.checkForUpdatesAndNotify().catch((err) => {
+        console.error('Update check failed:', err)
+      })
+    })
+  }
 
   app.on('activate', async () => {
     if (BrowserWindow.getAllWindows().length === 0) {
