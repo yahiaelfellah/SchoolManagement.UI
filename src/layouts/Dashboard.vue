@@ -1,0 +1,78 @@
+<template>
+  <a-layout style="min-height: 100vh">
+    <SideNav />
+
+    <a-layout :style="layoutStyle">
+      <!-- Header -->
+      <a-layout-header
+        style="background: #fff; padding: 0 16px; display: flex; justify-content: space-between; align-items: center;"
+      >
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <!-- <strong>{{ t('dashboard.title') }}</strong> -->
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <FinancialAlerts />
+          <a-select
+            v-model:value="locale"
+            style="width: 100px"
+            @change="setLocale"
+          >
+            <a-select-option value="en">
+              English
+            </a-select-option>
+            <a-select-option value="ar">
+              العربية
+            </a-select-option>
+          </a-select>
+          <strong>{{ auth.user?.name }}</strong>
+        </div>
+      </a-layout-header>
+
+      <!-- Page Content -->
+      <a-layout-content style="margin: 16px; background: #fff; padding: 24px;">
+        <RouterView />
+      </a-layout-content>
+
+      <FooterBar />
+    </a-layout>
+  </a-layout>
+</template>
+
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
+import { useSettingsStore } from '../stores/settings'
+import { useAuthStore } from '../stores/auth'
+import SideNav from './Sidenav.vue'
+import FooterBar from './Footer.vue'
+import FinancialAlerts from '@/components/Finance/FinancialAlerts.vue'
+import { computed, watch, onMounted } from 'vue'
+
+const { t } = useI18n()
+const auth = useAuthStore()
+const settings = useSettingsStore()
+const { locale } = storeToRefs(settings)
+const setLocale = settings.setLocale
+// detect RTL: based on current locale or document direction
+const isRtl = computed(() => {
+  const docDir = document.documentElement.getAttribute('dir')
+  const localeVal = locale?.value ? String(locale.value) : ''
+  return docDir === 'rtl' || localeVal.startsWith('ar') || localeVal.startsWith('he') // basic RTL locale checks
+})
+
+const layoutStyle = computed(() => ({
+  marginLeft: isRtl.value ? '0' : '200px',
+  marginRight: isRtl.value ? '200px' : '0',
+}))
+
+// keep document direction in sync with locale
+onMounted(() => {
+  document.documentElement.setAttribute('dir', isRtl.value ? 'rtl' : 'ltr')
+})
+
+watch(locale, (newVal) => {
+  const rtl = String(newVal).startsWith('ar') || String(newVal).startsWith('he')
+  document.documentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr')
+})
+</script>
