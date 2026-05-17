@@ -1,0 +1,36 @@
+# Installer version is taken from package.json "version".
+appId: com.schoolmanagementsystem.app
+productName: School Management
+
+# GitHub Releases update feed (electron-updater + electron-builder publish).
+# Change owner/repo if the app is published under a different GitHub repository.
+publish:
+  - provider: github
+    owner: yahiaelfellah
+    repo: SchoolManagementSystem
+
+directories:
+  output: dist-electron
+
+files:
+  - dist/**/*
+  - electron/**/*
+
+# C# publish output → packaged as resources/backend/ (see process.resourcesPath in electron/main.js)
+extraResources:
+  - from: publish
+    to: backend
+    filter:
+      - '**/*'
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  # Signing: set CSC_LINK (or WIN_CSC_LINK) to your .pfx path, file:// URL, or base64; set CSC_KEY_PASSWORD
+  # (or WIN_CSC_KEY_PASSWORD) if required. If unset, electron-builder skips signing (unsigned installer).
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
