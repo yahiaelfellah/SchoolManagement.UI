@@ -1,0 +1,12 @@
+{
+  "signin": {
+    "welcome": "Welcome back",
+    "instruction": "Enter your email and password to sign in",
+    "email": "Email",
+    "password": "Password",
+    "remember": "Remember me",
+    "signin": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signup": "Sign up"
+  }
+}
