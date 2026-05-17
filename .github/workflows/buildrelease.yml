@@ -104,64 +104,63 @@ jobs:
             npm-${{ runner.os }}-
 
       # ──────────────────────────────────────────────
-      # 7. Harden npm config then install
+      # 7. Harden npm config
       #    - prefer-offline   → use cache when available
       #    - no-audit/fund    → skip non-essential network calls
       #    - engine-strict false → don't fail on engine mismatches
-      #    Falls back from `npm ci` to `npm install` if
-      #    package-lock.json is out of sync, then retries
-      #    once on any other transient network failure.
       # ──────────────────────────────────────────────
       - name: Configure npm
+        shell: cmd
         run: |
           npm config set prefer-offline true
           npm config set audit false
           npm config set fund false
           npm config set engine-strict false
-
-      - name: Install npm dependencies
-        working-directory: ui
-        shell: pwsh
-        run: |
-          $maxAttempts = 3
-          $attempt = 0
-          $success = $false
-
-          while (-not $success -and $attempt -lt $maxAttempts) {
-            $attempt++
-            Write-Host "==> npm install attempt $attempt of $maxAttempts"
-            try {
-              # Try clean install first (respects lockfile exactly)
-              npm ci --prefer-offline
-              $success = $true
-            } catch {
-              Write-Host "npm ci failed: $_"
-              if ($attempt -lt $maxAttempts) {
-                Write-Host "Falling back to npm install and retrying..."
-                # Remove potentially corrupt node_modules before retry
-                if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
-                npm install --prefer-offline
-                $success = $true
-              }
-            }
-          }
-
-          if (-not $success) {
-            Write-Error "npm install failed after $maxAttempts attempts"
-            exit 1
-          }
-
+ 
       # ──────────────────────────────────────────────
-      # 8. Rebuild native Electron modules
-      #    electron-rebuild ensures any native addons
-      #    (e.g. better-sqlite3, keytar) are compiled
-      #    against the exact Electron version in use,
-      #    not the system Node ABI.
+      # 8. Install npm dependencies
+      #    Attempt 1: npm ci  (strict lockfile)
+      #    Attempt 2: wipe node_modules + npm install
+      #    Attempt 3: full cache-busted npm install
+      #    Using cmd to avoid PowerShell execution
+      #    policy issues on the Windows runner.
+      # ──────────────────────────────────────────────
+      - name: Install npm dependencies (attempt 1 — npm ci)
+        id: npm-ci
+        working-directory: ui
+        shell: cmd
+        continue-on-error: true
+        run: npm ci --prefer-offline
+ 
+      - name: Install npm dependencies (attempt 2 — npm install fallback)
+        if: steps.npm-ci.outcome == 'failure'
+        id: npm-install
+        working-directory: ui
+        shell: cmd
+        continue-on-error: true
+        run: |
+          if exist node_modules rmdir /s /q node_modules
+          npm install --prefer-offline
+ 
+      - name: Install npm dependencies (attempt 3 — no cache)
+        if: steps.npm-ci.outcome == 'failure' && steps.npm-install.outcome == 'failure'
+        working-directory: ui
+        shell: cmd
+        run: |
+          if exist node_modules rmdir /s /q node_modules
+          npm cache clean --force
+          npm install
+ 
+      # ──────────────────────────────────────────────
+      # 9. Rebuild native Electron modules
+      #    Ensures native addons are compiled against
+      #    the exact Electron ABI, not the system Node.
       # ──────────────────────────────────────────────
       - name: Rebuild native Electron modules
         working-directory: ui
+        shell: cmd
         run: npx electron-rebuild --force
-
+ 
       # ──────────────────────────────────────────────
       # 9. Verify publish folder exists before build
       #    Catches C# publish failures early with a
@@ -177,7 +176,7 @@ jobs:
             exit 1
           }
           Write-Host "Backend output OK — $($(Get-ChildItem $path -Recurse | Measure-Object).Count) files found"
-
+ 
       # ──────────────────────────────────────────────
       # 10. Build Vue frontend (Vite) + package with
       #     electron-builder → NSIS installer in
@@ -191,7 +190,7 @@ jobs:
           # CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
         run: npm run electron:build -- --publish always
-
+ 
       # ──────────────────────────────────────────────
       # 11. Upload installer as a workflow artifact
       #    (useful even when publish:always is set,
