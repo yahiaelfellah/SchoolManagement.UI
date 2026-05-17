@@ -66,7 +66,7 @@ function waitForDevServer(url, timeoutMs = 120000) {
         reject(new Error(`Dev server at ${url} did not respond in time`))
         return
       }
-      const req = https.get(url, { rejectUnauthorized: false }, () => {
+      const req = https.get(url, {}, () => {
         req.destroy()
         resolve()
       })
