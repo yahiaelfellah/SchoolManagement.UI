@@ -3,6 +3,8 @@ name: Build & Release
 # Triggers: push a version tag like v1.2.3, or run manually from the Actions tab.
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*.*.*'
   workflow_dispatch:
