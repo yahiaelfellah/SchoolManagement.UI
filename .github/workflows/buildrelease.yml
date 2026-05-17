@@ -1,0 +1,122 @@
+name: Build & Release
+
+# Triggers: push a version tag like v1.2.3, or run manually from the Actions tab.
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.2.3) – used only for manual runs'
+        required: false
+        default: '0.0.0'
+
+jobs:
+  build-and-release:
+    name: Build C# backend → Electron installer
+    runs-on: windows-latest          # NSIS packaging requires Windows
+
+    steps:
+      # ──────────────────────────────────────────────
+      # 1. Check out the UI repository (this repo)
+      # ──────────────────────────────────────────────
+      - name: Checkout UI repository
+        uses: actions/checkout@v4
+        with:
+          path: ui
+
+      # ──────────────────────────────────────────────
+      # 2. Check out the Server repository
+      #    Uses a PAT stored as a secret so the runner
+      #    can access a private repo if needed.
+      # ──────────────────────────────────────────────
+      - name: Checkout Server repository
+        uses: actions/checkout@v4
+        with:
+          repository: yahiaelfellah/SchoolManagement.Server
+          # Remove the token line below if the server repo is public:
+          token: ${{ secrets.SERVER_REPO_TOKEN }}
+          path: server
+
+      # ──────────────────────────────────────────────
+      # 3. Set up .NET SDK
+      #    Adjust the dotnet-version to match your
+      #    server project's target framework (e.g. 8.0).
+      # ──────────────────────────────────────────────
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # ──────────────────────────────────────────────
+      # 4. Restore & Publish C# backend
+      #    Self-contained + win-x64 so Electron can
+      #    bundle the .exe without requiring .NET on
+      #    the end-user's machine.
+      #    Output lands in ui/publish/ which maps to
+      #    extraResources.from in electron-builder.yml.
+      # ──────────────────────────────────────────────
+      - name: Restore NuGet packages
+        working-directory: server
+        run: dotnet restore
+
+      - name: Publish C# backend (win-x64, self-contained)
+        working-directory: server
+        run: |
+          dotnet publish `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            --output ${{ github.workspace }}/ui/publish
+
+      # ──────────────────────────────────────────────
+      # 5. Set up Node.js
+      # ──────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ui/package-lock.json
+
+      # ──────────────────────────────────────────────
+      # 6. Install npm dependencies
+      # ──────────────────────────────────────────────
+      - name: Install npm dependencies
+        working-directory: ui
+        run: npm ci
+
+      # ──────────────────────────────────────────────
+      # 7. Build Vue frontend (Vite) + package with
+      #    electron-builder → produces NSIS installer
+      #    in ui/dist-electron/
+      #
+      #    GH_TOKEN lets electron-builder publish the
+      #    release artifacts to GitHub Releases.
+      # ──────────────────────────────────────────────
+      - name: Build Electron release
+        working-directory: ui
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional code-signing variables (leave unset to skip signing):
+          # CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        run: npm run electron:build -- --publish always
+
+      # ──────────────────────────────────────────────
+      # 8. Upload installer as a workflow artifact
+      #    (useful even when publish:always is set,
+      #     as a fallback / for manual-trigger runs)
+      # ──────────────────────────────────────────────
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SchoolManagement-Installer
+          path: |
+            ui/dist-electron/*.exe
+            ui/dist-electron/*.yml          # auto-update metadata
+          if-no-files-found: error
+          retention-days: 30
