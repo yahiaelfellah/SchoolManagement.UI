@@ -10,7 +10,7 @@ on:
       version:
         description: 'Release version (e.g. 1.2.3) – used only for manual runs'
         required: false
-        default: '0.0.0'
+        default: '1.0.0'
 
 jobs:
   build-and-release:
