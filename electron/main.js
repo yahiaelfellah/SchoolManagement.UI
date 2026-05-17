@@ -61,12 +61,13 @@ function getFreePort() {
 function waitForDevServer(url, timeoutMs = 120000) {
   return new Promise((resolve, reject) => {
     const start = Date.now()
+    const tlsAgent = new https.Agent({ rejectUnauthorized: true })
     const tryConnect = () => {
       if (Date.now() - start > timeoutMs) {
         reject(new Error(`Dev server at ${url} did not respond in time`))
         return
       }
-      const req = https.get(url, {}, () => {
+      const req = https.get(url, { agent: tlsAgent }, () => {
         req.destroy()
         resolve()
       })
