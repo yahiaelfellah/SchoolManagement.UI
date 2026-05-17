@@ -10,7 +10,7 @@ on:
       version:
         description: 'Release version (e.g. 1.2.3) – used only for manual runs'
         required: false
-        default: '0.0.0'
+        default: '1.0.0'
 
 jobs:
   build-and-release:
@@ -74,28 +74,112 @@ jobs:
 
       # ──────────────────────────────────────────────
       # 5. Set up Node.js
+      #    No cache: declared here — we handle caching
+      #    manually below so a corrupt/missing cache
+      #    never breaks the build.
       # ──────────────────────────────────────────────
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: ui/package-lock.json
 
       # ──────────────────────────────────────────────
-      # 6. Install npm dependencies
+      # 6. Restore npm cache (best-effort)
+      #    Cache miss is fine — the install step below
+      #    always runs regardless.
       # ──────────────────────────────────────────────
+      - name: Restore npm cache
+        id: npm-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ui/node_modules
+            ~\AppData\Local\npm-cache
+            ~\AppData\Local\electron\Cache
+            ~\AppData\Local\electron-builder\Cache
+          key: npm-${{ runner.os }}-${{ hashFiles('ui/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      # ──────────────────────────────────────────────
+      # 7. Harden npm config then install
+      #    - prefer-offline   → use cache when available
+      #    - no-audit/fund    → skip non-essential network calls
+      #    - engine-strict false → don't fail on engine mismatches
+      #    Falls back from `npm ci` to `npm install` if
+      #    package-lock.json is out of sync, then retries
+      #    once on any other transient network failure.
+      # ──────────────────────────────────────────────
+      - name: Configure npm
+        run: |
+          npm config set prefer-offline true
+          npm config set audit false
+          npm config set fund false
+          npm config set engine-strict false
+
       - name: Install npm dependencies
         working-directory: ui
-        run: npm ci
+        shell: pwsh
+        run: |
+          $maxAttempts = 3
+          $attempt = 0
+          $success = $false
+
+          while (-not $success -and $attempt -lt $maxAttempts) {
+            $attempt++
+            Write-Host "==> npm install attempt $attempt of $maxAttempts"
+            try {
+              # Try clean install first (respects lockfile exactly)
+              npm ci --prefer-offline
+              $success = $true
+            } catch {
+              Write-Host "npm ci failed: $_"
+              if ($attempt -lt $maxAttempts) {
+                Write-Host "Falling back to npm install and retrying..."
+                # Remove potentially corrupt node_modules before retry
+                if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
+                npm install --prefer-offline
+                $success = $true
+              }
+            }
+          }
+
+          if (-not $success) {
+            Write-Error "npm install failed after $maxAttempts attempts"
+            exit 1
+          }
 
       # ──────────────────────────────────────────────
-      # 7. Build Vue frontend (Vite) + package with
-      #    electron-builder → produces NSIS installer
-      #    in ui/dist-electron/
-      #
-      #    GH_TOKEN lets electron-builder publish the
-      #    release artifacts to GitHub Releases.
+      # 8. Rebuild native Electron modules
+      #    electron-rebuild ensures any native addons
+      #    (e.g. better-sqlite3, keytar) are compiled
+      #    against the exact Electron version in use,
+      #    not the system Node ABI.
+      # ──────────────────────────────────────────────
+      - name: Rebuild native Electron modules
+        working-directory: ui
+        run: npx electron-rebuild --force
+
+      # ──────────────────────────────────────────────
+      # 9. Verify publish folder exists before build
+      #    Catches C# publish failures early with a
+      #    clear error message instead of a cryptic
+      #    electron-builder packaging error.
+      # ──────────────────────────────────────────────
+      - name: Verify backend publish output exists
+        shell: pwsh
+        run: |
+          $path = "${{ github.workspace }}/ui/publish"
+          if (-not (Test-Path $path) -or (Get-ChildItem $path | Measure-Object).Count -eq 0) {
+            Write-Error "Backend publish folder is missing or empty: $path"
+            exit 1
+          }
+          Write-Host "Backend output OK — $($(Get-ChildItem $path -Recurse | Measure-Object).Count) files found"
+
+      # ──────────────────────────────────────────────
+      # 10. Build Vue frontend (Vite) + package with
+      #     electron-builder → NSIS installer in
+      #     ui/dist-electron/
       # ──────────────────────────────────────────────
       - name: Build Electron release
         working-directory: ui
@@ -107,7 +191,7 @@ jobs:
         run: npm run electron:build -- --publish always
 
       # ──────────────────────────────────────────────
-      # 8. Upload installer as a workflow artifact
+      # 11. Upload installer as a workflow artifact
       #    (useful even when publish:always is set,
       #     as a fallback / for manual-trigger runs)
       # ──────────────────────────────────────────────
