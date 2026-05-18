@@ -13,7 +13,8 @@ on:
         description: 'Release version (e.g. 1.2.3) – used only for manual runs'
         required: false
         default: '1.0.0'
-
+permissions:
+  contents: write
 jobs:
   build-and-release:
     name: Build C# backend → Electron installer
