@@ -3,11 +3,10 @@ appId: com.schoolmanagementsystem.app
 productName: School Management
 
 # GitHub Releases update feed (electron-updater + electron-builder publish).
-# Change owner/repo if the app is published under a different GitHub repository.
 publish:
   - provider: github
     owner: yahiaelfellah
-    repo: SchoolManagementSystem
+    repo: SchoolManagement.UI
 
 directories:
   output: dist-electron
