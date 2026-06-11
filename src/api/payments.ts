@@ -3,6 +3,6 @@ import { getJson } from './client'
 
 export function fetchPaymentsByStudent(studentId: string) {
   return getJson<PaymentDto[]>(
-    `/api/Payment/student/${encodeURIComponent(studentId)}`
+    `/api/payment/student/${encodeURIComponent(studentId)}`
   )
 }

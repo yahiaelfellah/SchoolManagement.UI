@@ -2,9 +2,9 @@ import type { TeacherDto } from '@/model/teacher'
 import { del, getJson } from './client'
 
 export function fetchTeachers() {
-  return getJson<TeacherDto[]>('/api/Teacher')
+  return getJson<TeacherDto[]>('/api/teacher')
 }
 
 export function deleteTeacher(id: string) {
-  return del(`/api/Teacher/${encodeURIComponent(id)}`)
+  return del(`/api/teacher/${encodeURIComponent(id)}`)
 }

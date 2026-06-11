@@ -41,9 +41,9 @@ function setupAutoUpdater() {
 
 function getBackendExePath() {
   if (app.isPackaged) {
-    return path.join(process.resourcesPath, 'backend', 'SchoolManagement.exe')
+    return path.join(process.resourcesPath, 'backend', 'SchoolManagementSystem.Server.exe')
   }
-  return path.join(process.cwd(), 'resources', 'backend', 'SchoolManagement.exe')
+  return path.join(process.cwd(), 'resources', 'backend', 'SchoolManagementSystem.Server.exe')
 }
 
 function getFreePort() {
@@ -89,6 +89,7 @@ function killBackend() {
 
 async function startBackend(port) {
   const exePath = getBackendExePath()
+  console.log(exePath);
   if (!fs.existsSync(exePath)) {
     dialog.showErrorBox(
       'Backend not found',
